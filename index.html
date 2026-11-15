@@ -771,6 +771,20 @@ body.wk-linkedit a.wl{outline:1px dashed #3366cc;outline-offset:1px;cursor:point
 .mm-lockbtn{float:right;margin-top:-4px;padding:1px 6px!important;font-size:11px!important}
 .flash{animation:flash .9s ease}@keyframes flash{0%,40%{box-shadow:0 0 0 3px #0a84ff88}100%{box-shadow:none}}
 </style>
+<style>
+/* ---- update 13: compact side panel ---- */
+.mm-tabs{display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:0;flex-wrap:nowrap!important}
+.mm-tabs button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px 5px!important;font-size:10px!important;letter-spacing:.04em;min-width:0;white-space:nowrap}.mm-tabs button i{font-style:normal;font-size:14px;line-height:1}
+.mm-panel{font-size:12px}.mm-panel .mm-sl{grid-template-columns:96px 1fr 54px!important;margin:2px 0}.mm-panel .mm-sl .rangenum{width:54px!important}
+.mm-panel .mm-row{margin:3px 0}.mm-panel .btn.sm{padding:3px 8px;font-size:11.5px}
+details.mm-sec{border-bottom:1px solid var(--line);padding:2px 0 6px;margin:0}details.mm-sec>summary{cursor:pointer;list-style:none;font-weight:700;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:7px 0 5px;display:flex;align-items:center;gap:6px}
+details.mm-sec>summary::before{content:'▸';font-size:10px;transition:transform .15s}details.mm-sec[open]>summary::before{transform:rotate(90deg)}details.mm-sec>summary::-webkit-details-marker{display:none}
+.ic{vertical-align:-2px}.ic-lock{color:#c0392b}.ic-unlock{color:#9aa3ad}.ic-eye{color:#333}.ic-eyeoff{color:#b5b5b5}
+.mm-lh button,.mm-olock{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border:0;background:none;cursor:pointer;border-radius:3px;padding:0;opacity:1!important}.mm-lh button:hover,.mm-olock:hover{background:var(--bg2,rgba(0,0,0,.06))}
+.mm-obj.locked{background:color-mix(in srgb,#c0392b 6%,transparent)}.lk-count{display:inline-flex;align-items:center;gap:4px}
+.arr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:3px 0}.arr-grid.two{grid-template-columns:1fr 1fr}.arr-grid button{font:11px/1.2 inherit;padding:5px 2px;border:1px solid var(--line2);background:var(--panel);cursor:pointer;border-radius:3px;color:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.arr-grid button:hover:not(:disabled){border-color:#0a84ff;color:#0a84ff}.arr-grid button:disabled{opacity:.35;cursor:default}
+.mapbg{font-size:12px;padding:3px 4px;height:28px;margin-left:4px;width:auto!important}
+</style>
 </head>
 <body data-theme="newsroom">
 <div id="app"></div>
@@ -4507,7 +4521,7 @@ VIEWS.parties.render = function () { const h = _partiesRender.call(this); const 
 VIEWS.parties.mount = function (root) { const box = $('#ppTags', root); const p = party(S.sel.party); if (!box || !p) return; const tags = (p.ideology || '').split(',').map(s => s.trim()).filter(Boolean); let first = true; bindTagEditor(box, tags, t => { if (first) { first = false; return; } p.ideology = t.join(', '); markDirty(); }); };
 
 /* ---------------- what's new ---------------- */
-const WHATS_NEW = [['Undo everywhere', 'Ctrl+Z / Ctrl+Shift+Z (or Ctrl+Y) now undo and redo any change across the whole project — parties, elections, articles, settings — with ↶ ↷ buttons beside Save. Map Maker keeps its own step-by-step undo.'], ['Lock objects', 'Map Maker: lock any object (Ctrl+L, or 🔓 in the Objects list) so it can’t be selected, moved or painted by accident; Ctrl+Shift+L unlocks everything. Layers lock too.'], ['Double-click to edit', 'Double-click a district, seat cluster, inset or graphic to select it and jump straight to its settings.'], ['Resize & transform', 'Map Maker: drag handles to resize anything (Ctrl keeps proportions, Shift from the centre) while borders stay the same width; type exact X, Y, W, H or scale %; make several objects the same width, height or size; Ctrl while moving keeps it straight.'], ['Pen tool & guides', 'Draw custom shapes and borders point by point (P), and mark any shape as a guide — it snaps and aligns but never exports.'], ['Infobox editing', 'In Edit mode, type straight into any infobox cell (wiki links work) — placeholders for inaugural elections, custom names and figures — and click portraits to swap them. Right-click restores the automatic value.'], ['Uniform article style', 'Infobox & table style: width, text size, padding, flag width, portrait width and height, party bar height, alignment and font for every infobox; text size, padding, alignment and full width for every wikitable; and which map the article shows.'], ['Results key styles', 'Map Maker party keys in four styles — bar list, mirrored, blocks and rounded bars with leaders, district/overall seats and vote bars — plus left, centre or right title alignment and circular insets with a light grey source wash.'], ['Edit inside graphics', 'Double-click any text in a results graphic (title, party names, seat and vote figures) to change it, its size or colour; reset any time to follow the results again.'], ['Margin ladders', 'Choose how many rectangles the ladder has, its labels, lightest and darkest tones, a custom colour per party, or pick every rectangle’s colour by hand.'], ['Insets, lines & shapes', 'Map Maker: drag a box to make a live, full-quality inset (square, rounded or cut corner, titled, with a dashed connector); draw straight, curved, dashed or dotted lines, rectangles with rounded corners and ellipses; resize the page.'], ['Maps in articles', 'Map Maker → Use in article puts your finished map into an election’s infobox and results-by-region section, kept in sync.'], ['Open in Map Maker', 'Electoral Map Studio → Open in Map Maker: the map arrives with every region named and linked, coloured by results, with a title, party results (votes, %, seats), hemicycle and vote/seat ring laid out beside it.'], ['Align & snap', 'Map Maker has Inkscape-style align (left, centre, right, top, middle, bottom) and distribute, relative to the page, selection, first or largest object — and objects snap to the page, centres and each other while you drag, with pink guides.'], ['Exact numbers', 'Every slider now has a number box beside it — type any value, even beyond the slider’s range.'], ['Results workbooks', 'Download a real Excel workbook laid out like a results sheet — states, seats, population, enrolled, votes, % and seats per party, turnout, quota and levelling seats — fill it in and import it back (.xlsx or .csv).'], ['Count structure', 'Choose a single national count, a count built from the regions (national totals = sum of states, seats won region by region with D’Hondt, Sainte-Laguë, Hare, Droop, STV or block vote), or a two-tier system (MMP, AMS, parallel, levelling).'], ['Inaugural elections', 'Mark the first election so the infobox and articles show no previous election, outgoing members, government or swings.'], ['Parliament diagrams', 'Square or rounded seats, gaps between parties, a speaker’s seat, a mirrored chamber layout with curved crossbench, and Arial (or any) font for the numbers — also from the encyclopedia’s Appearance column.'], ['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
+const WHATS_NEW = [['Clear map backgrounds', 'Map exports (SVG and PNG) and maps shown in articles now have a transparent background by default — switch to white beside the export buttons.'], ['Full-quality map viewer', '⤢ Open shows any map in a new browser tab where you can preview it on transparent, white or dark, and download SVG or PNG at 1×–8×.'], ['Screenshots', '📷 beside undo/redo saves a PNG of the current page — the visible part, a whole article, or the full window.'], ['Donut clusters & ring', 'Seat clusters can be vote donuts (region vote share around the seat count), and the vote/seat ring has a donut style with seats in the centre, labelled vote shares and a turnout arc.'], ['Map hemicycle', 'The Map Maker hemicycle has no majority line, and adds a separate speaker seat, leader dots, gaps between parties, a centre aisle, seat shapes and number size.'], ['Arrange & groups', 'Map Maker Edit tab: raise or lower one step or to the top/bottom (Page Up/Down, Home/End), take shapes out of a group, move them into another group or layer, and break a shape apart into its separate islands (Ctrl+Shift+K) to regroup or re-merge.'], ['Linked party colours', 'Change a party’s colour on the results key and the districts, seat clusters, hemicycle and ring all follow.'], ['Insets follow', 'Inset connector lines stay attached when you move or resize the inset; switch them between curved, straight or none, and the source area between grey wash, outline or none.'], ['Undo everywhere', 'Ctrl+Z / Ctrl+Shift+Z (or Ctrl+Y) now undo and redo any change across the whole project — parties, elections, articles, settings — with ↶ ↷ buttons beside Save. Map Maker keeps its own step-by-step undo.'], ['Lock objects', 'Map Maker: lock any object (Ctrl+L, or 🔓 in the Objects list) so it can’t be selected, moved or painted by accident; Ctrl+Shift+L unlocks everything. Layers lock too.'], ['Double-click to edit', 'Double-click a district, seat cluster, inset or graphic to select it and jump straight to its settings.'], ['Resize & transform', 'Map Maker: drag handles to resize anything (Ctrl keeps proportions, Shift from the centre) while borders stay the same width; type exact X, Y, W, H or scale %; make several objects the same width, height or size; Ctrl while moving keeps it straight.'], ['Pen tool & guides', 'Draw custom shapes and borders point by point (P), and mark any shape as a guide — it snaps and aligns but never exports.'], ['Infobox editing', 'In Edit mode, type straight into any infobox cell (wiki links work) — placeholders for inaugural elections, custom names and figures — and click portraits to swap them. Right-click restores the automatic value.'], ['Uniform article style', 'Infobox & table style: width, text size, padding, flag width, portrait width and height, party bar height, alignment and font for every infobox; text size, padding, alignment and full width for every wikitable; and which map the article shows.'], ['Results key styles', 'Map Maker party keys in four styles — bar list, mirrored, blocks and rounded bars with leaders, district/overall seats and vote bars — plus left, centre or right title alignment and circular insets with a light grey source wash.'], ['Edit inside graphics', 'Double-click any text in a results graphic (title, party names, seat and vote figures) to change it, its size or colour; reset any time to follow the results again.'], ['Margin ladders', 'Choose how many rectangles the ladder has, its labels, lightest and darkest tones, a custom colour per party, or pick every rectangle’s colour by hand.'], ['Insets, lines & shapes', 'Map Maker: drag a box to make a live, full-quality inset (square, rounded or cut corner, titled, with a dashed connector); draw straight, curved, dashed or dotted lines, rectangles with rounded corners and ellipses; resize the page.'], ['Maps in articles', 'Map Maker → Use in article puts your finished map into an election’s infobox and results-by-region section, kept in sync.'], ['Open in Map Maker', 'Electoral Map Studio → Open in Map Maker: the map arrives with every region named and linked, coloured by results, with a title, party results (votes, %, seats), hemicycle and vote/seat ring laid out beside it.'], ['Align & snap', 'Map Maker has Inkscape-style align (left, centre, right, top, middle, bottom) and distribute, relative to the page, selection, first or largest object — and objects snap to the page, centres and each other while you drag, with pink guides.'], ['Exact numbers', 'Every slider now has a number box beside it — type any value, even beyond the slider’s range.'], ['Results workbooks', 'Download a real Excel workbook laid out like a results sheet — states, seats, population, enrolled, votes, % and seats per party, turnout, quota and levelling seats — fill it in and import it back (.xlsx or .csv).'], ['Count structure', 'Choose a single national count, a count built from the regions (national totals = sum of states, seats won region by region with D’Hondt, Sainte-Laguë, Hare, Droop, STV or block vote), or a two-tier system (MMP, AMS, parallel, levelling).'], ['Inaugural elections', 'Mark the first election so the infobox and articles show no previous election, outgoing members, government or swings.'], ['Parliament diagrams', 'Square or rounded seats, gaps between parties, a speaker’s seat, a mirrored chamber layout with curved crossbench, and Arial (or any) font for the numbers — also from the encyclopedia’s Appearance column.'], ['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
 ACT.whatsNew = () => modal(`<h3>What's New in MAPS</h3><div class="wn">${WHATS_NEW.map(([t, d]) => `<div><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('')}</div><div class="row end"><button class="btn" data-act="closeModal">Got it</button></div>`);
 
 </script>
@@ -5853,8 +5867,8 @@ async function mmCreateInset(src) {
   let x = src.x + src.w + vb[2] * 0.03, y = src.y; if (x + src.w * k > vb[0] + vb[2]) x = Math.max(vb[0] + vb[2] * 0.02, src.x - src.w * k - vb[2] * 0.03); if (y + src.h * k > vb[1] + vb[3]) y = vb[1] + vb[3] - src.h * k - vb[3] * 0.02;
   mmBegin(); const g = mmgMake(cfg, x, y, 1); mmgLayer().appendChild(g);
   const annot = mmAnnotLayer();
-  if (r.outline !== 'no') { const st = r.outline === 'grey' ? `fill:#ffffff;fill-opacity:.42;stroke:#333;stroke-width:${f2(sw * .7)}` : `fill:none;stroke:#111;stroke-width:${f2(sw)};stroke-dasharray:${dashFor('dashed', sw)}`; mmFrag(r.corner === 'circle' ? `<ellipse cx="${f2(src.x + src.w / 2)}" cy="${f2(src.y + src.h / 2)}" rx="${f2(src.w / 2)}" ry="${f2(src.h / 2)}" style="${st}" data-mmshape="ellipse"/>` : `<rect x="${f2(src.x)}" y="${f2(src.y)}" width="${f2(src.w)}" height="${f2(src.h)}" rx="${r.corner === 'round' ? f2(Math.min(src.w, src.h) * .07) : 0}" style="${st}" data-mmshape="rect"/>`).forEach(n => annot.appendChild(n)); }
-  if (r.conn !== 'none') { const a = [src.x + src.w / 2, src.y + src.h / 2]; const b = [x + (x > src.x ? 0 : src.w * k), y + src.h * k / 2]; annot.appendChild(mmCurveEl(a, b, r.conn === 'curve' ? 0.25 : 0, { stroke: '#111111', sw, dash: 'dashed' })); }
+  if (r.outline !== 'no') { const st = r.outline === 'grey' ? `fill:#ffffff;fill-opacity:.42;stroke:#333;stroke-width:${f2(sw * .7)}` : `fill:none;stroke:#111;stroke-width:${f2(sw)};stroke-dasharray:${dashFor('dashed', sw)}`; mmFrag(r.corner === 'circle' ? `<ellipse cx="${f2(src.x + src.w / 2)}" cy="${f2(src.y + src.h / 2)}" rx="${f2(src.w / 2)}" ry="${f2(src.h / 2)}" style="${st}" data-mmshape="ellipse" data-mmsrc="${g.id}"/>` : `<rect data-mmsrc="${g.id}" x="${f2(src.x)}" y="${f2(src.y)}" width="${f2(src.w)}" height="${f2(src.h)}" rx="${r.corner === 'round' ? f2(Math.min(src.w, src.h) * .07) : 0}" style="${st}" data-mmshape="rect"/>`).forEach(n => annot.appendChild(n)); }
+  if (r.conn !== 'none') { const a = [src.x + src.w / 2, src.y + src.h / 2]; const b = [x + (x > src.x ? 0 : src.w * k), y + src.h * k / 2]; const cn = mmCurveEl(a, b, r.conn === 'curve' ? 0.25 : 0, { stroke: '#111111', sw, dash: 'dashed' }); cn.setAttribute('data-mmconn', g.id); annot.appendChild(cn); }
   mmEnd('Inset'); mmSelect([g]); mmSave(); MM.tab = 'sel'; ACT.mmTab({ dataset: { t: 'sel' } }); toast('Inset created — it updates live as you paint the map. Drag it into place; edit it in Selection.', 5000);
 }
 
@@ -6393,6 +6407,334 @@ function mmBindDbl() {
   }, true);
 }
 const _mount12 = VIEWS.mapmaker.mount; VIEWS.mapmaker.mount = function (root) { _mount12.call(this, root); mmBindDbl(); };
+
+</script>
+<script>/* js/update13.js */
+'use strict';
+/* =====================================================================
+   update13.js : Map Maker — clearer lock / visibility icons, inset
+   connectors that follow the inset, arrange & group tools, break apart,
+   party colours from the results key flow to the map and every graphic,
+   compact collapsible side panel with all five tabs visible.
+   ===================================================================== */
+const IC_LOCK = '<svg viewBox="0 0 16 16" width="13" height="13" class="ic ic-lock" aria-label="Locked"><rect x="2.5" y="7" width="11" height="7.5" rx="1.6" fill="currentColor"/><path d="M5 7V4.8a3 3 0 0 1 6 0V7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
+const IC_UNLOCK = '<svg viewBox="0 0 16 16" width="13" height="13" class="ic ic-unlock" aria-label="Unlocked"><rect x="2.5" y="7" width="11" height="7.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 7V4.8a3 3 0 0 1 5.8-1.1" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
+const IC_EYE = '<svg viewBox="0 0 16 16" width="14" height="14" class="ic ic-eye" aria-label="Visible"><path d="M1 8s2.6-4.5 7-4.5S15 8 15 8s-2.6 4.5-7 4.5S1 8 1 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2.2" fill="currentColor"/></svg>';
+const IC_EYEOFF = '<svg viewBox="0 0 16 16" width="14" height="14" class="ic ic-eyeoff" aria-label="Hidden"><path d="M1 8s2.6-4.5 7-4.5S15 8 15 8s-2.6 4.5-7 4.5S1 8 1 8z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".6"/><path d="M2.5 13.5l11-11" stroke="currentColor" stroke-width="1.6"/></svg>';
+
+/* ================= party colours: one override per map document ================= */
+function docPC() { const o = mmgOpts(); return o.pc || (o.pc = {}); }
+function withPC(fn) { const pc = mmDoc()?.gfx?.pc; if (!pc || !Object.keys(pc).length) return fn(); const orig = partyAt; partyAt = function (p, y) { const r = orig(p, y); return p && pc[p.id] && r ? { ...r, color: pc[p.id] } : r; }; try { return fn(); } finally { partyAt = orig; } }
+const _fill13 = mmgFill; mmgFill = function (g, cfg) { return withPC(() => _fill13(g, cfg)); };
+const _paint13 = ACT.mmgPaint; ACT.mmgPaint = function () { return withPC(() => _paint13.apply(this, arguments)); };
+const SHADE_T = [0, 0.25, 0.45, 0.62, 0.78];
+function recolourMap(from, to) {
+  if (!from || !to || from.toLowerCase() === to.toLowerCase()) return 0; const map = new Map(SHADE_T.map(t => [mmNormColor(mix(from, '#ffffff', t)), mix(to, '#ffffff', t)])); let n = 0;
+  [...MM.svg.querySelectorAll('path,polygon,rect,circle,ellipse')].filter(el => !el.closest('defs,pattern,[data-mmgfx],#layer-background')).forEach(el => { const f = mmNormColor(mmFillOf(el)); if (map.has(f)) { mmSetFill(el, map.get(f)); n++; } }); return n;
+}
+function partyColourChange(pid, nw, label) {
+  const [g, c] = keyCfg(); const e = elec(c?.eid || mmgOpts().eid); const y = eYear(e); const pc = docPC(); const base = pColor(pid, y); const old = pc[pid] || base; const to = nw || base;
+  mmBegin(); if (nw) pc[pid] = nw; else delete pc[pid];
+  const n = recolourMap(old, to);
+  MM.svg.querySelectorAll('[data-mmgfx]').forEach(x => { const cc = mmgCfgOf(x); if (cc.type === 'key') { cc.o = cc.o || {}; if (nw) cc.o.pc = { ...(cc.o.pc || {}), [pid]: nw }; else { if (cc.o.pc) delete cc.o.pc[pid]; if (cc.o.lc) delete cc.o.lc[pid]; } } mmgSetCfg(x, cc); });
+  mmEnd(label); markDirty(); mmSave(); mmPanel(); toast(`${pName(pid, y)} colour updated across the key, seat clusters, hemicycle, ring${n ? ` and ${n} district${n === 1 ? '' : 's'}` : ''}`);
+}
+ACT.mmgKeyPC = t => partyColourChange(t.dataset.pid, t.value, 'Party colour');
+ACT.mmgKeyPCReset = t => partyColourChange(t.dataset.pid, null, 'Reset party colour');
+
+/* ================= inset connectors follow their inset ================= */
+function edgePt(R, to, ellipse) { const cx = R.x + R.w / 2, cy = R.y + R.h / 2; let dx = to.x - cx, dy = to.y - cy; if (!dx && !dy) return [cx, cy]; let t; if (ellipse) t = 1 / Math.sqrt((dx / (R.w / 2)) ** 2 + (dy / (R.h / 2)) ** 2); else t = Math.min(dx ? Math.abs(R.w / 2 / dx) : Infinity, dy ? Math.abs(R.h / 2 / dy) : Infinity); return [cx + dx * t, cy + dy * t]; }
+function insetFrameBox(g) { const fr = g.querySelector(':scope > path'); return fr ? mmBBoxRoot(fr) : mmBBoxRoot(g); }
+function mmConnUpdate() {
+  if (!MM.svg) return; MM.svg.querySelectorAll('[data-mmconn]').forEach(p => {
+    const g = MM.svg.querySelector('#' + CSS.escape(p.getAttribute('data-mmconn'))); if (!g) return; const c = mmgCfgOf(g); const s = c.src; if (!s) return; const B = insetFrameBox(g); if (!B) return;
+    const circ = c.o?.corner === 'circle'; const a = edgePt(s, { x: B.x + B.w / 2, y: B.y + B.h / 2 }, circ); const b = edgePt(B, { x: s.x + s.w / 2, y: s.y + s.h / 2 }, circ);
+    const old = (p.getAttribute('data-mmpts') || '').split(',').map(Number); const bend = isFinite(old[4]) ? old[4] : 0.25;
+    const pts = [a[0], a[1], b[0], b[1], bend].map(v => +(+v).toFixed(3)).join(','); if (pts === p.getAttribute('data-mmpts')) return;
+    p.removeAttribute('transform'); p.setAttribute('d', curveD(a, b, bend)); p.setAttribute('data-mmpts', pts);
+  });
+}
+const _tr13 = mmTranslate; mmTranslate = function () { const r = _tr13.apply(this, arguments); try { mmConnUpdate(); } catch (e) { } return r; };
+const _end13 = mmEnd; mmEnd = function () { try { mmConnUpdate(); } catch (e) { } return _end13.apply(this, arguments); };
+function insetLinks(g) { return { conn: MM.svg.querySelector(`[data-mmconn="${CSS.escape(g.id)}"]`), src: MM.svg.querySelector(`[data-mmsrc="${CSS.escape(g.id)}"]`) }; }
+ACT.mmInsetConn = t => {
+  const g = MM.sel[0]; if (!g) return; const c = mmgCfgOf(g); const { conn } = insetLinks(g); const v = t.value; mmBegin();
+  if (v === 'none') conn?.remove();
+  else { let p = conn; if (!p) { const vb = mmVB(); const sw = Math.max(1, Math.max(vb[2], vb[3]) / 400); p = mmCurveEl([0, 0], [1, 1], 0.25, { stroke: '#111111', sw, dash: 'dashed' }); p.setAttribute('data-mmconn', g.id); mmAnnotLayer().appendChild(p); } const q = (p.getAttribute('data-mmpts') || '0,0,0,0,0.25').split(',').map(Number); q[4] = v === 'straight' ? 0 : (Math.abs(q[4]) > 0.01 ? q[4] : 0.25); p.setAttribute('data-mmpts', q.join(',')); }
+  mmEnd('Connector'); mmSave(); mmPanel();
+};
+ACT.mmInsetFlip = () => { const g = MM.sel[0]; const { conn } = insetLinks(g); if (!conn) return; mmBegin(); const q = conn.getAttribute('data-mmpts').split(',').map(Number); q[4] = -q[4]; conn.setAttribute('data-mmpts', q.join(',')); conn.setAttribute('data-mmpts', q.join(',')); conn.setAttribute('d', curveD([q[0], q[1]], [q[2], q[3]], q[4])); mmEnd('Flip connector'); mmSave(); };
+ACT.mmInsetSrc = t => {
+  const g = MM.sel[0]; if (!g) return; const c = mmgCfgOf(g); const s = c.src; const { src } = insetLinks(g); const v = t.value; mmBegin(); src?.remove();
+  if (v !== 'none' && s) { const vb = mmVB(); const sw = Math.max(1, Math.max(vb[2], vb[3]) / 400); const st = v === 'grey' ? `fill:#ffffff;fill-opacity:.42;stroke:#333;stroke-width:${f2(sw * .7)}` : `fill:none;stroke:#111;stroke-width:${f2(sw)};stroke-dasharray:${dashFor('dashed', sw)}`; const circ = c.o?.corner === 'circle'; mmFrag(circ ? `<ellipse data-mmsrc="${g.id}" cx="${f2(s.x + s.w / 2)}" cy="${f2(s.y + s.h / 2)}" rx="${f2(s.w / 2)}" ry="${f2(s.h / 2)}" style="${st}" data-mmshape="ellipse"/>` : `<rect data-mmsrc="${g.id}" x="${f2(s.x)}" y="${f2(s.y)}" width="${f2(s.w)}" height="${f2(s.h)}" style="${st}" data-mmshape="rect"/>`).forEach(n => mmAnnotLayer().insertBefore(n, mmAnnotLayer().firstChild)); }
+  mmEnd('Source area'); mmSave(); mmPanel();
+};
+const _gfx13 = mmGfxSelPanel;
+mmGfxSelPanel = function (g) {
+  let h = _gfx13(g); const c = mmgCfgOf(g); if (c.type !== 'inset') return h; const { conn, src } = insetLinks(g);
+  const cv = !conn ? 'none' : Math.abs(+(conn.getAttribute('data-mmpts') || '').split(',')[4] || 0) < 0.01 ? 'straight' : 'curve';
+  const sv = !src ? 'none' : /fill-opacity/.test(src.getAttribute('style') || '') ? 'grey' : 'outline';
+  return h.replace('<p class="mm-tip">The inset is a live', `<div class="mm-row"><span class="mm-tip">Connector</span><select data-change="mmInsetConn">${opt([['curve', 'Curved line'], ['straight', 'Straight line'], ['none', 'None']], cv)}</select>${cv === 'curve' ? '<button class="btn sm ghost" data-act="mmInsetFlip" title="Bend the other way">⇄</button>' : ''}</div>
+    <div class="mm-row"><span class="mm-tip">Source area</span><select data-change="mmInsetSrc">${opt([['grey', 'Grey wash + outline'], ['outline', 'Dashed outline'], ['none', 'None']], sv)}</select></div>
+    <p class="mm-tip">The connector re-attaches itself whenever you move or resize the inset. Select the connector line to change its colour, width or dashes.</p><p class="mm-tip">The inset is a live`);
+};
+
+/* ================= arrange, groups, break apart ================= */
+const isLayer = g => g && g.parentNode === MM.svg && g.tagName.toLowerCase() === 'g';
+ACT.mmZ1 = t => { if (!MM.sel.length) return; mmBegin(); const up = t.dataset.d === 'up'; (up ? [...MM.sel].reverse() : MM.sel).forEach(el => { if (up) { const n = el.nextElementSibling; if (n) n.after(el); } else { const p = el.previousElementSibling; if (p) p.before(el); } }); mmEnd(up ? 'Raise' : 'Lower'); mmSave(); };
+ACT.mmRelease = () => {
+  const els = MM.sel.filter(el => !isLayer(el.parentNode) && el.parentNode !== MM.svg); if (!els.length) return toast('Those objects are not inside a group');
+  mmBegin(); const emptied = new Set(); els.forEach(el => { const L = el.closest('svg > g'); let top = el; while (top.parentNode !== L) top = top.parentNode; emptied.add(el.parentNode); mmMoveInto(el, L, top.nextSibling); });
+  emptied.forEach(g => { if (g && !isLayer(g) && !g.querySelector('path,polygon,rect,circle,ellipse,text,image,use,line,polyline')) g.remove(); });
+  mmEnd('Release from group'); mmSelect(els); mmSave(); toast(`${els.length} object${els.length === 1 ? '' : 's'} taken out of ${els.length === 1 ? 'its group' : 'their groups'}`);
+};
+ACT.mmMoveTo = async () => {
+  if (!MM.sel.length) return; const targets = [...MM.svg.querySelectorAll('g[id]')].filter(g => !g.closest('defs,[data-mmgfx]') && !g.hasAttribute('data-mmgfx') && !MM.sel.some(s => s === g || s.contains(g)));
+  if (!targets.length) return toast('No groups or layers to move into');
+  const r = await form('Move into group or layer', [{ k: 'g', label: 'Destination', type: 'select', value: targets[0].id, options: targets.map(g => [g.id, (isLayer(g) ? 'Layer: ' : 'Group: ') + (mmLabelOf(g) || g.id)]) }], 'Move');
+  if (!r) return; const dest = MM.svg.querySelector('#' + CSS.escape(r.g)); if (!dest) return; const els = MM.sel.slice(); mmBegin(); const old = new Set(els.map(e => e.parentNode)); els.forEach(el => mmMoveInto(el, dest, null)); old.forEach(g => { if (g && !isLayer(g) && g !== dest && !g.querySelector('path,polygon,rect,circle,ellipse,text,image,use,line,polyline')) g.remove(); }); mmEnd('Move into group'); mmSelect(els); mmSave(); toast(`Moved into ${mmLabelOf(dest) || dest.id}`);
+};
+ACT.mmBreakApart = () => {
+  const els = MM.sel.filter(el => el.tagName.toLowerCase() === 'path'); if (!els.length) return toast('Select a shape (path) to break apart'); let made = []; mmBegin();
+  els.forEach(el => {
+    const d = el.getAttribute('d') || ''; if (/m/.test(d.slice(1))) { toast('This shape uses relative coordinates — merge it once first (Ctrl+M), then break it apart'); return; }
+    const parts = d.split(/(?=M)/).map(s => s.trim()).filter(Boolean); if (parts.length < 2) return;
+    const tmp = document.createElementNS(SVG_NS, 'path'); el.parentNode.appendChild(tmp); const info = parts.map(p => { tmp.setAttribute('d', p); const b = tmp.getBBox(); return { p, b, a: b.width * b.height, holes: [] }; }); tmp.remove();
+    const outers = []; info.sort((x, y) => y.a - x.a).forEach(s => { const host = outers.filter(o => s.b.x >= o.b.x && s.b.y >= o.b.y && s.b.x + s.b.width <= o.b.x + o.b.width && s.b.y + s.b.height <= o.b.y + o.b.height).sort((x, y) => x.a - y.a)[0]; if (host && host.holes.length < 400 && !host.isHole) { host.holes.push(s); s.isHole = true; } else outers.push(s); });
+    if (outers.length < 2) return; const base = mmLabelOf(el) || el.id || 'piece';
+    outers.forEach((o, i) => { const n = el.cloneNode(false); n.removeAttribute('data-mmsel'); n.id = mmUniqueId((el.id || 'piece') + '-' + (i + 1)); n.setAttribute('d', [o.p, ...o.holes.map(h => h.p)].join('')); n.setAttributeNS(INK_NS, 'inkscape:label', `${base} ${i + 1}`); n.style.fillRule = 'evenodd'; el.before(n); made.push(n); });
+    el.remove();
+  });
+  mmEnd('Break apart'); if (made.length) { mmSelect(made); mmSave(); toast(`Broken into ${made.length} separate shapes — select pieces and Merge (Ctrl+M) or Group (Ctrl+G) them differently`, 5000); } else toast('That shape is already a single piece');
+};
+document.addEventListener('keydown', e => {
+  if (S.view !== 'mapmaker' || !MM.svg || !MM.sel.length || e.target.closest('input,textarea,select,[contenteditable="true"]')) return; const k = e.key;
+  if (k === 'Home') { e.preventDefault(); ACT.mmZ({ dataset: { k: 'top' } }); } else if (k === 'End') { e.preventDefault(); ACT.mmZ({ dataset: { k: 'bottom' } }); }
+  else if (k === 'PageUp') { e.preventDefault(); ACT.mmZ1({ dataset: { d: 'up' } }); } else if (k === 'PageDown') { e.preventDefault(); ACT.mmZ1({ dataset: { d: 'down' } }); }
+  else if ((e.ctrlKey || e.metaKey) && e.shiftKey && k.toLowerCase() === 'k') { e.preventDefault(); ACT.mmBreakApart(); }
+}, true);
+function arrangeBox() {
+  const inGroup = MM.sel.some(el => el.parentNode !== MM.svg && !isLayer(el.parentNode)); const anyG = MM.sel.some(el => el.tagName.toLowerCase() === 'g' && !el.hasAttribute('data-mmgfx'));
+  return `<div class="mm-gfx mm-arr"><div class="mm-h">Arrange & groups</div>
+    <div class="arr-grid"><button data-act="mmZ" data-k="top" title="Raise to top (Home)">⤒ Top</button><button data-act="mmZ1" data-d="up" title="Raise one step (Page Up)">↑ Up</button><button data-act="mmZ1" data-d="down" title="Lower one step (Page Down)">↓ Down</button><button data-act="mmZ" data-k="bottom" title="Lower to bottom (End)">⤓ Bottom</button></div>
+    <div class="arr-grid two"><button data-act="mmGroup" title="Group (Ctrl+G)">▣ Group</button><button data-act="mmUngroup" ${anyG ? '' : 'disabled'} title="Ungroup (Ctrl+Shift+G)">▢ Ungroup</button><button data-act="mmRelease" ${inGroup ? '' : 'disabled'} title="Take the selection out of its group">⇱ Out of group</button><button data-act="mmMoveTo" title="Move into another group or layer">⇲ Into group…</button></div>
+    <div class="arr-grid two"><button data-act="mmMerge" ${MM.sel.length > 1 ? '' : 'disabled'} title="Merge into one shape (Ctrl+M)">⊕ Merge</button><button data-act="mmBreakApart" title="Split islands / pieces into separate shapes (Ctrl+Shift+K)">⊘ Break apart</button><button data-act="mmDup" title="Duplicate (Ctrl+D)">⧉ Duplicate</button><button data-act="mmDelete" class="danger-t" title="Delete (Del)">✕ Delete</button></div></div>`;
+}
+
+/* ================= side panel: icons, sections, tabs ================= */
+function sectionize(el) {
+  const host = el.querySelector(':scope > .mm-res, :scope > .mm-trace') || el; const kids = [...host.children]; if (!kids.some(k => k.classList?.contains('mm-h'))) return; let cur = null;
+  kids.forEach(k => { if (k.classList.contains('mm-h')) { const key = MM.tab + ':' + k.textContent.trim(); const d = document.createElement('details'); d.className = 'mm-sec'; d.open = (MM.secOpen || {})[key] ?? true; const s = document.createElement('summary'); s.innerHTML = k.innerHTML; d.appendChild(s); k.replaceWith(d); d.addEventListener('toggle', () => { (MM.secOpen = MM.secOpen || {})[key] = d.open; }); cur = d; } else if (cur) cur.appendChild(k); });
+}
+const _panel13 = mmPanel;
+mmPanel = function () {
+  _panel13(); const el = $('#mmPanel'); if (!el || !MM.svg) return;
+  if (MM.tab === 'objects') {
+    el.querySelectorAll('[data-act="mmLayerToggle"][data-k="lock"]').forEach(b => { const L = /🔒/.test(b.textContent); b.innerHTML = L ? IC_LOCK : IC_UNLOCK; b.classList.toggle('on', L); b.title = L ? 'Layer locked — click to unlock' : 'Lock this layer'; });
+    el.querySelectorAll('[data-act="mmLayerToggle"][data-k="vis"]').forEach(b => { const hid = /◌/.test(b.textContent); b.innerHTML = hid ? IC_EYEOFF : IC_EYE; b.classList.toggle('off', hid); b.title = hid ? 'Hidden — click to show' : 'Visible — click to hide'; });
+    el.querySelectorAll('.mm-olock').forEach(b => { const L = /🔒/.test(b.textContent); b.innerHTML = L ? IC_LOCK : IC_UNLOCK; b.classList.toggle('on', L); });
+    const bar = el.querySelector('.mm-lockbar'); if (bar) { const n = MM.svg.querySelectorAll('[data-mmlock="1"]').length; bar.innerHTML = `<span class="lk-count">${n ? IC_LOCK : IC_UNLOCK} <b>${n}</b> locked</span><button class="btn sm ghost" data-act="mmUnlockAll" ${n ? '' : 'disabled'}>Unlock all</button><span class="mm-tip">${IC_UNLOCK} click to lock · ${IC_EYE} click to hide</span>`; }
+  }
+  if (MM.tab === 'sel' && MM.sel.length) { const lb = el.querySelector('.mm-lockbtn'); if (lb) lb.innerHTML = IC_LOCK + ' Lock'; const xf = el.querySelector('.mm-xf'); if (xf) xf.insertAdjacentHTML('afterend', arrangeBox()); }
+  if (['res', 'fill', 'trace'].includes(MM.tab)) sectionize(el);
+};
+const _mmRender13 = VIEWS.mapmaker.render;
+VIEWS.mapmaker.render = function () {
+  return _mmRender13.call(this).replace(/<div class="tabs mm-tabs">[\s\S]*?<\/div>/, () => `<div class="tabs mm-tabs">${[['fill', '🎨', 'Fill'], ['res', '▤', 'Results'], ['objects', '☰', 'Objects'], ['sel', '✎', 'Edit'], ['trace', '⌇', 'Trace']].map(([k, i, l]) => `<button class="${MM.tab === k ? 'on' : ''}" data-act="mmTab" data-t="${k}" title="${l}"><i>${i}</i>${l}</button>`).join('')}</div>`);
+};
+
+</script>
+<script>/* js/update14.js */
+'use strict';
+/* =====================================================================
+   update14.js : Map Maker — vote-donut seat clusters, donut vote/seat
+   ring (seats in the centre, vote share ring, turnout arc), and a new
+   hemicycle: no majority line, separate speaker seat, leader dots,
+   party gaps and a centre aisle.
+   ===================================================================== */
+
+/* ================= donut seat clusters ================= */
+function donutSlices(cx, cy, r0, r1, items, sep) { let a = 0, s = ''; const tot = sum(items.map(i => i.v)) || 1; items.forEach(it => { const da = it.v / tot * Math.PI * 2; if (da > 0.0005) s += `<path d="${mmgArc(cx, cy, r0, r1, a, a + da)}" style="fill:${it.color};stroke:#ffffff;stroke-width:${sep}"/>`; a += da; }); return s; }
+const _cluster14 = mmgBuildCluster;
+mmgBuildCluster = function (cfg) {
+  if (cfg.o?.cstyle !== 'donut') return _cluster14(cfg);
+  const e = elec(cfg.eid); const o = { ...MMG_DEF, dhole: 0.6, ...cfg.o }; if (!e) return ''; const y = eYear(e); let votes = {}, n = 0;
+  if (cfg.div === '__level') { (e.results || []).forEach(r => { if (r.partyId) votes[r.partyId] = num(r.votes); }); n = allocRegional(e).levelTotal; }
+  else { const rg = (e.regional || []).find(r => r.divisionId === cfg.div); votes = { ...(rg?.votes || {}) }; n = sum(Object.values(regionSeatMap(e)[cfg.div] || {})) || (rg ? (rg.seats === '' || rg.seats == null ? 1 : num(rg.seats)) : 0); }
+  const R = o.r * 3.2, r0 = R * Math.min(0.9, Math.max(0.2, num(o.dhole) || 0.6));
+  const ids = sortedParties(Object.keys(votes).filter(p => num(votes[p]) > 0)); const items = ids.map(p => ({ v: num(votes[p]), color: pColor(p, y) }));
+  let s = items.length ? donutSlices(0, 0, r0, R, items, Math.max(0.4, R * 0.02)) : `<path d="${mmgArc(0, 0, r0, R, 0, Math.PI * 2)}" style="fill:${o.empty}"/>`;
+  s += `<circle cx="0" cy="0" r="${f2(r0)}" style="fill:#ffffff"/>`;
+  s += `<text data-tk="num" x="0" y="${f2(R * 0.22)}" text-anchor="middle" style="font-family:${parlFont({}).replace(/"/g, "'")};font-size:${f2(r0 * 1.05)}px;font-weight:700;fill:#111">${n}</text>`;
+  const title = cfg.title ?? (cfg.div === '__level' ? 'Levelling seats' : divi(cfg.div)?.name || '');
+  if (o.title && title) s += `<text data-tk="title" x="0" y="${f2(-R - o.tgap)}" text-anchor="middle" style="font-family:${mmgFont(o)};font-size:${o.tsize}px;font-weight:${o.tweight};fill:${o.tcol}">${esc(title)}</text>`;
+  return s;
+};
+MMG_BUILD.cluster = mmgBuildCluster;
+const _style14 = mmgStyle; mmgStyle = function () { const o = mmgOpts(); return { ..._style14(), cstyle: o.cstyle || 'seats', dhole: o.dhole ?? 0.6 }; };
+
+/* ================= donut vote / seat ring ================= */
+const _ring14 = MMG_BUILD.ring;
+MMG_BUILD.ring = function (cfg) {
+  if (cfg.o?.rstyle !== 'donut') return _ring14(cfg);
+  const e = elec(cfg.eid); if (!e) return ''; const o = { rlabels: true, turnout: true, legend: true, ...cfg.o }; const f = mmgFont(o); const c = computeElection(e); const y = c.year;
+  const cx = 330, cy = 150, R1 = 130, R0 = 78; const ids = sortedParties(c.rows.filter(r => r.partyId && r.votes > 0).map(r => r.partyId)); let s = '', a = 0;
+  ids.forEach(p => { const r = c.rows.find(x => x.partyId === p); const col = pColor(p, y); const da = r.votes / (c.tot || 1) * Math.PI * 2; s += `<path d="${mmgArc(cx, cy, R0, R1, a, a + da)}" style="fill:${col};stroke:#ffffff;stroke-width:1.2"/>`;
+    if (o.rlabels && da > 0.3) { const m = a + da / 2, rr = (R0 + R1) / 2; s += `<text data-tk="lab-${p}" x="${f2(cx + rr * Math.sin(m))}" y="${f2(cy - rr * Math.cos(m) + 6)}" text-anchor="middle" style="font-family:${f};font-size:17px;font-style:italic;fill:${textOn(col)}">${esc(pAbbr(p, y) || pName(p, y))}</text>`; }
+    a += da; });
+  const showT = o.turnout && c.turnout != null; if (showT) s += `<path d="${mmgArc(cx, cy, R1 + 8, R1 + 17, 0, Math.min(1, c.turnout / 100) * Math.PI * 2)}" style="fill:#777777"/>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="${R0}" style="fill:#ffffff"/><text data-tk="num" x="${cx}" y="${cy + 25}" text-anchor="middle" style="font-family:${parlFont({}).replace(/"/g, "'")};font-size:72px;font-weight:700;fill:#111">${c.totalSeats}</text>`;
+  if (o.legend) [['Centre', 'number of seats'], ['Middle', 'party vote share'], ...(showT ? [['Outside', 'voter turnout']] : [])].forEach(([k, v], i) => { s += `<text data-tk="leg${i}" x="${cx - R1 - 34}" y="${cy - 18 + i * 22}" text-anchor="end" style="font-family:${f};font-size:17px;font-style:italic;fill:#111">${k}: ${v}</text>`; });
+  return s;
+};
+
+/* ================= hemicycle for maps ================= */
+function mmgBuildHemi14(cfg) {
+  const e = elec(cfg.eid); if (!e) return ''; const o = { rows: 0, spacing: 0.82, partyGap: 0, aisle: 0, speaker: '', leaders: false, num: true, nsz: 0, majority: false, shape: 'circle', ...cfg.o };
+  let groups = withPC(() => electionGroups(e)).map(g => ({ ...g })); const total = sum(groups.map(g => g.n)); if (!total) return '';
+  let sp = null; if (o.speaker) { if (o.speaker === 'neutral') sp = { color: '#dddddd', label: 'Speaker' }; else { const g = o.speaker === 'largest' ? [...groups].sort((a, b) => b.n - a.n)[0] : groups.find(x => x.id === o.speaker); if (g && g.n > 0) { g.n--; sp = { color: g.color, label: 'Speaker (' + g.label + ')' }; } } }
+  const lead = []; if (o.leaders) { const big = [...groups].sort((a, b) => b.n - a.n).slice(0, 2).sort((a, b) => groups.indexOf(a) - groups.indexOf(b)); big.forEach(g => { if (g.n > 0) { g.n--; lead.push({ color: g.color, label: g.label + ' leader' }); } }); }
+  groups = groups.filter(g => g.n > 0); const N = sum(groups.map(g => g.n)); const SC = 100;
+  const L = parliamentPositions(N, 'semicircle', { rows: num(o.rows) || 0, spacing: num(o.spacing) || 0.82 }); const gi = []; groups.forEach((g, i) => { for (let k = 0; k < g.n; k++) gi.push(i); });
+  const unit = L.seatR * 2.6; const d = num(o.partyGap) * unit, A = num(o.aisle) * unit; let gaps = d * Math.max(0, groups.length - 1) + A; if (gaps > Math.PI * 0.45) { const k = Math.PI * 0.45 / gaps; gaps *= k; } const kd = gaps ? (d * Math.max(0, groups.length - 1) + A ? gaps / (d * Math.max(0, groups.length - 1) + A) : 0) : 0; const dd = d * kd, AA = A * kd, sq = (Math.PI - gaps) / Math.PI;
+  const sr = L.seatR * (gaps ? Math.max(0.78, sq) : 1) * SC; let s = '';
+  L.pts.forEach((p, i) => { const r = Math.hypot(p.x, p.y); const u = Math.PI - Math.atan2(-p.y, p.x); const u2 = u * sq + gi[i] * dd + (u > Math.PI / 2 + 1e-9 ? AA : 0); const a = Math.PI - u2; const x = r * Math.cos(a) * SC, y = -r * Math.sin(a) * SC; const g = groups[gi[i]]; s += seatShape(x, y, sr, Math.atan2(y, x) * 180 / Math.PI + 90, g.color, o.shape, ` data-pid="${g.id || ''}"`); });
+  const rIn = Math.min(...L.pts.map(p => Math.hypot(p.x, p.y))) * SC; const font = parlFont({ font: o.font }).replace(/"/g, "'"); const nsz = num(o.nsz) || Math.max(14, rIn * 0.42);
+  if (sp) s += seatShape(0, -rIn * 0.8, sr, 0, sp.color, o.shape, ` style="stroke:#111;stroke-width:${f2(sr * 0.14)}"`).replace(` fill="${sp.color}" style=`, ` fill="${sp.color}" style=`);
+  lead.forEach((l, i) => { s += seatShape((i ? 1 : -1) * Math.max(rIn * 0.62, nsz * 1.25 + sr), -nsz * 0.32, sr, 0, l.color, o.shape, ''); });
+  if (o.num !== false) s += `<text data-tk="num" x="0" y="-2" text-anchor="middle" style="font-family:${font};font-size:${f2(nsz)}px;font-weight:700;fill:#111">${total}</text>`;
+  let bottom = sr + 3; if (o.majority) { s += `<text data-tk="maj" x="0" y="${f2(nsz * 0.45 + 4)}" text-anchor="middle" style="font-family:${font};font-size:${f2(nsz * 0.3)}px;fill:#333">${Math.floor(total / 2) + 1} for majority</text>`; bottom = Math.max(bottom, nsz * 0.45 + 8); }
+  const pad = sr + 3; const vb = [-SC - pad, -SC - pad, 2 * (SC + pad), SC + pad + bottom]; const W = 320, H = W * vb[3] / vb[2];
+  return `<svg x="0" y="0" width="${W}" height="${f2(H)}" viewBox="${vb.map(f2).join(' ')}" overflow="visible">${s}</svg>`;
+}
+MMG_BUILD.hemi = mmgBuildHemi14;
+
+/* ================= defaults for new graphics & panels ================= */
+const _make14 = mmgMake; mmgMake = function (cfg, x, y, sc) { cfg.o = cfg.o || {}; const d = mmgOpts(); if (cfg.type === 'ring' && !cfg.o.rstyle) cfg.o.rstyle = d.rstyle || 'nested'; if (cfg.type === 'hemi') { ['speaker', 'leaders', 'partyGap', 'aisle'].forEach(k => { if (cfg.o[k] == null && d['h_' + k] != null) cfg.o[k] = d['h_' + k]; }); } return _make14(cfg, x, y, sc); };
+const _res14 = mmResPanel;
+mmResPanel = function () {
+  const o = mmgOpts(); let h = _res14();
+  h = h.replace('<div class="mm-row seg mm-shape">', `<div class="mm-row seg"><button class="${(o.cstyle || 'seats') === 'seats' ? 'on' : ''}" data-act="mmgSet" data-k="cstyle" data-v="seats">● Seat dots</button><button class="${o.cstyle === 'donut' ? 'on' : ''}" data-act="mmgSet" data-k="cstyle" data-v="donut">◎ Vote donut</button></div>${o.cstyle === 'donut' ? `<label class="mm-sl"><span>Donut hole</span><input type="range" min="0.3" max="0.85" step="0.01" value="${o.dhole ?? 0.6}" data-change="mmgOpt" data-k="dhole"><b>${o.dhole ?? 0.6}</b></label><p class="mm-tip">Ring = the region's vote share by party, centre = seats in the region. Seat radius sets the size.</p>` : ''}<div class="mm-row seg mm-shape">`);
+  h = h.replace('<label class="mm-sl"><span>Title alignment</span>', `<label class="mm-sl"><span>Vote / seat ring</span><select data-change="mmgOpt" data-k="rstyle">${opt([['nested', 'Nested — votes outside, seats inside'], ['donut', 'Donut — seats in centre, votes, turnout arc']], o.rstyle || 'nested')}</select></label><label class="mm-sl"><span>Title alignment</span>`);
+  return h;
+};
+const _gfx14 = mmGfxSelPanel;
+mmGfxSelPanel = function (g) {
+  let h = _gfx14(g); const c = mmgCfgOf(g); const o = c.o || {};
+  const sl = (k, l, min, max, st, d) => `<label class="mm-sl"><span>${l}</span><input type="range" min="${min}" max="${max}" step="${st}" value="${o[k] ?? d}" data-change="mmgKeyOpt" data-k="${k}"><b>${o[k] ?? d}</b></label>`;
+  const ck = (k, l, d) => `<label class="chk"><input type="checkbox" ${(o[k] ?? d) ? 'checked' : ''} data-change="mmgKeyOpt" data-k="${k}"> ${l}</label>`;
+  const box = inner => h.replace(/(<\/div>)(?![\s\S]*<\/div>)/, `${inner}$1`);
+  if (c.type === 'hemi') { const e = elec(c.eid); const gs = e ? electionGroups(e) : [];
+    return box(`<div class="mm-h">Hemicycle</div>${sl('rows', 'Rows (0 = auto)', 0, 20, 1, 0)}${sl('spacing', 'Seat size', 0.4, 1, 0.02, 0.82)}${sl('partyGap', 'Gap between parties', 0, 3, 0.25, 0)}${sl('aisle', 'Centre aisle', 0, 4, 0.25, 0)}
+      <label class="mm-sl"><span>Seat shape</span><select data-change="mmgKeyOpt" data-k="shape">${opt([['circle', 'Circle'], ['square', 'Square'], ['rounded', 'Rounded square']], o.shape || 'circle')}</select></label>
+      <label class="mm-sl"><span>Speaker's seat</span><select data-change="mmgKeyOpt" data-k="speaker">${opt([['', 'None'], ['neutral', 'Neutral (grey)'], ['largest', 'From the largest party'], ...gs.map(x => [x.id, 'From ' + x.label])], o.speaker || '')}</select></label>
+      ${ck('leaders', 'Leader dots — the two largest parties’ leaders sit apart, left and right', false)}${ck('num', 'Seat total in the centre', true)}${sl('nsz', 'Number size (0 = auto)', 0, 120, 1, 0)}${ck('majority', '“… for majority” under the number', false)}
+      <p class="mm-tip">Seats run left to right in your seating order. Speaker and leader seats are taken from their party’s total, so the number still shows every seat.</p>`); }
+  if (c.type === 'ring') return box(`<div class="mm-h">Ring style</div><label class="mm-sl"><span>Style</span><select data-change="mmgKeyOpt" data-k="rstyle">${opt([['nested', 'Nested — votes outside, seats inside'], ['donut', 'Donut — seats in centre, votes, turnout']], o.rstyle || 'nested')}</select></label>${o.rstyle === 'donut' ? ck('rlabels', 'Party labels on the ring', true) + ck('turnout', 'Turnout arc outside', true) + ck('legend', 'Explanation text on the left', true) : ''}`);
+  if (c.type === 'cluster') return box(`<div class="mm-h">Cluster style</div><div class="mm-row seg"><button class="${(o.cstyle || 'seats') === 'seats' ? 'on' : ''}" data-act="mmgClStyle" data-v="seats">● Seat dots</button><button class="${o.cstyle === 'donut' ? 'on' : ''}" data-act="mmgClStyle" data-v="donut">◎ Vote donut</button></div>`);
+  return h;
+};
+ACT.mmgClStyle = t => { const els = MM.sel.filter(x => x.getAttribute('data-mmgfx') === 'cluster'); if (!els.length) return; mmBegin(); els.forEach(g => { const c = mmgCfgOf(g); c.o = { ...(c.o || {}), cstyle: t.dataset.v }; mmgSetCfg(g, c); }); mmEnd('Cluster style'); mmSave(); mmPanel(); };
+
+</script>
+<script>/* js/update15.js */
+'use strict';
+/* =====================================================================
+   update15.js : transparent map exports (Map Maker, Electoral Map
+   Studio, encyclopedia), a full-quality map viewer in a new browser tab
+   with SVG / PNG downloads at any size, and a screenshot tool.
+   ===================================================================== */
+const mapBgClear = () => (P?.settings?.mapBg || 'clear') === 'clear';
+function stripBg(svg) {
+  if (!/layer-background/.test(svg)) return svg;
+  const d = new DOMParser().parseFromString(svg, 'image/svg+xml'); d.querySelectorAll('#layer-background').forEach(n => n.remove()); return new XMLSerializer().serializeToString(d.documentElement);
+}
+function withBg(svg, colour) {
+  if (!colour) return svg; const vb = (svg.match(/viewBox="([^"]+)"/) || [])[1]; if (!vb) return svg; const [x, y, w, h] = vb.split(/[ ,]+/).map(Number);
+  return svg.replace(/(<svg\b[^>]*>)/, `$1<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${colour}"/>`);
+}
+function svgDims(svg) { const vb = (svg.match(/viewBox="([^"]+)"/) || [])[1]; if (vb) { const a = vb.split(/[ ,]+/).map(Number); return { w: a[2], h: a[3] }; } return svgSize(svg); }
+
+/* ================= full-quality viewer in a new tab ================= */
+function viewerHTML(svg, name) {
+  const d = svgDims(svg); const safe = svg.replace(/<\/script/gi, '<\\/script');
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${esc(name)} — MAPS</title><link rel="icon" href="${mapsMarkURL({})}"><style>
+  *{box-sizing:border-box}body{margin:0;font:14px Arial,Helvetica,sans-serif;background:#1d2027;color:#eee;height:100vh;display:flex;flex-direction:column}
+  header{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 14px;background:#111318;border-bottom:1px solid #333}header b{margin-right:auto;font-size:15px}
+  button,select{font:600 13px Arial;padding:7px 12px;border-radius:4px;border:1px solid #444;background:#2a2e38;color:#eee;cursor:pointer}button.p{background:#fff;color:#111;border-color:#fff}button:hover{border-color:#8ab4ff}
+  #stage{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:24px}#stage.chk{background:repeating-conic-gradient(#3a3d45 0 25%,#2c2f36 0 50%) 0 0/22px 22px}#stage.white{background:#fff}#stage.dark{background:#111}
+  #art{max-width:100%;max-height:100%;line-height:0}#art svg{width:100%;height:auto;max-height:calc(100vh - 110px)}#art.full svg{max-height:none;width:${d.w}px}
+  small{color:#9aa}</style></head><body><header><b>${esc(name)}</b><small>${Math.round(d.w)} × ${Math.round(d.h)} · vector</small>
+  <select id="bg"><option value="chk">Preview: transparent</option><option value="white">Preview: white</option><option value="dark">Preview: dark</option></select>
+  <button id="fit">Actual size</button><button class="p" id="dsvg">Download SVG</button>
+  <select id="sc"><option value="1">PNG 1×</option><option value="2">PNG 2×</option><option value="4" selected>PNG 4×</option><option value="8">PNG 8×</option></select>
+  <select id="pbg"><option value="">Transparent</option><option value="#ffffff">White background</option></select><button class="p" id="dpng">Download PNG</button></header>
+  <div id="stage" class="chk"><div id="art">${safe}</div></div>
+  <script>
+  const SVG=document.querySelector('#art svg'), W=${d.w}, H=${d.h}, NAME=${JSON.stringify(normName(name) || 'map')};
+  const src=()=>{const c=SVG.cloneNode(true);c.setAttribute('width',W);c.setAttribute('height',H);if(!c.getAttribute('xmlns'))c.setAttribute('xmlns','http://www.w3.org/2000/svg');return new XMLSerializer().serializeToString(c)};
+  const dl=(blob,fn)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)};
+  document.getElementById('bg').onchange=e=>document.getElementById('stage').className=e.target.value;
+  document.getElementById('fit').onclick=e=>{const a=document.getElementById('art');a.classList.toggle('full');e.target.textContent=a.classList.contains('full')?'Fit to window':'Actual size'};
+  document.getElementById('dsvg').onclick=()=>dl(new Blob([src()],{type:'image/svg+xml'}),NAME+'.svg');
+  document.getElementById('dpng').onclick=()=>{const k=+document.getElementById('sc').value,bg=document.getElementById('pbg').value;let s=Math.min(k,16000/Math.max(W,H));const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=Math.round(W*s);c.height=Math.round(H*s);const x=c.getContext('2d');if(bg){x.fillStyle=bg;x.fillRect(0,0,c.width,c.height)}x.drawImage(img,0,0,c.width,c.height);c.toBlob(b=>dl(b,NAME+'@'+k+'x.png'),'image/png')};img.onerror=()=>alert('Could not render this map as PNG — download the SVG instead.');img.src=URL.createObjectURL(new Blob([src()],{type:'image/svg+xml'}))};
+  <\/script></body></html>`;
+}
+function openViewer(svg, name) {
+  const html = viewerHTML(svg, name); const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+  let w = null; try { w = window.open(url, '_blank', 'noopener'); } catch (e) { }
+  if (!w) { download(normName(name) + '-viewer.html', html); toast('Your browser blocked the new tab, so the viewer was downloaded instead — open the file to view and download the map at full quality', 6000); }
+  else toast('Opened in a new tab — download SVG or PNG (up to 8×) from there');
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+/* ================= Map Maker exports ================= */
+function mmExportSVG() { const svg = mmClean(MM.svg, { export: true }); return mapBgClear() ? stripBg(svg) : svg; }
+ACT.mmExport = async t => {
+  if (!MM.svg) return; const svg = mmExportSVG(); const name = normName(mmDoc().name) || 'map';
+  if (t.dataset.f === 'svg') return download(name + '.svg', svg);
+  if (t.dataset.f === 'open') return openViewer(svg, mmDoc().name || 'Map');
+  const vb = mmVB(); const sc = Math.min(4, 4000 / Math.max(vb[2], vb[3]));
+  try { const b = await svgToPngBlob(svg, sc, mapBgClear() ? null : '#ffffff', { w: vb[2], h: vb[3] }); download(name + '.png', b); } catch (e) { toast('PNG export failed: ' + e.message); }
+};
+ACT.mapBg = t => { P.settings.mapBg = t.value; markDirty(); toast(t.value === 'clear' ? 'Exports and articles use a transparent background' : 'Exports and articles use a white background'); if (S.view !== 'mapmaker') render(); };
+const bgSel = () => `<select class="mapbg" data-change="mapBg" title="Background of exported maps and of maps in articles">${opt([['clear', 'Clear background'], ['white', 'White background']], P.settings.mapBg || 'clear')}</select>`;
+const _mmRender15 = VIEWS.mapmaker.render;
+VIEWS.mapmaker.render = function () { return _mmRender15.call(this).replace(/(<button class="btn sm ghost" data-act="mmExport" data-f="png">PNG<\/button>)/, `$1<button class="btn sm ghost" data-act="mmExport" data-f="open" title="Open the map at full quality in a new browser tab, with SVG and PNG downloads">⤢ Open</button>${bgSel()}`); };
+/* the map shown in articles follows the same background choice */
+if (typeof wikiDocSVG === 'function') { const _wd15 = wikiDocSVG; wikiDocSVG = function (e) { const s = _wd15(e); return s && mapBgClear() ? stripBg(s) : s; }; }
+
+/* ================= Electoral Map Studio exports ================= */
+function studioMapSVG() {
+  const m = mapById(S.sel.map); const e = elec(S.sel.election); let svg = renderMapSVG(m, e, { mode: S.ui.mapMode || 'winner', partyId: S.ui.mapParty, labels: S.ui.mapLabels !== false });
+  const items = mapLegendItems(m, e, { mode: S.ui.mapMode || 'winner', partyId: S.ui.mapParty }); const vb = (svg.match(/viewBox="([^"]+)"/) || [])[1]?.split(/[ ,]+/).map(Number) || [0, 0, 1000, 800]; const lh = vb[3] / 28;
+  const lg = items.map((it, i) => `<rect x="${vb[0] + vb[2] * 0.02}" y="${vb[1] + vb[3] * 0.02 + i * lh * 1.3}" width="${lh}" height="${lh}" fill="${it.color}" stroke="#555" stroke-width="${lh / 20}"/><text x="${vb[0] + vb[2] * 0.02 + lh * 1.4}" y="${vb[1] + vb[3] * 0.02 + i * lh * 1.3 + lh * .82}" font-size="${lh * .85}" font-family="Arial" fill="#222">${esc(it.label)}${it.n != null ? ' (' + it.n + ')' : ''}</text>`).join('');
+  svg = svg.replace(/<\/svg>$/, `<g class="legend">${lg}</g></svg>`).replace(/\sclass="map-svg"/, ''); return mapBgClear() ? svg : withBg(svg, '#ffffff');
+}
+ACT.mapExport = t => { const m = mapById(S.sel.map); const svg = studioMapSVG(); if (t.dataset.fmt === 'open') return openViewer(svg, m.name); exportSVGorPNG(svg, normName(m.name) + '-map', t.dataset.fmt, 3, null); };
+const _mapsRender15 = VIEWS.maps.render;
+VIEWS.maps.render = function () { return _mapsRender15.call(this).replace(/(<button class="btn sm ghost" data-act="mapExport" data-fmt="png">PNG<\/button>)/, `$1<button class="btn sm ghost" data-act="mapExport" data-fmt="open" title="Open at full quality in a new tab">⤢ Open</button>${bgSel()}`); };
+
+/* ================= screenshot tool ================= */
+async function screenshot(mode) {
+  const target = mode === 'window' ? document.body : (document.querySelector('.wk-page') || document.querySelector('#main > .page, #main > div') || document.querySelector('#main'));
+  if (!target) return; toast('Taking screenshot…');
+  try {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    const full = mode === 'full'; const opts = { scale: Math.min(2, window.devicePixelRatio * 1.5 || 2), useCORS: true, backgroundColor: getComputedStyle(document.body).backgroundColor || '#ffffff', logging: false, ignoreElements: el => el.id === 'bgfx' || el.classList?.contains('toast') || el.classList?.contains('gundo') };
+    if (full) { opts.windowHeight = target.scrollHeight; opts.height = target.scrollHeight; }
+    const c = await window.html2canvas(target, opts); const name = normName((document.querySelector('.wk-root h1, .page-head h1, h1')?.textContent || S.view).trim()) || 'screenshot';
+    c.toBlob(b => { download(`${name}-${new Date().toISOString().slice(0, 10)}.png`, b); toast('Screenshot saved'); }, 'image/png');
+  } catch (e) { toast('Screenshot failed: ' + e.message + ' — your browser’s own screenshot tool (Ctrl+Shift+S / Cmd+Shift+4) also works', 6000); }
+}
+ACT.shot = async () => { const r = await form('Screenshot', [{ k: 'm', label: 'Capture', type: 'select', value: S.view.match(/article|page|Article|wiki/) ? 'full' : 'view', options: [['view', 'This page — visible part'], ['full', 'This page — the whole length (articles)'], ['window', 'The whole window, including menus']] }], 'Capture'); if (r) setTimeout(() => screenshot(r.m), 350); };
+const _render15 = render;
+render = function () { const out = _render15.apply(this, arguments); try { const g = document.querySelector('.gundo'); if (g && !document.getElementById('gShot')) g.insertAdjacentHTML('beforeend', '<button id="gShot" class="iconbtn" data-act="shot" title="Screenshot this page (PNG)">📷</button>'); } catch (e) { } return out; };
+
+/* results key: optional white panel (off by default on clear-background maps) */
+const _make15 = mmgMake; mmgMake = function (cfg, x, y, sc) { if (cfg.type === 'key') { cfg.o = cfg.o || {}; if (cfg.o.bg == null && mapBgClear()) cfg.o.bg = false; } return _make15(cfg, x, y, sc); };
+const _gfx15 = mmGfxSelPanel;
+mmGfxSelPanel = function (g) { const h = _gfx15(g); const c = mmgCfgOf(g); if (c.type !== 'key') return h; return h.replace('<div class="mm-h">Margin ladder</div>', `<label class="chk"><input type="checkbox" ${c.o?.bg !== false ? 'checked' : ''} data-change="mmgKeyOpt" data-k="bg"> White panel behind the key</label><div class="mm-h">Margin ladder</div>`); };
 
 </script>
 <script>/* js/demo.js */
