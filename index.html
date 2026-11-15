@@ -723,6 +723,38 @@ body.wk-linkedit a.wl{outline:1px dashed #3366cc;outline-offset:1px;cursor:point
 .wl-emblem svg{height:110px;width:auto}
 .lg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lg-cell{border:1px solid var(--line2);padding:14px;display:flex;flex-direction:column;gap:10px;align-items:center}.lg-art svg{max-width:100%;height:90px;width:auto}.lg-acts{display:flex;gap:6px}
 </style>
+<style>
+/* ---- update 7 ---- */
+.tierbox{border:1px solid var(--line2);padding:10px 12px;margin:10px 0}.tierbox legend{font-weight:700;padding:0 6px}
+.tierseg{display:grid!important;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}.tierseg button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:8px 10px;border:1px solid var(--line2);background:var(--panel);cursor:pointer;font:inherit;color:inherit;border-radius:3px}.tierseg button small{color:var(--muted);font-size:11px;margin-top:2px}.tierseg button.on{background:var(--text,#111);color:var(--bg,#fff);border-color:var(--text,#111)}.tierseg button.on small{color:inherit;opacity:.75}
+.calc.big{font-size:18px;font-weight:700;padding:4px 0}
+.sheet.reg td{position:relative}.rseat{position:absolute;right:3px;top:2px;font-size:10px;font-weight:700;background:var(--text,#111);color:var(--bg,#fff);border-radius:8px;padding:0 5px;line-height:15px;pointer-events:none}
+.ap-sel{width:100%;font-size:13px;padding:3px}
+.wk-root svg.parl-svg text{cursor:pointer}
+.parlshape{display:flex;margin-bottom:8px}.parlshape button{flex:1}
+</style>
+<style>
+/* ---- update 8 ---- */
+.mm-align{display:inline-flex;align-items:center;gap:1px}.mm-align button{border:1px solid transparent;background:none;padding:3px 4px;cursor:pointer;color:inherit;border-radius:3px;line-height:0}.mm-align button:hover:not(:disabled){border-color:var(--line2);background:var(--bg2,rgba(0,0,0,.05))}.mm-align button:disabled{opacity:.3;cursor:default}
+.mm-align select{font-size:12px;padding:2px 4px;margin-left:4px;height:26px}.mm-align .mm-snapbtn{line-height:1;font-size:12px;padding:4px 7px;border:1px solid var(--line2);margin-left:4px}.mm-align .mm-snapbtn.on{background:#0a84ff;color:#fff;border-color:#0a84ff}
+#mmGuides{position:absolute;inset:0;pointer-events:none;z-index:5}#mmGuides i{position:absolute;background:#ff2d78}#mmGuides .gv{top:0;bottom:0;width:1px}#mmGuides .gh{left:0;right:0;height:1px}
+.rangenum{width:62px!important;font:600 12px ui-monospace,Menlo,Consolas,monospace!important;padding:2px 4px!important;height:24px;margin-left:6px;vertical-align:middle;text-align:right}
+.mm-sl:has(.rangenum)>b{display:none}.mm-sl:has(.rangenum){grid-template-columns:112px 1fr 58px}.mm-sl .rangenum{width:58px!important;margin-left:0}.mm-align select{width:auto!important;max-width:120px}
+</style>
+<style>
+/* ---- update 9 ---- */
+.mm-stage.tool-line,.mm-stage.tool-curve,.mm-stage.tool-rect,.mm-stage.tool-ellipse,.mm-stage.tool-inset{cursor:crosshair}
+.mm-insetbox{position:absolute;border:2px dashed #0a84ff;background:rgba(10,132,255,.08);pointer-events:none;z-index:6}
+.mm-keyp>div{display:flex;align-items:center;gap:6px;margin:2px 0;font-size:12px}.mm-keyp input[type=color]{width:30px;height:22px}.mm-keyp span{flex:1}
+.lad-edit{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.lad-edit label{display:flex;flex-direction:column;align-items:center;font-size:10px}.lad-edit input{width:38px;height:30px}
+.mm-gfx .mm-tip a{cursor:pointer;text-decoration:underline}
+</style>
+<style>
+/* ---- update 10 ---- */
+.wk-root .infobox [data-ibk].ib-edit{outline:1px dashed #36c;outline-offset:-1px;cursor:text;min-width:1em}.wk-root .infobox [data-ibk].ib-edit:focus{background:#fffbe6;outline-style:solid}
+.wk-root .infobox .ib-ov{box-shadow:inset 0 -2px 0 #f0c040}.wk-root .infobox img.ib-edit-img{cursor:pointer;outline:2px dashed #36c;outline-offset:-2px}
+.ibs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ibs-grid fieldset{border:1px solid var(--line2);padding:8px 10px;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;align-content:start}.ibs-grid fieldset .chk,.ibs-grid fieldset p,.ibs-grid fieldset button{grid-column:1/-1}.ibs-grid fieldset:nth-of-type(3){grid-column:1/-1}.ibs-grid>.row{grid-column:1/-1}
+</style>
 </head>
 <body data-theme="newsroom">
 <div id="app"></div>
@@ -867,7 +899,7 @@ function polParty(pl, y) {
 const etLabel = t => ELECTION_TYPES[t] || 'Election';
 function eYear(e) { return yearOf(e?.date); }
 function sameSeries(a, b) { return a.type === b.type && (a.chamberId || 'lower') === (b.chamberId || 'lower') && (a.divisionId || '') === (b.divisionId || ''); }
-function prevElection(e) { if (!e) return null; if (e.prevId && elec(e.prevId)) return elec(e.prevId); return P.elections.filter(x => x.id !== e.id && sameSeries(x, e) && dateKey(x.date) < dateKey(e.date)).sort((a, b) => dateKey(b.date) - dateKey(a.date))[0] || null; }
+function prevElection(e) { if (!e || e.inaugural) return null; if (e.prevId && elec(e.prevId)) return elec(e.prevId); return P.elections.filter(x => x.id !== e.id && sameSeries(x, e) && dateKey(x.date) < dateKey(e.date)).sort((a, b) => dateKey(b.date) - dateKey(a.date))[0] || null; }
 function nextElection(e) { if (!e) return null; if (e.nextId && elec(e.nextId)) return elec(e.nextId); return P.elections.filter(x => x.id !== e.id && sameSeries(x, e) && dateKey(x.date) > dateKey(e.date)).sort((a, b) => dateKey(a.date) - dateKey(b.date))[0] || null; }
 function totalVotes(e) { return sum((e?.results || []).map(r => num(r.votes))); }
 function regionalWinners(e) {
@@ -897,6 +929,8 @@ function largestRemainder(votes, seats, quota) {
 function prAlloc(method, votes, n) {
   if (method === 'sainte') return highestAverages(votes, n, k => 2 * k + 1);
   if (method === 'msainte') return highestAverages(votes, n, k => k === 0 ? 1.4 : 2 * k + 1);
+  if (method === 'stv') return largestRemainder(votes, n, 'droop');
+  if (method === 'block' || method === 'fptp') { const r = {}; let best = null, bv = -1; for (const k in votes) { r[k] = 0; if (votes[k] > bv) { bv = votes[k]; best = k; } } if (best != null && n > 0) r[best] = n; return r; }
   if (method === 'hare') return largestRemainder(votes, n, 'hare');
   if (method === 'droop') return largestRemainder(votes, n, 'droop');
   return highestAverages(votes, n, k => k + 1);
@@ -906,6 +940,7 @@ function allocate(e) {
   const elig = {}; (e.results || []).forEach(r => { if (r.partyId && tot && num(r.votes) / tot * 100 >= thr) elig[r.partyId] = (elig[r.partyId] || 0) + num(r.votes); });
   const dist = {}; Object.values(regionalWinners(e)).forEach(w => { if (w.partyId) dist[w.partyId] = (dist[w.partyId] || 0) + w.seats; });
   const method = ['sainte', 'hare', 'droop'].includes(e.system) ? e.system : (e.listMethod || 'dhondt');
+  if (kind === 'pr' && e.fromRegional && (e.regional || []).length) { const r = {}; Object.values(regionSeatMap(e)).forEach(m => { for (const k in m) r[k] = (r[k] || 0) + m[k]; }); return r; }
   if (kind === 'pr') return prAlloc(method, elig, seats);
   if (kind === 'district') return dist;
   if (kind === 'mmm') { const ds = sum(Object.values(dist)); const list = prAlloc(method, elig, Math.max(0, seats - ds)); const r = { ...dist }; for (const k in list) r[k] = (r[k] || 0) + list[k]; return r; }
@@ -941,7 +976,7 @@ function allocRegional(e) {
 function regionSeatMap(e) {
   const kind = SYSTEMS[e.system]?.kind; if (kind === 'regional') return allocRegional(e).regional;
   const out = {}; const w = regionalWinners(e);
-  (e.regional || []).forEach(rg => { const n = rg.seats === '' || rg.seats == null ? 1 : num(rg.seats); if (kind === 'district' || n <= 1) { const x = w[rg.divisionId]; out[rg.divisionId] = x?.partyId ? { [x.partyId]: n } : {}; } else { const v = {}; Object.entries(rg.votes || {}).forEach(([p, x]) => { if (num(x) > 0) v[p] = num(x); }); out[rg.divisionId] = prAlloc(e.listMethod || (['sainte', 'hare', 'droop'].includes(e.system) ? e.system : 'dhondt'), v, n); } });
+  (e.regional || []).forEach(rg => { const n = rg.seats === '' || rg.seats == null ? 1 : num(rg.seats); if (kind === 'district' || n <= 1) { const x = w[rg.divisionId]; out[rg.divisionId] = x?.partyId ? { [x.partyId]: n } : {}; } else { const v = {}; Object.entries(rg.votes || {}).forEach(([p, x]) => { if (num(x) > 0) v[p] = num(x); }); out[rg.divisionId] = prAlloc(e.regMethod || (['sainte', 'hare', 'droop'].includes(e.system) ? e.system : (kind === 'pr' ? 'dhondt' : e.listMethod || 'dhondt')), v, n); } });
   return out;
 }
 function apportion(weights, n, method = 'sainte', min = 0) {
@@ -953,7 +988,14 @@ function seatsOf(e) {
   if (e.autoSeats) { const a = allocate(e); if (a) return a; }
   const m = {}; (e.results || []).forEach(r => { if (r.partyId) m[r.partyId] = (m[r.partyId] || 0) + num(r.seats); }); return m;
 }
+/* single-tier count built from the regions: national totals are the sum of the regional figures */
+function syncNationalFromRegional(e) {
+  const agg = {}; e.regional.forEach(rg => Object.entries(rg.votes || {}).forEach(([p, v]) => agg[p] = (agg[p] || 0) + num(v)));
+  Object.entries(agg).forEach(([p, v]) => { let r = e.results.find(x => x.partyId === p); if (!r) e.results.push(r = { id: uid('r'), partyId: p, votes: 0, seats: 0 }); r.votes = v; });
+  const reg = sum(e.regional.map(r => num(r.registered))); if (reg) e.registered = reg; const inv = sum(e.regional.map(r => num(r.invalid))); if (inv || e.regional.some(r => r.invalid !== undefined && r.invalid !== '')) e.invalid = inv;
+}
 function computeElection(e) {
+  if (e.fromRegional && (e.regional || []).length) syncNationalFromRegional(e);
   const tot = totalVotes(e), seats = seatsOf(e), prev = prevElection(e), pTot = prev ? totalVotes(prev) : 0, pSeats = prev ? seatsOf(prev) : {};
   const winners = regionalWinners(e), cw = {}; Object.values(winners).forEach(w => { if (w.partyId) cw[w.partyId] = (cw[w.partyId] || 0) + 1; });
   const y = eYear(e);
@@ -996,7 +1038,7 @@ function govAt(year) {
   return P.governments.filter(g => (yearOf(g.start) ?? 1e9) <= year && (g.end == null || g.end === '' || yearOf(g.end) >= year)).sort((a, b) => dateKey(b.start) - dateKey(a.start))[0] || null;
 }
 function govAtDate(d) { const k = dateKey(d); return P.governments.filter(g => dateKey(g.start) <= k && (!g.end || dateKey(g.end) >= k)).sort((a, b) => dateKey(b.start) - dateKey(a.start))[0] || null; }
-function govBefore(e) { return e.govBeforeId ? govt(e.govBeforeId) : govAtDate(String(dateKey(e.date) - 1).replace(/^(-?\d+)(\d\d)(\d\d)$/, '$1-$2-$3')) || P.governments.filter(g => dateKey(g.start) < dateKey(e.date)).sort((a, b) => dateKey(b.start) - dateKey(a.start))[0] || null; }
+function govBefore(e) { if (e.inaugural) return null; return e.govBeforeId ? govt(e.govBeforeId) : govAtDate(String(dateKey(e.date) - 1).replace(/^(-?\d+)(\d\d)(\d\d)$/, '$1-$2-$3')) || P.governments.filter(g => dateKey(g.start) < dateKey(e.date)).sort((a, b) => dateKey(b.start) - dateKey(a.start))[0] || null; }
 function govAfter(e) { if (e.govAfterId) return govt(e.govAfterId); return P.governments.find(g => g.electionId === e.id) || null; }
 function composition(year, chamberId = 'lower') {
   const e = chamberElectionAt(year, chamberId); const seats = e ? seatsOf(e) : {};
@@ -1900,7 +1942,7 @@ VIEWS.wizard = {
     if (w.step === 3) body = `<div class="choice-grid">${GOV_TYPES.map(g => `<button class="choice ${n.govType === g ? 'on' : ''}" data-act="set" data-path="${b}.nation.govType" data-value="${esc(g)}">${esc(g)}</button>`).join('')}</div>
       <div class="grid2">${fld('Title of head of government', b + '.nation.leaderTitle', { ph: 'Prime Minister, Chancellor…' })}${fld('Title of head of state', b + '.nation.hosTitle', { ph: 'President, Monarch…' })}</div>${fld('Describe your institutions (optional)', b + '.nation.institutions', { type: 'textarea', rows: 3, ph: 'Any custom offices, councils or constitutional arrangements' })}`;
     if (w.step === 4) body = `<div class="grid2">${fld('Legislature name', b + '.legislature.name')}<label class="chk big"><input type="checkbox" data-set="${b}.legislature.bicameral" data-after="wizBicam" ${L.bicameral ? 'checked' : ''}> Bicameral (two chambers)</label></div>
-      ${L.chambers.slice(0, L.bicameral ? 2 : 1).map((c, i) => `<fieldset><legend>${i ? 'Upper chamber' : 'Lower chamber'}</legend><div class="grid3">${fld('Name', `${b}.legislature.chambers.${i}.name`)}${fld('Seats', `${b}.legislature.chambers.${i}.seats`, { type: 'num' })}${fld('Electoral system', `${b}.legislature.chambers.${i}.system`, { type: 'select', options: opt(Object.entries(SYSTEMS).map(([k, v]) => [k, v.label]), c.system) })}${fld('Term (years)', `${b}.legislature.chambers.${i}.term`, { type: 'num' })}${fld('Threshold (%)', `${b}.legislature.chambers.${i}.threshold`, { type: 'num' })}${fld('Chamber layout', `${b}.legislature.chambers.${i}.layout`, { type: 'select', options: opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster benches'], ['circle', 'Full circle']], c.layout) })}</div>
+      ${L.chambers.slice(0, L.bicameral ? 2 : 1).map((c, i) => `<fieldset><legend>${i ? 'Upper chamber' : 'Lower chamber'}</legend><div class="grid3">${fld('Name', `${b}.legislature.chambers.${i}.name`)}${fld('Seats', `${b}.legislature.chambers.${i}.seats`, { type: 'num' })}${fld('Electoral system', `${b}.legislature.chambers.${i}.system`, { type: 'select', options: opt(Object.entries(SYSTEMS).map(([k, v]) => [k, v.label]), c.system) })}${fld('Term (years)', `${b}.legislature.chambers.${i}.term`, { type: 'num' })}${fld('Threshold (%)', `${b}.legislature.chambers.${i}.threshold`, { type: 'num' })}${fld('Chamber layout', `${b}.legislature.chambers.${i}.layout`, { type: 'select', options: opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster benches'], ['chamber', 'Chamber (mirrored benches)'], ['circle', 'Full circle']], c.layout) })}</div>
       <div class="parl-mini">${parliamentSVG([{ id: 'x', n: num(c.seats) || 1, color: '#7f8da0', label: 'Seats' }], { layout: c.layout, majority: true })}</div></fieldset>`).join('')}
       ${fld('Government formation rules', b + '.legislature.formation', { type: 'textarea', rows: 2 })}`;
     if (w.step === 5) body = `<div class="grid2">${fld('Starting year', b + '.nation.startYear', { type: 'num' })}${fld('Calendar', b + '.nation.calendar', { type: 'select', options: opt(['Gregorian', 'Julian', 'Fictional calendar'], n.calendar) })}${fld('Year suffix (fictional calendars)', b + '.nation.calendarSuffix', { ph: 'e.g. AR, AF — leave blank for none' })}${fld('First era name (optional)', '$.wiz.era', { ph: 'e.g. Early Republic' })}</div>
@@ -1990,7 +2032,7 @@ VIEWS.dashboard = {
       </aside>
       <section class="dash-right">
         <div class="panel parl"><div class="ptitle row"><span>${esc(ch?.name || 'Legislature')}${comp.election ? ` — elected <a data-act="nav" data-view="election" data-sel-election="${comp.election.id}">${esc(comp.election.name)}</a>` : ''}</span><div class="spacer"></div>
-          <select data-change="dashLayout" aria-label="Chamber layout">${opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster'], ['circle', 'Circle']], layout)}</select>
+          <select data-change="dashLayout" aria-label="Chamber layout">${opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster'], ['chamber', 'Chamber (mirrored benches)'], ['circle', 'Circle']], layout)}</select>
           <button class="iconbtn" data-act="dashZoom" data-d="-0.2" title="Zoom out">−</button><button class="iconbtn" data-act="dashZoom" data-d="0.2" title="Zoom in">＋</button>
           <button class="btn sm ghost" data-act="exportDashParl" data-fmt="svg">SVG</button><button class="btn sm ghost" data-act="exportDashParl" data-fmt="png">PNG</button></div>
           <div class="parl-host" data-keepscroll="parl"><div style="width:${(S.dash.zoom || 1) * 100}%">${comp.total ? parliamentSVG(comp.groups, { layout, highlight: S.hl, govIds: g?.parties, crossIds: g?.support, fg: 'currentColor' }) : empty('No parliament yet', 'Enter results for a general or parliamentary election and the chamber appears here.', `<button class="btn sm" data-act="nav" data-view="electionNew">Create election</button>`)}</div></div>
@@ -2072,7 +2114,7 @@ VIEWS.institutions = {
     if (t.cur === 'character') body = charPanel();
     if (t.cur === 'system') body = `<div class="grid3">${fld('Government type', 'nation.govType', { type: 'select', options: opt(GOV_TYPES, P.nation.govType) })}${fld('State structure', 'nation.stateStructure', { type: 'select', options: opt(STATE_STRUCT, P.nation.stateStructure) })}${fld('Head of government title', 'nation.leaderTitle')}${fld('Head of state title', 'nation.hosTitle')}</div>${fld('Institutions & constitutional notes', 'nation.institutions', { type: 'textarea', rows: 5 })}`;
     if (t.cur === 'legislature') body = `<div class="grid3">${fld('Legislature name', 'legislature.name')}<label class="chk big"><input type="checkbox" data-set="legislature.bicameral" data-after="instBicam" ${L.bicameral ? 'checked' : ''}> Bicameral</label></div>
-      ${L.chambers.map((c, i) => `<fieldset><legend>${i ? 'Upper chamber' : 'Lower chamber'}</legend><div class="grid3">${fld('Name', `legislature.chambers.${i}.name`)}${fld('Seats', `legislature.chambers.${i}.seats`, { type: 'num' })}${fld('Electoral system', `legislature.chambers.${i}.system`, { type: 'select', options: opt(Object.entries(SYSTEMS).map(([k, v]) => [k, v.label]), c.system) })}${fld('Term (years)', `legislature.chambers.${i}.term`, { type: 'num' })}${fld('Threshold (%)', `legislature.chambers.${i}.threshold`, { type: 'num' })}${fld('Layout', `legislature.chambers.${i}.layout`, { type: 'select', options: opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster benches'], ['circle', 'Full circle']], c.layout) })}</div></fieldset>`).join('')}
+      ${L.chambers.map((c, i) => `<fieldset><legend>${i ? 'Upper chamber' : 'Lower chamber'}</legend><div class="grid3">${fld('Name', `legislature.chambers.${i}.name`)}${fld('Seats', `legislature.chambers.${i}.seats`, { type: 'num' })}${fld('Electoral system', `legislature.chambers.${i}.system`, { type: 'select', options: opt(Object.entries(SYSTEMS).map(([k, v]) => [k, v.label]), c.system) })}${fld('Term (years)', `legislature.chambers.${i}.term`, { type: 'num' })}${fld('Threshold (%)', `legislature.chambers.${i}.threshold`, { type: 'num' })}${fld('Layout', `legislature.chambers.${i}.layout`, { type: 'select', options: opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster benches'], ['chamber', 'Chamber (mirrored benches)'], ['circle', 'Full circle']], c.layout) })}</div></fieldset>`).join('')}
       ${fld('Government formation rules', 'legislature.formation', { type: 'textarea', rows: 3 })}`;
     return `<div class="page"><div class="page-head"><h1>Political Institutions</h1></div><div class="panel pad">${t.html}${body}</div></div>`;
   }
@@ -2273,12 +2315,14 @@ VIEWS.election = {
         ${fld('Previous election', b + '.prevId', { type: 'select', options: `<option value="">Automatic${c.prev && !e.prevId ? ' — ' + esc(c.prev.name) : ''}</option>` + P.elections.filter(x => x.id !== e.id).map(x => `<option value="${x.id}" ${x.id === e.prevId ? 'selected' : ''}>${esc(x.name)}</option>`).join('') })}${fld('Next election', b + '.nextId', { type: 'select', options: `<option value="">Automatic${c.next && !e.nextId ? ' — ' + esc(c.next.name) : ''}</option>` + P.elections.filter(x => x.id !== e.id).map(x => `<option value="${x.id}" ${x.id === e.nextId ? 'selected' : ''}>${esc(x.name)}</option>`).join('') })}${fld('Electoral map (boundary version)', b + '.mapId', { type: 'select', options: `<option value="">${P.maps.length ? 'Automatic by date' : 'No maps yet'}</option>` + P.maps.map(m => `<option value="${m.id}" ${m.id === e.mapId ? 'selected' : ''}>${esc(m.name)}</option>`).join('') })}
         ${fld('Registered voters', b + '.registered', { type: 'num' })}${fld('Invalid / blank votes', b + '.invalid', { type: 'num' })}${fld('Exhausted ballots', b + '.exhausted', { type: 'num' })}</div>
         <div class="grid2">${fld('Government before election', b + '.govBeforeId', { type: 'select', options: `<option value="">Automatic${gb && !e.govBeforeId ? ' — ' + esc(gb.name) : ''}</option>` + P.governments.map(g => `<option value="${g.id}" ${g.id === e.govBeforeId ? 'selected' : ''}>${esc(g.name)}</option>`).join('') })}${fld('Government after election', b + '.govAfterId', { type: 'select', options: `<option value="">Automatic${ga && !e.govAfterId ? ' — ' + esc(ga.name) : ''}</option>` + P.governments.map(g => `<option value="${g.id}" ${g.id === e.govAfterId ? 'selected' : ''}>${esc(g.name)}</option>`).join('') })}</div>
+        <label class="chk big" title="The first election under this legislature: no previous election, outgoing members, government or swing are shown"><input type="checkbox" data-set="${b}.inaugural" ${e.inaugural ? 'checked' : ''}> Inaugural election — no previous election, members or government</label>
         ${fld('Notes', b + '.notes', { type: 'textarea', rows: 3 })}
         <div class="row"><button class="btn" data-act="formGovFromElection">Form government from these results…</button><button class="btn ghost" data-act="nextFromElection">Create the next election in this series</button><button class="btn ghost" data-act="dupElection">Duplicate</button><div class="spacer"></div><button class="btn ghost danger-t" data-act="delElection">Delete election</button></div>`;
     }
     if (t.cur === 'system') {
       const kind = SYSTEMS[e.system]?.kind; const auto = allocate(e);
       body = `<div class="grid3">${fld('Electoral system', b + '.system', { type: 'select', options: opt(Object.entries(SYSTEMS).map(([k, v]) => [k, v.label]), e.system) })}${fld('Threshold (%)', b + '.threshold', { type: 'num' })}${['mmp', 'mmm'].includes(kind) ? fld('List allocation method', b + '.listMethod', { type: 'select', options: opt([['dhondt', "D'Hondt"], ['sainte', 'Sainte-Laguë'], ['hare', 'Hare'], ['droop', 'Droop']], e.listMethod || 'dhondt') }) : ''}</div>
+        ${tierPanel(e, b)}
         ${kind === 'regional' ? regionalSystemPanel(e, b) : ''}
         ${fld('Calculate seats automatically from votes', b + '.autoSeats', { type: 'check' })}
         <p class="sysdesc">${esc(SYSTEM_TEXT[e.system] || '')}</p>
@@ -2316,11 +2360,11 @@ VIEWS.election = {
       </aside></div>`;
     }
     if (t.cur === 'regional') {
-      const pids = e.results.map(r => r.partyId).filter(Boolean); const win = c.winners; const agg = {}; e.regional.forEach(rg => pids.forEach(p => agg[p] = (agg[p] || 0) + num(rg.votes?.[p])));
-      body = `<div class="row tbar"><select id="regLevel">${opt([['', 'All divisions'], ...P.levels.map(l => [l, l])], S.ui.regLevel || '')}</select><button class="btn sm" data-act="addRegions">Add divisions of this level</button><select id="regOne"><option value="">Add one division…</option>${P.divisions.filter(d => !e.regional.some(r => r.divisionId === d.id)).map(d => `<option value="${d.id}">${esc(d.name)}</option>`).join('')}</select><button class="btn sm ghost" data-act="addRegionOne">Add</button><div class="spacer"></div><button class="btn sm ghost" data-act="regToNational">Set national votes = regional totals</button><button class="btn sm ghost" data-act="regDistribute">Estimate regional votes from national</button><button class="btn sm ghost" data-act="resTemplate">⬇ Template</button><button class="btn sm ghost" data-act="resImportTemplate">⬆ Import template</button><button class="btn sm ghost danger-t" data-act="regClear">Clear regional results</button></div>
+      const rsm = regionSeatMap(e); const pids = e.results.map(r => r.partyId).filter(Boolean); const win = c.winners; const agg = {}; e.regional.forEach(rg => pids.forEach(p => agg[p] = (agg[p] || 0) + num(rg.votes?.[p])));
+      body = `<div class="row tbar"><select id="regLevel">${opt([['', 'All divisions'], ...P.levels.map(l => [l, l])], S.ui.regLevel || '')}</select><button class="btn sm" data-act="addRegions">Add divisions of this level</button><select id="regOne"><option value="">Add one division…</option>${P.divisions.filter(d => !e.regional.some(r => r.divisionId === d.id)).map(d => `<option value="${d.id}">${esc(d.name)}</option>`).join('')}</select><button class="btn sm ghost" data-act="addRegionOne">Add</button><div class="spacer"></div><button class="btn sm ghost" data-act="regToNational">Set national votes = regional totals</button><button class="btn sm ghost" data-act="regDistribute">Estimate regional votes from national</button><label class="chk" title="Single-tier count: national votes, registered voters and informal votes are the sums of these regions"><input type="checkbox" data-set="${b}.fromRegional" ${e.fromRegional ? 'checked' : ''}> National totals = sum of regions</label><button class="btn sm ghost" data-act="resTemplate">⬇ Template</button><button class="btn sm ghost" data-act="resImportTemplate">⬆ Import template</button><button class="btn sm ghost danger-t" data-act="regClear">Clear regional results</button></div>
       ${e.regional.length ? `<div class="scroll-x"><table class="sheet reg"><thead><tr><th>Division</th><th>Seats</th><th>Registered</th>${pids.map(p => `<th style="border-top:4px solid ${pColor(p, y)}">${esc(pAbbr(p, y))}</th>`).join('')}<th>Total</th><th>Winner</th><th>Margin</th><th>Candidate</th><th></th></tr></thead><tbody>
         ${e.regional.map(rg => { const w = win[rg.divisionId]; return `<tr><td><b>${esc(divi(rg.divisionId)?.name || '?')}</b></td><td><input type="number" class="num xs" data-type="num" data-set="${b}.regional#${rg.id}.seats" value="${rg.seats ?? 1}"></td><td><input type="text" inputmode="numeric" class="num" data-type="num" data-grp="1" data-set="${b}.regional#${rg.id}.registered" value="${grpN(rg.registered)}"></td>
-          ${pids.map(p => `<td><input type="text" inputmode="numeric" class="num" data-type="num" data-grp="1" data-set="${b}.regional#${rg.id}.votes.${p}" value="${grpN(rg.votes?.[p])}" style="${w?.partyId === p ? `box-shadow:inset 3px 0 ${pColor(p, y)}` : ''}"></td>`).join('')}
+          ${pids.map(p => `<td><input type="text" inputmode="numeric" class="num" data-type="num" data-grp="1" data-set="${b}.regional#${rg.id}.votes.${p}" value="${grpN(rg.votes?.[p])}" data-after="regAfter" style="${w?.partyId === p ? `box-shadow:inset 3px 0 ${pColor(p, y)}` : ''}">${rsm[rg.divisionId]?.[p] ? `<span class="rseat" title="Seats won">${rsm[rg.divisionId][p]}</span>` : ''}</td>`).join('')}
           <td class="calc">${fmt(w?.total)}</td><td><select data-set="${b}.regional#${rg.id}.winner"><option value="">${w?.partyId && !rg.winner ? 'Auto: ' + esc(pAbbr(w.partyId, y)) : 'Auto'}</option>${pids.map(p => `<option value="${p}" ${rg.winner === p ? 'selected' : ''}>${esc(pAbbr(p, y))}</option>`).join('')}</select></td><td class="calc">${w?.total ? w.margin.toFixed(1) + '%' : '—'}</td><td><select data-set="${b}.regional#${rg.id}.candidateId">${polOpts(rg.candidateId, '—')}</select></td><td><button class="iconbtn" data-act="delReg" data-id="${rg.id}">✕</button></td></tr>`; }).join('')}
         </tbody><tfoot><tr><th>Regional total</th><th>${sum(e.regional.map(r => r.seats ?? 1))}</th><th>${fmt(sum(e.regional.map(r => num(r.registered))))}</th>${pids.map(p => `<th class="r">${fmt(agg[p])}</th>`).join('')}<th>${fmt(sum(Object.values(agg)))}</th><th colspan="4"></th></tr>
         <tr><th>National figure</th><th></th><th>${fmt(e.registered)}</th>${pids.map(p => { const nv = num(e.results.find(r => r.partyId === p)?.votes); return `<th class="r ${agg[p] === nv ? 'ok' : 'bad'}">${fmt(nv)} ${agg[p] === nv ? '✓' : '≠'}</th>`; }).join('')}<th>${fmt(c.tot)}</th><th colspan="4"></th></tr></tfoot></table></div>` : empty('No regional results', 'Add divisions to enter results by state, province, region, district or constituency. Constituency winners feed first-past-the-post and mixed systems, and colour the electoral map.')}
@@ -2726,7 +2770,7 @@ VIEWS.parliament = {
       ${cfg.source === 'election' ? electionSelect(S.sel.election) : ''}${cfg.source === 'year' ? `<label class="fld"><span>Year</span><input type="number" value="${curYear()}" data-change="setYear"></label>` : ''}
       ${cfg.source === 'custom' ? `<div class="custom-groups">${(cfg.custom || []).map((g, i) => `<div class="row"><input type="color" data-set="${b}.custom.${i}.color" value="${g.color}"><input data-set="${b}.custom.${i}.label" value="${esc(g.label)}"><input class="w70" type="number" data-type="num" data-set="${b}.custom.${i}.n" value="${g.n}"><button class="iconbtn" data-act="parlDelCustom" data-i="${i}">✕</button></div>`).join('')}<button class="btn sm ghost" data-act="parlAddCustom">Add group</button><button class="btn sm ghost" data-act="parlCustomFrom">Copy current composition</button></div>` : ''}
       <div class="ptitle">Layout</div>
-      ${fld('Chamber layout', b + '.layout', { type: 'select', options: opt([['semicircle', 'Semicircle (European Parliament)'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster opposing benches'], ['circle', 'Full circle']], cfg.layout) })}
+      ${fld('Chamber layout', b + '.layout', { type: 'select', options: opt([['semicircle', 'Semicircle (European Parliament)'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster opposing benches'], ['chamber', 'Chamber (mirrored benches)'], ['circle', 'Full circle']], cfg.layout) })}
       <div class="grid2">${fld('Rows (0 = auto)', b + '.rows', { type: 'num' })}<label class="fld"><span>Seat size ${Math.round((cfg.spacing || .82) * 100)}%</span><input type="range" min="0.3" max="1" step="0.02" data-type="num" data-set="${b}.spacing" value="${cfg.spacing || .82}"></label></div>
       ${fld('Chamber title', b + '.title')}
       <div class="grid2">${fld('Show majority line', b + '.majority', { type: 'check' })}${fld('Show seat total', b + '.labels', { type: 'check' })}${fld('Show legend', b + '.legend', { type: 'check' })}${fld('Leader portraits', b + '.portraits', { type: 'check' })}${fld('Seat outlines', b + '.outline', { type: 'check' })}${fld('Transparent export', b + '.transparent', { type: 'check' })}${P.legislature.bicameral ? fld('Show both chambers', b + '.bicameral', { type: 'check' }) : ''}</div>
@@ -2763,7 +2807,7 @@ VIEWS.maps = {
       ${ms === 'manual' ? `<div class="fld"><span>Manual fill for selected (${sel.length})</span><div class="row"><input type="color" id="manualColor" value="${S.ui.manualColor || '#cc3333'}"><button class="btn sm" data-act="applyManual">Apply</button><button class="btn sm ghost" data-act="clearManual">Clear</button></div><div class="row wrap">${P.parties.map(p => `<button class="swbtn" style="background:${p.color}" title="${esc(p.name)}" data-act="manualParty" data-c="${p.color}"></button>`).join('')}</div></div>` : ''}
       <div class="grid2"><div class="fld"><span>Boundary colour</span><input type="color" data-set="maps#${m.id}.stroke" value="${m.stroke || '#ffffff'}"></div>${fld('Boundary width', `maps#${m.id}.strokeWidth`, { type: 'num' })}</div><label class="chk"><input type="checkbox" data-set="$.ui.mapLabels" ${S.ui.mapLabels !== false ? 'checked' : ''}> Show original SVG labels</label>
       <div class="map-legend">${mapLegendItems(m, e, { mode: ms, partyId: pid }).map(i => `<div><i style="background:${i.color}"></i>${esc(i.label)}${i.n != null ? ` <b>${i.n}</b>` : ''}</div>`).join('')}</div>
-      <div class="row"><button class="btn sm ghost" data-act="mapExport" data-fmt="svg">Export SVG</button><button class="btn sm ghost" data-act="mapExport" data-fmt="png">PNG</button><button class="btn sm" data-act="mapToCanvas">Add to infographic</button></div>`;
+      <div class="row"><button class="btn sm ghost" data-act="mapExport" data-fmt="svg">Export SVG</button><button class="btn sm ghost" data-act="mapExport" data-fmt="png">PNG</button><button class="btn sm" data-act="mapToCanvas">Add to infographic</button><button class="btn sm" data-act="mapToMaker" title="Open this map, with its named regions and the election results, in the Map Maker editor">Open in Map Maker →</button></div>`;
     if (t.cur === 'match') side = `<p class="muted small">${shapes.length} shapes · ${unmatched} unmatched. Click a shape on the map to select its row.</p><div class="row"><button class="btn sm" data-act="mapAutoMatch">Match by name</button><button class="btn sm ghost" data-act="mapCreateDivs">Create divisions for unmatched</button><button class="btn sm ghost" data-act="mapClearMatch">Clear all</button></div>
       <div class="match-list" data-keepscroll="match">${shapes.map(s => `<div class="match-row ${sel.includes(s.id) ? 'on' : ''} ${m.assign[s.id] ? '' : 'un'}" data-shape="${s.id}"><code title="${esc(s.label)}">${esc(trunc(s.label || s.id, 22))}</code><select data-set="maps#${m.id}.assign.${s.id}"><option value="">— unmatched —</option>${P.divisions.map(d => `<option value="${d.id}" ${m.assign[s.id] === d.id ? 'selected' : ''}>${esc(d.name)}</option>`).join('')}</select></div>`).join('')}</div>`;
     if (t.cur === 'annot') side = `<p class="muted small">Click “Add label” then click on the map to place it.</p><button class="btn sm ${S.ui.placeLabel ? 'primary' : ''}" data-act="placeLabel">${S.ui.placeLabel ? 'Click on the map…' : 'Add label'}</button><button class="btn sm ghost" data-act="autoLabels">Label every matched district</button>
@@ -3183,7 +3227,7 @@ function propsPanel(g) {
   if (o.linked) {
     const L = o.link || {}; const lb = b + '.link'; const eSel = (k = 'electionId') => fld('Election', `${lb}.${k}`, { type: 'select', options: electionsSorted().reverse().map(e => `<option value="${e.id}" ${e.id === L[k] ? 'selected' : ''}>${esc(e.name)}</option>`).join('') });
     h += `<div class="ptitle">Data link</div>`;
-    if (o.type === 'parliament') h += `${fld('Source', lb + '.source', { type: 'select', options: opt([['election', 'Election'], ['year', 'Composition in year']], L.source || 'election') })}${L.source === 'year' ? fld('Year', lb + '.year', { type: 'num' }) : eSel()}${fld('Layout', lb + '.layout', { type: 'select', options: opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster'], ['circle', 'Circle']], L.layout) })}${fld('Legend', lb + '.legend', { type: 'check' })}${fld('Title', lb + '.title')}<div class="fld"><span>Text colour</span><input type="color" data-set="${lb}.fg" value="${L.fg || '#222222'}"></div>`;
+    if (o.type === 'parliament') h += `${fld('Source', lb + '.source', { type: 'select', options: opt([['election', 'Election'], ['year', 'Composition in year']], L.source || 'election') })}${L.source === 'year' ? fld('Year', lb + '.year', { type: 'num' }) : eSel()}${fld('Layout', lb + '.layout', { type: 'select', options: opt([['semicircle', 'Semicircle'], ['horseshoe', 'Horseshoe'], ['westminster', 'Westminster'], ['chamber', 'Chamber (mirrored benches)'], ['circle', 'Circle']], L.layout) })}${fld('Legend', lb + '.legend', { type: 'check' })}${fld('Title', lb + '.title')}<div class="fld"><span>Text colour</span><input type="color" data-set="${lb}.fg" value="${L.fg || '#222222'}"></div>`;
     if (['results', 'donut', 'seatbars', 'infobox'].includes(o.type)) h += eSel() + (o.type === 'results' ? `${fld('Rows', lb + '.rows', { type: 'num' })}${fld('Theme', lb + '.theme', { type: 'select', options: opt([['', 'Light'], ['dark', 'Dark']], L.theme) })}${fld('Caption', lb + '.title')}` : '') + (o.type === 'donut' ? fld('Show', lb + '.metric', { type: 'select', options: opt([['votes', 'Popular vote'], ['seats', 'Seats']], L.metric) }) : '') + (o.type === 'seatbars' || o.type === 'donut' ? `<div class="fld"><span>Text colour</span><input type="color" data-set="${lb}.fg" value="${L.fg || (o.type === 'seatbars' ? '#ffffff' : '#222222')}"></div>` : '');
     if (o.type === 'map') h += `${eSel()}${fld('Map', lb + '.mapId', { type: 'select', options: `<option value="">Automatic</option>` + P.maps.map(m => `<option value="${m.id}" ${m.id === L.mapId ? 'selected' : ''}>${esc(m.name)}</option>`).join('') })}${fld('Colour by', lb + '.mode', { type: 'select', options: opt(MAP_MODES, L.mode) })}${['share', 'swing'].includes(L.mode) ? fld('Party', lb + '.partyId', { type: 'select', options: partyOpts(L.partyId, null, 'Largest party') }) : ''}${fld('Show labels', lb + '.labels', { type: 'check' })}`;
     if (o.type === 'cartogram') h += fld('Cartogram', lb + '.cartoId', { type: 'select', options: (P.cartograms || []).map(c => `<option value="${c.id}" ${c.id === L.cartoId ? 'selected' : ''}>${esc(c.name)}</option>`).join('') });
@@ -4122,11 +4166,12 @@ function mmEvents() {
   st.addEventListener('pointermove', e => {
     const r = st.getBoundingClientRect(); const p = toDoc(e.clientX, e.clientY); const xy = $('#mmXY'); if (xy) xy.textContent = `x ${p.x.toFixed(0)} · y ${p.y.toFixed(0)}`;
     if (!drag) { const el = mmTarget(e.target); if (MM.hov !== el) { MM.hov?.removeAttribute('data-mmhov'); MM.hov = el; el?.setAttribute('data-mmhov', '1'); const h = $('#mmHint'); if (h) { h.textContent = el ? (mmLabelOf(el) || el.id || el.tagName.toLowerCase()) : ''; h.style.display = el ? 'block' : 'none'; } } const h = $('#mmHint'); if (h && MM.hov) { h.style.left = (e.clientX - r.left + 14) + 'px'; h.style.top = (e.clientY - r.top + 14) + 'px'; } return; }
-    if (drag.mode === 'move') { if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 3) return; if (!drag.moved) { drag.moved = true; mmBegin(); } mmTranslate(drag.els, p.x - drag.p0.x, p.y - drag.p0.y); return; }
+    if (drag.mode === 'move') { if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 3) return; if (!drag.moved) { drag.moved = true; mmBegin(); } const sd = typeof mmSnap === 'function' ? mmSnap(drag, p.x - drag.p0.x, p.y - drag.p0.y, e.altKey) : [p.x - drag.p0.x, p.y - drag.p0.y]; mmTranslate(drag.els, sd[0], sd[1]); return; }
     if (drag.mode === 'pan') { MM.tx = drag.tx + e.clientX - drag.x; MM.ty = drag.ty + e.clientY - drag.y; mmApplyView(); }
     if (drag.mode === 'marq') { const m = $('#mmMarq'); const x = e.clientX - r.left, y = e.clientY - r.top; Object.assign(m.style, { display: 'block', left: Math.min(x, drag.x) + 'px', top: Math.min(y, drag.y) + 'px', width: Math.abs(x - drag.x) + 'px', height: Math.abs(y - drag.y) + 'px' }); drag.box = { x1: Math.min(x, drag.x) + r.left, y1: Math.min(y, drag.y) + r.top, x2: Math.max(x, drag.x) + r.left, y2: Math.max(y, drag.y) + r.top }; }
   });
   st.addEventListener('pointerup', () => {
+    if (typeof mmSnapEnd === 'function') mmSnapEnd();
     if (drag?.mode === 'move' && drag.moved) { mmEnd('Move'); mmSave(); mmStatus(); }
     if (drag?.mode === 'marq') { $('#mmMarq').style.display = 'none'; if (drag.box && drag.box.x2 - drag.box.x1 > 3) { const b = drag.box; const els = mmCandidates().filter(el => { const q = el.getBoundingClientRect(); return q.width && q.left >= b.x1 && q.right <= b.x2 && q.top >= b.y1 && q.bottom <= b.y2; }); mmSelect(els, drag.add); } else if (!drag.add) mmSelect([]); }
     drag = null;
@@ -4446,7 +4491,7 @@ VIEWS.parties.render = function () { const h = _partiesRender.call(this); const 
 VIEWS.parties.mount = function (root) { const box = $('#ppTags', root); const p = party(S.sel.party); if (!box || !p) return; const tags = (p.ideology || '').split(',').map(s => s.trim()).filter(Boolean); let first = true; bindTagEditor(box, tags, t => { if (first) { first = false; return; } p.ideology = t.join(', '); markDirty(); }); };
 
 /* ---------------- what's new ---------------- */
-const WHATS_NEW = [['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
+const WHATS_NEW = [['Infobox editing', 'In Edit mode, type straight into any infobox cell (wiki links work) — placeholders for inaugural elections, custom names and figures — and click portraits to swap them. Right-click restores the automatic value.'], ['Uniform article style', 'Infobox & table style: width, text size, padding, flag width, portrait width and height, party bar height, alignment and font for every infobox; text size, padding, alignment and full width for every wikitable; and which map the article shows.'], ['Results key styles', 'Map Maker party keys in four styles — Scottish bars, Alberta mirrored, Welsh blocks and Australian/German rounded bars with leaders, district/overall seats and vote bars — plus left, centre or right title alignment and circular insets with a light grey source wash.'], ['Edit inside graphics', 'Double-click any text in a results graphic (title, party names, seat and vote figures) to change it, its size or colour; reset any time to follow the results again.'], ['Margin ladders', 'Choose how many rectangles the ladder has, its labels, lightest and darkest tones, a custom colour per party, or pick every rectangle’s colour by hand.'], ['Insets, lines & shapes', 'Map Maker: drag a box to make a live, full-quality inset (square, rounded or cut corner, titled, with a dashed connector); draw straight, curved, dashed or dotted lines, rectangles with rounded corners and ellipses; resize the page.'], ['Maps in articles', 'Map Maker → Use in article puts your finished map into an election’s infobox and results-by-region section, kept in sync.'], ['Open in Map Maker', 'Electoral Map Studio → Open in Map Maker: the map arrives with every region named and linked, coloured by results, with a title, party results (votes, %, seats), hemicycle and vote/seat ring laid out beside it.'], ['Align & snap', 'Map Maker has Inkscape-style align (left, centre, right, top, middle, bottom) and distribute, relative to the page, selection, first or largest object — and objects snap to the page, centres and each other while you drag, with pink guides.'], ['Exact numbers', 'Every slider now has a number box beside it — type any value, even beyond the slider’s range.'], ['Results workbooks', 'Download a real Excel workbook laid out like a results sheet — states, seats, population, enrolled, votes, % and seats per party, turnout, quota and levelling seats — fill it in and import it back (.xlsx or .csv).'], ['Count structure', 'Choose a single national count, a count built from the regions (national totals = sum of states, seats won region by region with D’Hondt, Sainte-Laguë, Hare, Droop, STV or block vote), or a two-tier system (MMP, AMS, parallel, levelling).'], ['Inaugural elections', 'Mark the first election so the infobox and articles show no previous election, outgoing members, government or swings.'], ['Parliament diagrams', 'Square or rounded seats, gaps between parties, a speaker’s seat, a mirrored chamber layout with curved crossbench, and Arial (or any) font for the numbers — also from the encyclopedia’s Appearance column.'], ['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
 ACT.whatsNew = () => modal(`<h3>What's New in MAPS</h3><div class="wn">${WHATS_NEW.map(([t, d]) => `<div><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('')}</div><div class="row end"><button class="btn" data-act="closeModal">Got it</button></div>`);
 
 </script>
@@ -4750,7 +4795,7 @@ function mmResPanel() {
     <div class="mm-acts"><button class="btn sm" data-act="mmgClustersAll">Add clusters for all regions</button><button class="btn sm ghost" data-act="mmgClusterSel">Cluster for selected district</button>${a?.levelTotal ? '<button class="btn sm ghost" data-act="mmgLevel">Levelling seats cluster</button>' : ''}<button class="btn sm ghost" data-act="mmgRestyle">Apply style to ${MM.sel.some(g => g.getAttribute?.('data-mmgfx') === 'cluster') ? 'selected' : 'all'} clusters</button></div>
     <div class="mm-h">Results graphics</div>
     <div class="mm-acts"><button class="btn sm ghost" data-act="mmgInsert" data-type="title">Title block</button><button class="btn sm ghost" data-act="mmgInsert" data-type="key">Party results key</button><button class="btn sm ghost" data-act="mmgInsert" data-type="hemi">Hemicycle</button><button class="btn sm ghost" data-act="mmgInsert" data-type="ring">Vote / seat ring</button></div>
-    <div class="mm-row"><input placeholder="Seats" value="${esc(o.seatLbl || 'Seats')}" data-change="mmgOpt" data-k="seatLbl" class="w90" title="Seats column heading (e.g. MSPs)"><input value="${esc(o.voteLbl || 'Vote %')}" data-change="mmgOpt" data-k="voteLbl" class="w90" title="Vote column heading (e.g. List Vote)"><input value="${esc(o.memberWord || 'seats')}" data-change="mmgOpt" data-k="memberWord" class="w90" title="Member word in the title block (e.g. MSPs)"></div>
+    <label class="mm-sl"><span>Seats column heading</span><input value="${esc(o.seatLbl || 'Seats')}" data-change="mmgOpt" data-k="seatLbl" placeholder="e.g. MSPs"></label><label class="mm-sl"><span>Vote column heading</span><input value="${esc(o.voteLbl || 'Vote %')}" data-change="mmgOpt" data-k="voteLbl" placeholder="e.g. List Vote"></label><label class="mm-sl"><span>Member word (title)</span><input value="${esc(o.memberWord || 'seats')}" data-change="mmgOpt" data-k="memberWord" placeholder="e.g. MSPs"></label>
     <label class="chk"><input type="checkbox" ${o.ladder !== false ? 'checked' : ''} data-change="mmgOpt" data-k="ladder"> Margin shade ladder above each party</label>
     <div class="mm-acts"><button class="btn sm" data-act="mmgRefresh">Update all graphics from results</button><label class="chk xs"><input type="checkbox" id="mmgSwap"> switch them to this election</label></div>
     <div class="mm-h">Districts → administrative divisions</div>
@@ -5272,6 +5317,847 @@ VIEWS.data.render = function () {
 const _wikiShell7 = wikiShell;
 wikiShell = function (o) { return _wikiShell7(o).replace(/(<button class="btn sm ghost" data-act="exportArticle"[^>]*>Export HTML<\/button>)/, '$1<button class="btn sm" data-act="exportWebsite" title="Export every article as one linked website">Export website</button>'); };
 if (typeof cmdItems === 'function') { const _ci = cmdItems; cmdItems = function () { const l = _ci.apply(this, arguments); try { if (P) l.push({ l: 'Export encyclopedia website (.html)', sub: 'Export', i: '🌐', go: () => ACT.exportWebsite() }); } catch (e) { } return l; }; }
+
+</script>
+<script>/* js/update7.js */
+'use strict';
+/* =====================================================================
+   update7.js : count structure (national / built from regions / two
+   tiers), real .xlsx results workbooks (write + read, no libraries),
+   inaugural elections, parliament diagram fonts, seat shapes, party
+   gaps, speaker seat and the mirrored "chamber" layout.
+   ===================================================================== */
+
+/* ================= count structure ================= */
+const DIST_METHODS = [['', 'Same as the electoral system'], ['dhondt', "D'Hondt"], ['sainte', 'Sainte-Laguë'], ['msainte', 'Modified Sainte-Laguë (1.4)'], ['hare', 'Largest remainder — Hare'], ['droop', 'Largest remainder — Droop'], ['stv', 'STV (approximated with the Droop quota)'], ['block', 'Block vote / FPTP — winner takes every seat']];
+function tierOf(e) { const k = SYSTEMS[e.system]?.kind; if (['mmp', 'mmm'].includes(k) || (k === 'regional' && num(e.levelSeats) > 0)) return 'two'; return e.fromRegional || k === 'regional' ? 'regional' : 'national'; }
+function tierPanel(e, b) {
+  const t = tierOf(e); const regs = (e.regional || []).length; const c = computeElection(e); const S0 = num(e.seats) || c.totalSeats; const quota = S0 ? c.tot / S0 : 0;
+  return `<fieldset class="tierbox"><legend>How the count works</legend>
+    <div class="seg tierseg"><button class="${t === 'national' ? 'on' : ''}" data-act="setTier" data-t="national"><b>Single national count</b><small>Enter national votes; seats shared nationally</small></button><button class="${t === 'regional' ? 'on' : ''}" data-act="setTier" data-t="regional"><b>Built from regions</b><small>National totals = sum of states / constituencies; seats won region by region</small></button><button class="${t === 'two' ? 'on' : ''}" data-act="setTier" data-t="two"><b>Two tiers</b><small>Constituency seats + list / levelling seats (MMP, AMS, parallel, Nordic)</small></button></div>
+    ${t === 'regional' ? `<div class="grid3">${fld('Seats in each region are allocated by', b + '.regMethod', { type: 'select', options: opt(DIST_METHODS, e.regMethod || '') })}${fld('Regional threshold (%)', b + '.regThreshold', { type: 'num' })}<div class="fld"><span>National quota (votes ÷ seats)</span><div class="calc big">${quota ? fmt(Math.round(quota)) : '—'}</div></div></div>
+      <p class="muted small">${regs ? `${regs} regions with ${sum(e.regional.map(r => r.seats === '' || r.seats == null ? 1 : num(r.seats)))} seats. ` : 'Add regions under Regional results (or import a results workbook). '}Single-member regions go to the largest party. For IRV or STV with full preference data, set the winner of a region by hand in Regional results.</p>` : ''}
+    ${t === 'two' ? `<p class="muted small">Choose the system above: <b>Mixed-member proportional</b> (MMP / Scottish & Welsh Additional Member System), <b>Mixed-member majoritarian</b> (parallel), or <b>Regional PR + national levelling seats</b> (Nordic). Constituency results go in Regional results; list votes in Parties & results.</p><label class="chk"><input type="checkbox" data-set="${b}.fromRegional" ${e.fromRegional ? 'checked' : ''}> List / national votes are the sum of the constituency votes (one vote per voter)</label>` : ''}
+  </fieldset>`;
+}
+ACT.setTier = t => {
+  const e = elec(S.sel.election); const k = SYSTEMS[e.system]?.kind;
+  if (t.dataset.t === 'national') { e.fromRegional = false; if (k !== 'pr') e.system = 'dhondt'; }
+  if (t.dataset.t === 'regional') { e.fromRegional = true; e.autoSeats = true; if (!['pr', 'district', 'regional'].includes(k)) e.system = 'dhondt'; if (k === 'regional') e.levelSeats = 0; }
+  if (t.dataset.t === 'two') { if (!['mmp', 'mmm', 'regional'].includes(k)) e.system = 'mmp'; e.autoSeats = true; }
+  commit();
+};
+ACT.regAfter = () => { };
+
+/* ================= minimal .xlsx writer / reader (stored zip, DecompressionStream) ================= */
+const CRC_T = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(u8) { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipStore(files) {
+  const enc = new TextEncoder(); const parts = [], cd = []; let off = 0;
+  files.forEach(([name, text]) => {
+    const nb = enc.encode(name), data = enc.encode(text), crc = crc32(data);
+    const h = new DataView(new ArrayBuffer(30)); h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(8, 0, true); h.setUint32(14, crc, true); h.setUint32(18, data.length, true); h.setUint32(22, data.length, true); h.setUint16(26, nb.length, true);
+    parts.push(new Uint8Array(h.buffer), nb, data);
+    const c = new DataView(new ArrayBuffer(46)); c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint32(16, crc, true); c.setUint32(20, data.length, true); c.setUint32(24, data.length, true); c.setUint16(28, nb.length, true); c.setUint32(42, off, true);
+    cd.push(new Uint8Array(c.buffer), nb); off += 30 + nb.length + data.length;
+  });
+  const cdLen = cd.reduce((a, b) => a + b.length, 0); const end = new DataView(new ArrayBuffer(22)); end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cdLen, true); end.setUint32(16, off, true);
+  return new Blob([...parts, ...cd, new Uint8Array(end.buffer)], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+async function unzip(buf) {
+  const u8 = new Uint8Array(buf), dv = new DataView(buf); let e = u8.length - 22; while (e >= 0 && dv.getUint32(e, true) !== 0x06054b50) e--; if (e < 0) throw new Error('not a zip / xlsx file');
+  const n = dv.getUint16(e + 10, true); let p = dv.getUint32(e + 16, true); const out = {}; const dec = new TextDecoder();
+  for (let i = 0; i < n; i++) {
+    const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true), nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), lo = dv.getUint32(p + 42, true); const name = dec.decode(u8.subarray(p + 46, p + 46 + nl)); p += 46 + nl + xl + cl;
+    const ds = lo + 30 + dv.getUint16(lo + 26, true) + dv.getUint16(lo + 28, true); const raw = u8.subarray(ds, ds + csize);
+    if (!/\.(xml|rels)$/i.test(name)) continue;
+    if (method === 0) out[name] = dec.decode(raw); else if (method === 8) { const st = new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw')); out[name] = await new Response(st).text(); }
+  }
+  return out;
+}
+const colL = n => { let s = ''; n++; while (n) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; };
+const colN = s => s.split('').reduce((a, ch) => a * 26 + ch.charCodeAt(0) - 64, 0) - 1;
+const xesc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/* sheet: { name, cells: { 'B2': {v, f, s} }, merges: ['B2:E2'], widths: {col: w} } — styles: 0 normal,1 bold,2 int,3 pct2,4 bold int,5 bold pct2,6 title,7 header centred,8 pct1,9 bold pct1 */
+function xlsxBlob(sheets) {
+  const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="0.0%"/></numFmts><fonts count="3"><font><sz val="11"/><name val="Times New Roman"/></font><font><b/><sz val="11"/><name val="Times New Roman"/></font><font><b/><sz val="13"/><name val="Times New Roman"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="2"><border/><border><top style="thin"/><bottom style="thin"/></border></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="10"><xf xfId="0"/><xf fontId="1" xfId="0" applyFont="1"/><xf numFmtId="3" applyNumberFormat="1"/><xf numFmtId="10" applyNumberFormat="1"/><xf numFmtId="3" fontId="1" borderId="1" applyNumberFormat="1" applyFont="1" applyBorder="1"/><xf numFmtId="10" fontId="1" borderId="1" applyNumberFormat="1" applyFont="1" applyBorder="1"/><xf fontId="2" applyFont="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf fontId="1" applyFont="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="164" applyNumberFormat="1"/><xf numFmtId="164" fontId="1" borderId="1" applyNumberFormat="1" applyFont="1" applyBorder="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+  const sheetXML = sh => {
+    const rows = {}; Object.entries(sh.cells).forEach(([ref, c]) => { const m = ref.match(/^([A-Z]+)(\d+)$/); (rows[+m[2]] = rows[+m[2]] || []).push([colN(m[1]), ref, c]); });
+    const cols = Object.entries(sh.widths || {}).map(([c, w]) => `<col min="${+c + 1}" max="${+c + 1}" width="${w}" customWidth="1"/>`).join('');
+    const body = Object.keys(rows).map(Number).sort((a, b) => a - b).map(r => `<row r="${r}">${rows[r].sort((a, b) => a[0] - b[0]).map(([, ref, c]) => { const st = c.s ? ` s="${c.s}"` : ''; if (c.f) return `<c r="${ref}"${st}><f>${xesc(c.f)}</f>${c.v != null && c.v !== '' && isFinite(c.v) ? `<v>${c.v}</v>` : ''}</c>`; if (typeof c.v === 'number' && isFinite(c.v)) return `<c r="${ref}"${st}><v>${c.v}</v></c>`; if (c.v == null || c.v === '') return `<c r="${ref}"${st}/>`; return `<c r="${ref}"${st} t="inlineStr"><is><t xml:space="preserve">${xesc(c.v)}</t></is></c>`; }).join('')}</row>`).join('');
+    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheetViews><sheetView workbookViewId="0" showGridLines="1"/></sheetViews>${cols ? `<cols>${cols}</cols>` : ''}<sheetData>${body}</sheetData>${sh.merges?.length ? `<mergeCells count="${sh.merges.length}">${sh.merges.map(m => `<mergeCell ref="${m}"/>`).join('')}</mergeCells>` : ''}</worksheet>`;
+  };
+  const files = [
+    ['[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`],
+    ['_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ['xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((s, i) => `<sheet name="${xesc(s.name)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('')}</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>`],
+    ['xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+    ['xl/styles.xml', styles], ...sheets.map((s, i) => [`xl/worksheets/sheet${i + 1}.xml`, sheetXML(s)])
+  ];
+  return zipStore(files);
+}
+async function xlsxRead(buf) {
+  const z = await unzip(buf); const P_ = new DOMParser(); const doc = x => P_.parseFromString(x, 'application/xml');
+  const ss = z['xl/sharedStrings.xml'] ? [...doc(z['xl/sharedStrings.xml']).getElementsByTagName('si')].map(si => [...si.getElementsByTagName('t')].map(t => t.textContent).join('')) : [];
+  const wb = doc(z['xl/workbook.xml']); const rels = doc(z['xl/_rels/workbook.xml.rels'] || '<x/>'); const rmap = {}; [...rels.getElementsByTagName('Relationship')].forEach(r => rmap[r.getAttribute('Id')] = r.getAttribute('Target'));
+  return [...wb.getElementsByTagName('sheet')].map(sh => {
+    const rid = sh.getAttribute('r:id') || sh.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships', 'id'); let path = (rmap[rid] || '').replace(/^\//, ''); if (!path.startsWith('xl/')) path = 'xl/' + path;
+    const x = z[path]; const grid = []; if (!x) return { name: sh.getAttribute('name'), grid };
+    [...doc(x).getElementsByTagName('c')].forEach(c => { const ref = c.getAttribute('r'); const m = ref.match(/^([A-Z]+)(\d+)$/); const t = c.getAttribute('t'); const v = c.getElementsByTagName('v')[0]?.textContent; let val = t === 's' ? ss[+v] : t === 'inlineStr' ? [...c.getElementsByTagName('t')].map(n => n.textContent).join('') : t === 'b' ? v : v != null ? (isFinite(+v) ? +v : v) : ''; const r = +m[2] - 1; (grid[r] = grid[r] || [])[colN(m[1])] = val ?? ''; });
+    for (let i = 0; i < grid.length; i++) grid[i] = [...(grid[i] || [])].map(v => v == null ? '' : v);
+    return { name: sh.getAttribute('name'), grid };
+  });
+}
+
+/* ================= results workbook (your layout) ================= */
+function resultsWorkbook(e) {
+  const y = eYear(e); const c = computeElection(e); const rsm = regionSeatMap(e);
+  let pids = c.sorted.map(r => r.partyId).filter(Boolean); if (!pids.length) pids = P.parties.map(p => p.id);
+  let regs = e.regional.map(r => ({ div: r.divisionId, seats: r.seats === '' || r.seats == null ? 1 : num(r.seats), reg: num(r.registered), inv: num(r.invalid), votes: r.votes || {} }));
+  if (!regs.length) regs = P.divisions.filter(d => !d.abolished && !P.divisions.some(x => x.parentId === d.id)).map(d => ({ div: d.id, seats: d.seats ?? 1, reg: 0, inv: 0, votes: {} }));
+  const cells = {}, merges = [], widths = { 0: 3, 1: 14, 2: 7, 3: 12, 4: 11, 5: 2 }; const set = (ci, r, v, s, f) => { cells[colL(ci) + r] = { v, s, f }; };
+  const top = 2, hdr = 3, r0 = 4, rN = r0 + regs.length - 1, tot = rN + 1;
+  set(1, top, e.name, 6); merges.push(`B${top}:E${top}`);
+  ['State', 'Seats', 'Population', 'Enrolled'].forEach((h, i) => set(1 + i, hdr, h === 'State' ? (P.levels[0] && P.levels[0] !== 'State' ? P.levels[0] : 'State') : h, 7));
+  let ci = 6; const pcol = {};
+  pids.forEach(p => { pcol[p] = ci; set(ci, top, pName(p, y), 6); merges.push(`${colL(ci)}${top}:${colL(ci + 2)}${top}`); set(ci, hdr, 'Votes', 7); set(ci + 1, hdr, '%', 7); set(ci + 2, hdr, 'Seats', 7); widths[ci] = 10; widths[ci + 1] = 9; widths[ci + 2] = 7; widths[ci + 3] = 2; ci += 4; });
+  const tc = ci; set(tc, top, 'Turnout', 6); merges.push(`${colL(tc)}${top}:${colL(tc + 5)}${top}`); ['Formal', '%', 'Informal', '%', 'Total', '%'].forEach((h, i) => { set(tc + i, hdr, h, 7); widths[tc + i] = h === '%' ? 9 : 10; });
+  const formalF = r => pids.map(p => colL(pcol[p]) + r).join('+');
+  regs.forEach((rg, i) => {
+    const r = r0 + i; const d = divi(rg.div); set(1, r, d?.name || ''); set(2, r, rg.seats); set(3, r, num(d?.population) || '', 2); set(4, r, rg.reg || '', 2);
+    const formal = sum(pids.map(p => num(rg.votes[p])));
+    pids.forEach(p => { const C = pcol[p]; set(C, r, num(rg.votes[p]) || (rg.votes[p] === 0 ? 0 : ''), 2); set(C + 1, r, formal ? num(rg.votes[p]) / formal : '', 3, `IF(${colL(tc)}${r}=0,"",${colL(C)}${r}/${colL(tc)}${r})`); set(C + 2, r, rsm[rg.div]?.[p] ?? '', 0); });
+    set(tc, r, formal, 2, formalF(r)); set(tc + 1, r, rg.reg ? formal / rg.reg : '', 8, `IF(E${r}=0,"",${colL(tc)}${r}/E${r})`); set(tc + 2, r, rg.inv || '', 2); set(tc + 3, r, formal + rg.inv ? rg.inv / (formal + rg.inv) : '', 3, `IF(${colL(tc + 4)}${r}=0,"",${colL(tc + 2)}${r}/${colL(tc + 4)}${r})`); set(tc + 4, r, formal + rg.inv, 2, `${colL(tc)}${r}+${colL(tc + 2)}${r}`); set(tc + 5, r, rg.reg ? (formal + rg.inv) / rg.reg : '', 3, `IF(E${r}=0,"",${colL(tc + 4)}${r}/E${r})`);
+  });
+  const S_ = (col) => `SUM(${col}${r0}:${col}${rN})`; const fT = sum(regs.map(rg => sum(pids.map(p => num(rg.votes[p]))))), iT = sum(regs.map(r => r.inv)), eT = sum(regs.map(r => r.reg));
+  set(1, tot, 'Total', 1); set(2, tot, sum(regs.map(r => r.seats)), 4, S_('C')); set(3, tot, '', 4, S_('D')); set(4, tot, eT, 4, S_('E'));
+  pids.forEach(p => { const C = pcol[p]; const v = sum(regs.map(rg => num(rg.votes[p]))); set(C, tot, v, 4, S_(colL(C))); set(C + 1, tot, fT ? v / fT : '', 5, `IF(${colL(tc)}${tot}=0,"",${colL(C)}${tot}/${colL(tc)}${tot})`); set(C + 2, tot, c.seats[p] ?? '', 4, S_(colL(C + 2))); });
+  set(tc, tot, fT, 4, S_(colL(tc))); set(tc + 1, tot, eT ? fT / eT : '', 9, `IF(E${tot}=0,"",${colL(tc)}${tot}/E${tot})`); set(tc + 2, tot, iT, 4, S_(colL(tc + 2))); set(tc + 3, tot, '', 5, `IF(${colL(tc + 4)}${tot}=0,"",${colL(tc + 2)}${tot}/${colL(tc + 4)}${tot})`); set(tc + 4, tot, fT + iT, 4, S_(colL(tc + 4))); set(tc + 5, tot, '', 5, `IF(E${tot}=0,"",${colL(tc + 4)}${tot}/E${tot})`);
+  set(3, tot + 2, 'Quota', 1); set(4, tot + 2, '', 2, `IF(C${tot}=0,"",ROUND(${colL(tc)}${tot}/C${tot},0))`); set(1, tot + 3, 'Levelling Seats (if applicable)', 1); merges.push(`B${tot + 3}:D${tot + 3}`); set(4, tot + 3, num(e.levelSeats), 0);
+  set(1, tot + 5, 'Fill in the State, Seats, Population, Enrolled, party Votes and Informal columns. Percentages and totals calculate themselves. MAPS fills the Seats columns when you import the workbook and recalculates them with the electoral system you choose.', 0);
+  const regional = { name: 'Regional results', cells, merges, widths };
+  /* national sheet */
+  const nc = {}; const ns = (ci, r, v, s, f) => { nc[colL(ci) + r] = { v, s, f }; };
+  ns(1, 2, e.name, 6); ns(1, 4, 'Election'); ns(2, 4, e.name); ns(1, 5, 'Date'); ns(2, 5, e.date || ''); ns(1, 6, 'Seats contested'); ns(2, 6, num(e.seats) || '', 0); ns(1, 7, 'Registered voters'); ns(2, 7, num(e.registered) || '', 2); ns(1, 8, 'Invalid / blank votes'); ns(2, 8, num(e.invalid) || '', 2);
+  ns(1, 9, 'National totals come from the regions'); ns(2, 9, e.fromRegional ? 'Yes' : 'No');
+  ['Party', 'Abbreviation', 'Votes', '%', 'Seats', 'Leader'].forEach((h, i) => ns(1 + i, 11, h, 7));
+  pids.forEach((p, i) => { const r = 12 + i; const row = c.rows.find(x => x.partyId === p); ns(1, r, pName(p, y)); ns(2, r, pAbbr(p, y)); ns(3, r, row?.votes || '', 2, e.fromRegional ? `'Regional results'!${colL(pcol[p])}${tot}` : null); ns(4, r, c.tot && row ? row.votes / c.tot : '', 3, `IF(SUM(D$12:D$${11 + pids.length})=0,"",D${r}/SUM(D$12:D$${11 + pids.length}))`); ns(5, r, c.seats[p] ?? '', 0); ns(6, r, row?.leader?.name || ''); });
+  const nt = 12 + pids.length; ns(1, nt, 'Total', 1); ns(3, nt, c.tot, 4, `SUM(D12:D${nt - 1})`); ns(4, nt, '', 5, `IF(D${nt}=0,"",1)`); ns(5, nt, c.totalSeats, 4, `SUM(F12:F${nt - 1})`);
+  const national = { name: 'National results', cells: nc, merges: ['B2:G2'], widths: { 0: 3, 1: 26, 2: 26, 3: 12, 4: 9, 5: 8, 6: 22 } };
+  return [regional, national];
+}
+ACT.resTemplate = async () => {
+  const e = elec(S.sel.election); const r = await form('Download results workbook', [{ k: 'fmt', label: 'Format', type: 'select', value: 'xlsx', options: [['xlsx', 'Excel workbook (.xlsx) — regional + national sheets, with formulas'], ['csv', 'CSV (regional sheet only, opens anywhere)']] }], 'Download');
+  if (!r) return; const sheets = resultsWorkbook(e); const base = normName(e.name || 'election') + '-results';
+  if (r.fmt === 'xlsx') { download(base + '.xlsx', xlsxBlob(sheets)); toast('Workbook downloaded — fill it in Excel, Google Sheets or Numbers, then use Import filled template', 5000); return; }
+  const g = sheets[0]; const rows = []; Object.entries(g.cells).forEach(([ref, c]) => { const m = ref.match(/^([A-Z]+)(\d+)$/); const R = +m[2] - 1, C = colN(m[1]); (rows[R] = rows[R] || [])[C] = c.v == null ? '' : typeof c.v === 'number' ? (c.s === 3 || c.s === 5 ? (c.v * 100).toFixed(2) + '%' : c.s === 8 || c.s === 9 ? (c.v * 100).toFixed(1) + '%' : String(Math.round(c.v * 1000) / 1000)) : c.v; });
+  const csv = [...rows].map(r => [...(r || [])].map(v => cc(v ?? '')).join(',')).join('\r\n'); download(base + '.csv', '﻿' + csv);
+};
+/* parse a grid in the wide regional layout (also accepts the older long template) */
+function tplFindParty(name, y, e) {
+  const k = normName(name); if (!k) return null; let id = tplParty(name, y, false); if (id) return id;
+  if (/^(others?|other parties|independents? and others)$/i.test(String(name).trim())) { const o = [...e.results.map(r => party(r.partyId)).filter(Boolean), ...P.parties].find(p => /^(others?|aðrir|adrir|independents?)$/i.test(p.name) || /^(o|oth|ind)$/i.test(p.abbr || '')); if (o) return o.id; const p = { id: uid('pa'), name: 'Others', abbr: 'OTH', color: '#9a9a9a', position: 'Big tent', ideology: '', history: [], leaders: [] }; P.parties.push(p); return p.id; }
+  return tplParty(name, y, true);
+}
+function importWideGrid(e, grid, opts = {}) {
+  const y = eYear(e); const low = v => String(v ?? '').trim().toLowerCase(); let h = -1, sc = -1;
+  for (let i = 0; i < Math.min(grid.length, 40) && h < 0; i++) { const row = grid[i] || []; const j = row.findIndex(v => /^(state|region|division|province|constituency|electorate|district|county|canton|riding|land)s?$/.test(low(v))); if (j >= 0 && row.some(v => low(v) === 'seats' || low(v) === 'votes')) { h = i; sc = j; } }
+  if (h < 0) return null;
+  const H = grid[h] || [], G = grid[h - 1] || []; const groupAt = j => { for (let k = j; k >= Math.max(0, j - 3); k--) if (String(G[k] ?? '').trim()) return String(G[k]).trim(); return ''; };
+  const col = re => H.findIndex((v, j) => j > sc && re.test(low(v)));
+  const cSeats = H.findIndex((v, j) => j > sc && low(v) === 'seats'), cPop = col(/^population$/), cEnr = col(/^(enrolled|registered|electorate|registered voters|enrolment)$/), cInf = col(/^(informal|invalid|invalid\/blank|blank)$/);
+  const parties = []; H.forEach((v, j) => { if (low(v) === 'votes') { const nm = groupAt(j); if (nm && !/turnout/i.test(nm)) { const pid = tplFindParty(nm, y, e); if (pid) parties.push({ pid, j, sj: low(H[j + 2]) === 'seats' ? j + 2 : -1 }); } } });
+  const st = { regions: 0, parties: parties.length, newD: 0 };
+  for (let i = h + 1; i < grid.length; i++) {
+    const row = grid[i] || []; const name = String(row[sc] ?? '').trim(); if (!name) continue;
+    if (/^(total|totals|national|grand total)$/i.test(name)) continue;
+    if (/^quota$/i.test(name)) continue;
+    if (/levelling|leveling|compensatory|top-?up/i.test(name)) { const v = row.slice(sc + 1).find(x => String(x).trim() !== ''); if (v !== undefined) e.levelSeats = num(v); continue; }
+    if (!parties.some(p => String(row[p.j] ?? '').trim() !== '') && cSeats < 0) continue;
+    let d = P.divisions.find(x => normName(x.name) === normName(name)); if (!d) { d = { id: uid('d'), name, type: P.levels.includes('State') ? 'State' : P.levels[0] || 'Region', parentId: null, seats: 1 }; P.divisions.push(d); st.newD++; }
+    let rg = e.regional.find(x => x.divisionId === d.id); if (!rg) e.regional.push(rg = { id: uid('rg'), divisionId: d.id, seats: 1, votes: {} });
+    if (cSeats >= 0 && String(row[cSeats] ?? '').trim() !== '') { rg.seats = num(row[cSeats]); d.seats = rg.seats; }
+    if (cPop >= 0 && String(row[cPop] ?? '').trim() !== '') d.population = Math.round(num(row[cPop])).toLocaleString('en-US');
+    if (cEnr >= 0 && String(row[cEnr] ?? '').trim() !== '') rg.registered = num(row[cEnr]);
+    if (cInf >= 0 && String(row[cInf] ?? '').trim() !== '') rg.invalid = num(row[cInf]);
+    rg.votes = rg.votes || {}; parties.forEach(p => { const v = row[p.j]; if (String(v ?? '').trim() !== '') { rg.votes[p.pid] = num(v); if (!e.results.some(x => x.partyId === p.pid)) e.results.push({ id: uid('r'), partyId: p.pid, votes: 0, seats: 0 }); } });
+    st.regions++;
+  }
+  /* quota row may sit in another column */
+  grid.forEach(row => { (row || []).forEach((v, j) => { if (/levelling seats/i.test(String(v))) { const n = (row || []).slice(j + 1).find(x => String(x).trim() !== ''); if (n !== undefined) e.levelSeats = num(n); } }); });
+  return st;
+}
+function importNationalGrid(e, grid) {
+  const y = eYear(e); const low = v => String(v ?? '').trim().toLowerCase(); let h = -1;
+  for (let i = 0; i < grid.length; i++) { const r = grid[i] || []; if (r.some(v => low(v) === 'party') && r.some(v => low(v) === 'votes')) { h = i; break; } const k = low(r[1] ?? r[0]); const v = r[2] ?? r[1]; if (/^date$/.test(k) && v) e.date = String(v); if (/^seats contested$/.test(k) && v !== '') e.seats = num(v); if (/^registered/.test(k) && v !== '' && !e.fromRegional) e.registered = num(v); if (/^invalid/.test(k) && v !== '' && !e.fromRegional) e.invalid = num(v); if (/come from the regions/.test(k)) e.fromRegional = /^y/i.test(String(v)); }
+  if (h < 0) return 0; const H = grid[h]; const ip = H.findIndex(v => low(v) === 'party'), iv = H.findIndex(v => low(v) === 'votes'), is = H.findIndex(v => low(v) === 'seats'), il = H.findIndex(v => low(v) === 'leader'); let n = 0;
+  for (let i = h + 1; i < grid.length; i++) { const r = grid[i] || []; const nm = String(r[ip] ?? '').trim(); if (!nm || /^total$/i.test(nm)) continue; const pid = tplFindParty(nm, y, e); if (!pid) continue; let row = e.results.find(x => x.partyId === pid); if (!row) e.results.push(row = { id: uid('r'), partyId: pid, votes: 0, seats: 0 }); if (!e.fromRegional && String(r[iv] ?? '') !== '') row.votes = num(r[iv]); if (is >= 0 && !e.autoSeats && String(r[is] ?? '') !== '') row.seats = num(r[is]); if (il >= 0 && r[il]) { const pl = P.politicians.find(x => normName(x.name) === normName(r[il])); if (pl) row.leaderId = pl.id; } n++; }
+  return n;
+}
+const _resImport7 = ACT.resImportTemplate;
+ACT.resImportTemplate = () => pickFile('.xlsx,.csv,.tsv,.txt,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv', async f => {
+  const e = elec(S.sel.election); try {
+    let sheets;
+    if (/\.xlsx$/i.test(f.name)) sheets = await xlsxRead(await f.arrayBuffer());
+    else { const txt = await readAsText(f); if (/NATIONAL RESULTS/i.test(txt) && /REGIONAL RESULTS/i.test(txt)) { /* older long template */ const dt = new DataTransfer(); dt.items.add(f); return _legacyImport(f); } sheets = [{ name: f.name, grid: csvParse(txt) }]; }
+    let reg = null, nat = 0;
+    for (const s of sheets) { const st = importWideGrid(e, s.grid); if (st && st.regions) reg = st; }
+    for (const s of sheets) { if (/national/i.test(s.name) || !reg) nat += importNationalGrid(e, s.grid); }
+    if (!reg && !nat) return toast('No results found — keep the State / Seats / Votes headings (or Party / Votes on the national sheet)', 6000);
+    if (reg && !sheets.some(s => /national/i.test(s.name) && s.grid.some(r => (r || []).some(v => /^party$/i.test(String(v).trim()))))) { e.fromRegional = true; }
+    if (reg) { e.autoSeats = true; const rs = sum(e.regional.map(r => r.seats === '' || r.seats == null ? 1 : num(r.seats))); if (rs && !num(e.seats)) e.seats = rs + num(e.levelSeats); if (num(e.levelSeats) > 0) e.system = 'regional'; }
+    if (e.autoSort !== false) e.results.sort((a, b) => num(b.votes) - num(a.votes)); commit();
+    toast(`Imported ${reg ? `${reg.regions} regions × ${reg.parties} parties` : ''}${reg && nat ? ' and ' : ''}${nat ? nat + ' national rows' : ''}${reg?.newD ? ` · ${reg.newD} new divisions` : ''}${e.fromRegional ? ' · national totals now come from the regions' : ''}`, 6000);
+  } catch (err) { console.error(err); toast('Could not read that file: ' + err.message, 6000); }
+});
+function _legacyImport(f) { const orig = window.pickFile; window.pickFile = (acc, cb) => { window.pickFile = orig; cb(f); }; try { _resImport7(); } finally { window.pickFile = orig; } }
+
+/* ================= inaugural elections in the infobox ================= */
+const _eib7 = electionInfobox;
+electionInfobox = function (e, art) {
+  let h = _eib7(e, art); if (!e.inaugural && prevElection(e)) return h;
+    try {
+    const t = document.createElement('div'); t.innerHTML = h; const tb = t.querySelector('table');
+    tb.querySelectorAll('table.ib-cands tr').forEach(tr => { const th = tr.querySelector('th'); if (th && /^(Last election|Seats before|Seat change|Swing)$/i.test(th.textContent.trim())) tr.remove(); });
+    tb.querySelectorAll('.ib-nav tr').forEach((tr, i) => { if (i) { const l = tr.querySelector('td.l'); if (l) l.innerHTML = ''; } });
+    tb.querySelectorAll('tr').forEach(tr => { const th = tr.querySelector(':scope > th'); if (th && /^(Registered|Turnout)$/.test(th.textContent.trim())) { const td = tr.querySelector('td'); if (td) td.innerHTML = td.innerHTML.replace(/\s*\([^)]*\)\s*$/, ''); } });
+    tb.querySelector('caption')?.insertAdjacentHTML('afterend', '');
+    return t.innerHTML.replace('<caption class="infobox-title">', '<caption class="infobox-title">').replace(/<\/caption>/, '</caption>') ;
+  } catch (x) { return h; }
+};
+
+/* ================= parliament diagrams: font, shapes, gaps, speaker, chamber ================= */
+const PARL_FONTS = [['Arial, Helvetica, sans-serif', 'Arial'], ['Helvetica, Arial, sans-serif', 'Helvetica'], ['"Century Gothic", "URW Gothic", Futura, Arial, sans-serif', 'Century Gothic'], ['Calibri, Carlito, Arial, sans-serif', 'Calibri'], ['Verdana, Arial, sans-serif', 'Verdana'], ['"Libre Franklin", Arial, sans-serif', 'Franklin Gothic'], ['Inter, Arial, sans-serif', 'Inter'], ['Georgia, "Times New Roman", serif', 'Georgia'], ['"Times New Roman", Times, serif', 'Times New Roman']];
+function parlFont(o) { return o.font || P?.settings?.parlFont || 'Arial, Helvetica, sans-serif'; }
+const _parlSVG7 = parliamentSVG;
+parliamentSVG = function (groups, o = {}) {
+  groups = (groups || []).filter(g => g.n > 0); const font = parlFont(o);
+  const cfg = { ...o, shape: o.shape || 'circle', gap: +o.partyGap || 0, speaker: o.speaker || '' };
+  let out;
+  if (o.layout === 'chamber') out = chamberSVG(groups, cfg);
+  else if (o.layout !== 'westminster' && (cfg.shape !== 'circle' || cfg.gap || cfg.speaker)) out = arcSVG(groups, cfg);
+  else out = _parlSVG7(groups, o);
+  return out.replace(/font-family="Georgia,'Times New Roman',serif"/g, `font-family="${esc(font)}"`).replace(/font-family="Arial,sans-serif"/g, `font-family="${esc(font)}"`).replace(/font-family="Georgia,serif"/g, `font-family="${esc(font)}"`);
+};
+function seatShape(x, y, r, ang, color, shape, extra = '') {
+  if (shape === 'square' || shape === 'rounded') { const s = r * 1.62; return `<rect x="${f2(x - s / 2)}" y="${f2(y - s / 2)}" width="${f2(s)}" height="${f2(s)}" rx="${shape === 'rounded' ? f2(s * .22) : 0}" transform="rotate(${f2(ang)} ${f2(x)} ${f2(y)})" fill="${color}"${extra}/>`; }
+  return `<circle cx="${f2(x)}" cy="${f2(y)}" r="${f2(r)}" fill="${color}"${extra}/>`;
+}
+function speakerGroup(groups, o) {
+  if (!o.speaker) return { groups, sp: null }; const id = o.speaker === 'first' ? groups[0]?.id : o.speaker; const g = groups.find(x => x.id === id) || (o.speaker === 'neutral' ? null : null);
+  if (o.speaker === 'neutral') return { groups, sp: { color: '#9a9a9a', label: 'Speaker' } };
+  if (!g) return { groups, sp: null }; return { groups: groups.map(x => x === g ? { ...x, n: x.n - 1 } : x).filter(x => x.n > 0), sp: { color: g.color, label: 'Speaker (' + g.label + ')', id: g.id } };
+}
+function arcSVG(groups0, o) {
+  const { groups, sp } = speakerGroup(groups0, o); const layout = o.layout || 'semicircle'; const SC = 100; const fg = o.fg || 'currentColor';
+  const N = sum(groups.map(g => g.n)); if (!N) return _parlSVG7(groups0, o);
+  const L = parliamentPositions(N, layout, o); const assign = []; groups.forEach(g => { for (let k = 0; k < g.n; k++) assign.push(g); });
+  /* party gaps: squeeze each party's wedge and open an equal angular gap between neighbours (semicircle / circle) */
+  const polar = layout === 'semicircle' || layout === 'circle'; const span = layout === 'circle' ? 2 * Math.PI : Math.PI;
+  const nG = groups.length; const delta = polar && o.gap && nG > 1 ? Math.min(span * 0.35 / (nG - (layout === 'circle' ? 0 : 1)), o.gap * L.seatR * 2.4 / 0.75) : 0;
+  const gapsTot = delta * (layout === 'circle' ? nG : nG - 1); const squeeze = delta ? (span - gapsTot) / span : 1; const gi = new Map(groups.map((g, i) => [g, i]));
+  const pts = L.pts.map((p, i) => { const g = assign[i]; if (!delta || !g) return p; const r = Math.hypot(p.x, p.y); let a = Math.atan2(-p.y, p.x); if (layout === 'semicircle') { const t = (Math.PI - a); const t2 = t * squeeze + gi.get(g) * delta; a = Math.PI - t2; } else { const base = Math.PI / 2; let t = ((a - base) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI); const t2 = t * squeeze + gi.get(g) * delta; a = base + t2; } return { ...p, x: r * Math.cos(a), y: -r * Math.sin(a) }; });
+  const sr = L.seatR * (delta ? Math.max(0.78, squeeze) : 1);
+  let seats = '';
+  pts.forEach((p, i) => { const g = assign[i]; if (!g) return; const dim = o.highlight && o.highlight !== g.id; const ang = layout === 'horseshoe' && p.y > 0 ? 0 : Math.atan2(p.y, p.x) * 180 / Math.PI + 90; seats += seatShape(p.x * SC, p.y * SC, sr * SC, ang, g.color, o.shape, `${o.stroke ? ` stroke="${o.stroke}" stroke-width="0.5"` : ''}${dim ? ' opacity="0.16"' : ''} data-pid="${g.id || ''}"`).replace(/\/>$/, `><title>${esc(g.label)}: ${g.n}</title></${o.shape === 'circle' ? 'circle' : 'rect'}>`); });
+  let [x, y, w, h] = L.vb.map(v => v * SC); let extra = ''; const NN = N + (sp ? 1 : 0); const maj = Math.floor(NN / 2) + 1;
+  const rIn = Math.min(...L.pts.map(p => Math.hypot(p.x, p.y))) * SC;
+  if (sp && layout !== 'circle') extra += seatShape(0, -rIn * 0.72, L.seatR * SC * 1.05, 0, sp.color, o.shape, ` stroke="${fg}" stroke-width="0.6"`).replace(/\/>$/, `><title>${esc(sp.label)}</title></${o.shape === 'circle' ? 'circle' : 'rect'}>`);
+  if (o.majority !== false && layout !== 'circle' && !sp && !o.gap) extra += `<line x1="0" y1="${f2(-SC * 1.04)}" x2="0" y2="${f2(-SC * (L.k > 1 ? 0.37 : 0.88))}" stroke="${fg}" stroke-width="0.7" stroke-dasharray="2.5 2" opacity=".55"/>`;
+  if (o.center !== false) { const cy = layout === 'circle' ? 6 : (L.k > 1 ? -8 : -40); extra += `<text x="0" y="${cy}" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="${layout === 'circle' ? 24 : L.k > 1 ? (sp ? 17 : 21) : 16}" fill="${fg}">${NN}</text>`; if (o.majority !== false) extra += `<text x="0" y="${cy + 10}" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="${fg}" opacity=".72">${maj} for majority</text>`; }
+  let title = ''; if (o.title) { y -= 16; h += 16; title = `<text x="0" y="${f2(y + 11)}" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-weight="700" fill="${fg}">${esc(o.title)}</text>`; }
+  let legend = ''; if (o.legend) { const lg = legendSVG(groups0, x, y + h + 2, w, fg); legend = lg.svg; h += lg.h + 4; }
+  const bg = o.bg ? `<rect x="${f2(x)}" y="${f2(y)}" width="${f2(w)}" height="${f2(h)}" fill="${o.bg}"/>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${f2(x)} ${f2(y)} ${f2(w)} ${f2(h)}"${o.width ? ` width="${o.width}"` : ''} class="parl-svg" preserveAspectRatio="xMidYMid meet">${bg}${title}<g>${seats}</g>${extra}${legend}</svg>`;
+}
+/* chamber: mirrored straight benches (government below, opposition above), crossbench round the curved end, speaker's chair at the head */
+function chamberSVG(groups0, o) {
+  const { groups, sp } = speakerGroup(groups0, o); const fg = o.fg || 'currentColor';
+  const gov = new Set(o.govIds || []), cross = new Set(o.crossIds || []);
+  let G = groups.filter(g => gov.has(g.id)), X = groups.filter(g => cross.has(g.id) && !gov.has(g.id)), Op = groups.filter(g => !gov.has(g.id) && !cross.has(g.id));
+  if (!G.length && groups.length) { const big = [...groups].sort((a, b) => b.n - a.n)[0]; G = [big]; Op = Op.filter(g => g !== big); }
+  if (!X.length && Op.length > 1) { const sorted = [...Op].sort((a, b) => b.n - a.n); X = sorted.slice(1).filter(g => g.n <= Math.max(3, sorted[0].n * 0.12)); Op = Op.filter(g => !X.includes(g)); }
+  const nG = sum(G.map(g => g.n)), nO = sum(Op.map(g => g.n)), nX = sum(X.map(g => g.n));
+  const R = o.rows > 0 ? +o.rows : clamp(Math.round(Math.sqrt(Math.max(nG, nO, 1) / 3.2)), 2, 10);
+  const cell = 10, sz = cell * clamp(o.spacing ?? 0.82, 0.3, 1), blk = +o.block || 0, bgap = o.blockGap ?? 6, aisle = 34;
+  const cols = Math.max(Math.ceil(nG / R), Math.ceil(nO / R), 1); const colX = c => c * cell + (blk ? Math.floor(c / blk) * bgap : 0);
+  const benchW = colX(cols - 1) + cell; const x0 = 30; let s = '';
+  const seat = (g, x, y, ang = 0) => { const dim = o.highlight && o.highlight !== g.id; s += seatShape(x, y, sz / 1.62 / (o.shape === 'circle' ? 1.2 : 1), ang, g.color, o.shape === 'circle' ? 'circle' : (o.shape || 'square'), `${dim ? ' opacity="0.16"' : ''} data-pid="${g.id || ''}"`); };
+  /* fill each side column by column from the head of the chamber, front row first, so the two sides mirror each other */
+  const side = (arr, top) => { let i = 0; arr.forEach(g => { for (let k = 0; k < g.n; k++, i++) { const c = Math.floor(i / R), r = i % R; const y = top ? (R - 1 - r) * cell : R * cell + aisle + r * cell; seat(g, x0 + colX(c) + cell / 2, y + cell / 2); } }); };
+  side(Op, true); side(G, false);
+  const H = 2 * R * cell + aisle, cy = H / 2, cxEnd = x0 + benchW + 8;
+  /* crossbench: rows of a half-ring around the open end */
+  if (nX) { const ringR0 = aisle / 2 + cell * 0.6; const rings = Math.max(1, Math.min(R, Math.ceil(nX / Math.max(3, Math.round(Math.PI * (ringR0 + cell) / cell))))); let left = nX; const caps = [...Array(rings)].map((_, i) => Math.max(1, Math.floor(Math.PI * (ringR0 + i * cell) / cell))); const capT = sum(caps); const counts = caps.map(cp => Math.round(nX * cp / capT)); let d = nX - sum(counts); counts[counts.length - 1] += d; let gi = 0, used = 0; const list = []; X.forEach(g => { for (let k = 0; k < g.n; k++) list.push(g); });
+    let idx = 0; counts.forEach((n, ri) => { const rr = ringR0 + ri * cell; for (let j = 0; j < n; j++) { const a = -Math.PI / 2 + Math.PI * (n === 1 ? .5 : j / (n - 1)); const g = list[idx++]; if (!g) continue; seat(g, cxEnd + rr * Math.cos(a), cy + rr * Math.sin(a), a * 180 / Math.PI + 90); } }); }
+  /* table and speaker */
+  s += `<rect x="${x0 + 2}" y="${R * cell + 9}" width="${Math.max(26, benchW * 0.4)}" height="${aisle - 18}" rx="2" fill="none" stroke="${fg}" stroke-width=".5" opacity=".3"/>`;
+  if (sp) s += seatShape(x0 - 14, cy, sz / 1.62 * 1.1, 0, sp.color, o.shape === 'circle' ? 'circle' : 'square', ` stroke="${fg}" stroke-width=".6"`).replace(/\/>$/, `><title>${esc(sp.label)}</title></${o.shape === 'circle' ? 'circle' : 'rect'}>`);
+  const NN = nG + nO + nX + (sp ? 1 : 0);
+  if (o.center !== false) s += `<text x="${x0 + 6}" y="${R * cell + aisle / 2 + 4}" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="11" fill="${fg}">${NN}</text>`;
+  const cap = o.majority !== false ? `${Math.floor(NN / 2) + 1} for majority · Government ${nG} · Opposition ${nO}${nX ? ' · Crossbench ' + nX : ''}` : '';
+  const W = Math.max(cxEnd + (nX ? aisle / 2 + cell * (R + 1) : 0) + 8, cap.length * 3.3 + 20); let yTop = -6, hh = H + 12; let title = '';
+  if (cap) { s += `<text x="${W / 2}" y="${H + 12}" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="${fg}" opacity=".75">${cap}</text>`; hh += 12; }
+  if (o.title) { yTop -= 16; hh += 16; title = `<text x="${W / 2}" y="${yTop + 11}" text-anchor="middle" font-family="Georgia,serif" font-size="10" font-weight="700" fill="${fg}">${esc(o.title)}</text>`; }
+  let legend = ''; if (o.legend) { const lg = legendSVG(groups0, 0, yTop + hh, W, fg); legend = lg.svg; hh += lg.h + 4; }
+  const bg = o.bg ? `<rect x="0" y="${yTop}" width="${W}" height="${hh}" fill="${o.bg}"/>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 ${yTop} ${W} ${hh}" class="parl-svg" preserveAspectRatio="xMidYMid meet">${bg}${title}${s}${legend}</svg>`;
+}
+/* generator options */
+const _parlOpts7 = parlOptions;
+parlOptions = function (cfg, y, forExport) { const o = _parlOpts7(cfg, y, forExport); return { ...o, shape: cfg.shape || 'circle', partyGap: num(cfg.partyGap) || 0, speaker: cfg.speaker || '', font: cfg.font || '', block: num(cfg.block) || 0, blockGap: cfg.blockGap != null ? num(cfg.blockGap) : 6 }; };
+const _parlRender7 = VIEWS.parliament.render;
+VIEWS.parliament.render = function () {
+  let h = _parlRender7.call(this); const cfg = P.studio.parliament; const b = 'studio.parliament';
+  const { groups } = parlGroups(cfg);
+  const extra = `<div class="ptitle">Seats & spacing</div>
+    <div class="seg mm-shape parlshape">${[['circle', '●'], ['square', '■'], ['rounded', '▢']].map(([k, i]) => `<button class="${(cfg.shape || 'circle') === k ? 'on' : ''}" data-act="parlSet" data-k="shape" data-v="${k}" title="${k}">${i}</button>`).join('')}</div>
+    <label class="fld"><span>Gap between parties ${num(cfg.partyGap) || 0}</span><input type="range" min="0" max="3" step="0.5" data-type="num" data-set="${b}.partyGap" value="${num(cfg.partyGap) || 0}"></label>
+    ${cfg.layout === 'chamber' || cfg.layout === 'westminster' ? `<div class="grid2">${fld('Seats per bench block (0 = none)', b + '.block', { type: 'num' })}${fld('Gap between blocks', b + '.blockGap', { type: 'num' })}</div>` : ''}
+    <label class="fld"><span>Speaker's seat</span><select data-set="${b}.speaker"><option value="">None</option><option value="neutral" ${cfg.speaker === 'neutral' ? 'selected' : ''}>Neutral (extra grey seat)</option>${groups.map(g => `<option value="${g.id}" ${cfg.speaker === g.id ? 'selected' : ''}>From ${esc(g.label)}</option>`).join('')}</select></label>
+    <label class="fld"><span>Number font</span><select data-set="${b}.font"><option value="">Default (${esc((PARL_FONTS.find(f => f[0] === (P.settings.parlFont || PARL_FONTS[0][0])) || PARL_FONTS[0])[1])})</option>${PARL_FONTS.map(([v, l]) => `<option value="${esc(v)}" ${cfg.font === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`;
+  return h.replace('<div class="ptitle">Party order, colours & sides</div>', extra + '<div class="ptitle">Party order, colours & sides</div>');
+};
+ACT.parlSet = t => { P.studio.parliament[t.dataset.k] = t.dataset.v; commit(); };
+/* diagram font in the encyclopedia: Appearance column + click the seat total */
+const _appear7 = appearCol;
+appearCol = function () { const cur = P.settings.parlFont || PARL_FONTS[0][0]; return _appear7().replace('<div class="ap-g"><button class="ap-more" data-act="wkAppear">', `<div class="ap-g"><div class="ap-t">Diagram font</div><select class="ap-sel" data-change="setParlFont">${PARL_FONTS.map(([v, l]) => `<option value="${esc(v)}" ${cur === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div><div class="ap-g"><button class="ap-more" data-act="wkAppear">`); };
+ACT.setParlFont = t => { P.settings.parlFont = t.value; commit(); toast('Parliament diagrams now use ' + (PARL_FONTS.find(f => f[0] === t.value)?.[1] || t.value)); };
+document.addEventListener('click', e => {
+  const t = e.target.closest?.('.wk-root svg.parl-svg text'); if (!t || S.ui.wedit === undefined && !document.body.closest) return; if (!t.closest('.wk-root')) return;
+  e.preventDefault(); form('Diagram number font', [{ k: 'f', label: 'Font for seat totals and labels in every parliament diagram', type: 'select', value: P.settings.parlFont || PARL_FONTS[0][0], options: PARL_FONTS }], 'Apply').then(r => { if (r) ACT.setParlFont({ value: r.f }); });
+});
+
+</script>
+<script>/* js/update8.js */
+'use strict';
+/* =====================================================================
+   update8.js : Electoral Map Studio → Map Maker (named regions + results
+   graphics laid out automatically), Inkscape-style align & distribute,
+   snapping with guides while dragging, and typeable numbers beside
+   every slider.
+   ===================================================================== */
+
+/* ================= Electoral Map Studio → Map Maker ================= */
+ACT.mapToMaker = async () => {
+  const m = mapById(S.sel.map); if (!m) return; const e = elec(S.sel.election) || pickElection();
+  const r = await form('Open in Map Maker', [
+    { k: 'colour', label: 'Districts', type: 'select', value: e ? 'results' : 'plain', options: [['results', 'Coloured by the results (current colour mode)'], ['plain', 'Plain grey — paint them yourself']] },
+    { k: 'gfx', label: 'Results graphics', type: 'select', value: e ? 'all' : 'none', options: [['all', 'Title, party results (votes, %, seats), hemicycle and vote/seat ring'], ['key', 'Title and party results only'], ['none', 'None — just the map']] },
+    { k: 'clusters', label: 'Seat clusters on each region', type: 'select', value: 'no', options: [['no', 'No'], ['yes', 'Yes — one cluster per region (2+ seats)']] }], 'Open');
+  if (!r) return;
+  const html = renderMapSVG(m, r.colour === 'results' ? e : null, { mode: S.ui.mapMode || 'winner', partyId: S.ui.mapParty, labels: true, interactive: true });
+  const doc = new DOMParser().parseFromString(html, 'image/svg+xml'); const root = doc.documentElement;
+  root.querySelectorAll('[data-shape]').forEach(el => { const did = m.assign?.[el.getAttribute('data-shape')]; const d = did && divi(did); if (d) { el.setAttributeNS(INK_NS, 'inkscape:label', d.name); el.setAttribute('data-division', d.id); } if (r.colour === 'plain') { const t = el.tagName.toLowerCase() === 'g' ? [...el.querySelectorAll('path,polygon,rect,circle,ellipse')] : [el]; t.forEach(x => x.setAttribute('style', (x.getAttribute('style') || '').replace(/fill\s*:[^;]+;?/g, '') + ';fill:#e3e3e0')); } ['data-shape', 'data-div', 'data-sel', 'data-tip'].forEach(a => el.removeAttribute(a)); el.setAttribute('class', (el.getAttribute('class') || '').replace(/\b(district|un|selected)\b/g, '').trim()); if (!el.getAttribute('class')) el.removeAttribute('class'); });
+  root.removeAttribute('class'); root.removeAttribute('preserveAspectRatio'); root.removeAttribute('width'); root.removeAttribute('height');
+  const vb = (root.getAttribute('viewBox') || '0 0 1000 800').split(/[ ,]+/).map(Number); const [x, y, w, h] = vb;
+  const withG = r.gfx !== 'none'; const nvb = withG ? [x - w * 0.04, y - h * 0.2, w * 1.62, h * 1.26] : [x - w * 0.03, y - h * 0.03, w * 1.06, h * 1.06];
+  const out = document.implementation.createDocument(SVG_NS, 'svg', null); const S0 = out.documentElement;
+  S0.setAttribute('viewBox', nvb.map(v => +v.toFixed(2)).join(' ')); S0.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:inkscape', INK_NS); S0.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:sodipodi', SODI_NS);
+  const layer = (id, label) => { const g = out.createElementNS(SVG_NS, 'g'); g.setAttribute('id', id); g.setAttributeNS(INK_NS, 'inkscape:groupmode', 'layer'); g.setAttributeNS(INK_NS, 'inkscape:label', label); S0.appendChild(g); return g; };
+  const defs = out.createElementNS(SVG_NS, 'defs'); defs.setAttribute('id', 'defs'); S0.appendChild(defs); [...root.querySelectorAll(':scope > defs > *')].forEach(n => defs.appendChild(out.importNode(n, true)));
+  const bgL = layer('layer-background', 'Background'); bgL.setAttributeNS(SODI_NS, 'sodipodi:insensitive', 'true'); const rect = out.createElementNS(SVG_NS, 'rect'); [['x', nvb[0]], ['y', nvb[1]], ['width', nvb[2]], ['height', nvb[3]]].forEach(([k, v]) => rect.setAttribute(k, +v.toFixed(2))); rect.setAttribute('style', 'fill:#ffffff'); bgL.appendChild(rect);
+  const dL = layer('layer-districts', 'Districts'); [...root.childNodes].forEach(n => { if (n.nodeType === 1 && n.localName === 'defs') return; dL.appendChild(out.importNode(n, true)); }); layer('layer-labels', 'Labels');
+  const svg = mmPrepSVG(new XMLSerializer().serializeToString(S0));
+  const d = mmNewDoc(`${m.name}${e && r.colour === 'results' ? ' — ' + e.name : ''}`, svg); d.gfx = { ...MMG_DEF, ...(d.gfx || {}), eid: e?.id || '' };
+  MM.pendingAuto = withG || r.clusters === 'yes' ? { eid: e?.id, gfx: r.gfx, clusters: r.clusters === 'yes', mapBox: { x, y, w, h } } : null;
+  MM.tab = withG ? 'res' : 'objects'; go('mapmaker'); commit();
+};
+function mmRunPendingAuto() {
+  const pa = MM.pendingAuto; MM.pendingAuto = null; if (!pa || !MM.svg) return; const e = elec(pa.eid); if (!e) return;
+  const vb = mmVB(); const { x, y, w, h } = pa.mapBox; const L = mmgLayer(); const o = mmgOpts(); o.eid = e.id;
+  const base = { font: o.font, ladder: o.ladder !== false, minShare: 1, seatLbl: o.seatLbl || 'Seats', voteLbl: o.voteLbl || 'Vote %', head: 'Party Results', memberWord: o.memberWord || 'seats', layout: chamberOf(e.chamberId)?.layout || 'semicircle' };
+  mmBegin();
+  if (pa.gfx !== 'none') {
+    const colX = x + w * 1.02, colW = vb[0] + vb[2] - colX - w * 0.03; const top = vb[1] + h * 0.03;
+    const tW = Math.max(400, e.name.length * 23 + 40); const kT = Math.min((w * 1.45) / tW, (h * 0.12) / 80); L.appendChild(mmgMake({ type: 'title', eid: e.id, o: base }, vb[0] + w * 0.03, top, kT));
+    const rows = mmgRowsFor(e, { minShare: 1 }).length; const kK = colW / 440; const keyH = (40 + rows * (base.ladder ? 46 : 36) + 10) * kK; let yy = y + h * 0.02;
+    L.appendChild(mmgMake({ type: 'key', eid: e.id, o: base }, colX + 8 * kK, yy + 8 * kK, kK)); yy += keyH + h * 0.04;
+    if (pa.gfx === 'all') { const kH = Math.min(colW / 320, (y + h - yy) / 200 * 0.55); if (kH > 0) { L.appendChild(mmgMake({ type: 'hemi', eid: e.id, o: base }, colX + (colW - 320 * kH) / 2, yy, kH)); yy += 205 * kH + h * 0.03; }
+      const kR = Math.min(colW / 340, (y + h - yy) / 245); if (kR > 0.15) L.appendChild(mmgMake({ type: 'ring', eid: e.id, o: base }, colX + (colW - 330 * kR) / 2, yy, kR)); }
+  }
+  mmEnd('Results graphics'); MM.undo = []; mmSave(true);
+  if (pa.clusters) { const mn = $('#mmgMinSeats'); if (mn) mn.value = 2; ACT.mmgClustersAll(); }
+  ACT.mmFit(); mmPanel(); toast('Map opened in Map Maker with its regions named — results graphics added; drag them anywhere, they snap to each other and the page', 6000);
+}
+const _mmMount8 = VIEWS.mapmaker.mount;
+VIEWS.mapmaker.mount = function (root) { _mmMount8.call(this, root); if (MM.pendingAuto && MM.svg) setTimeout(mmRunPendingAuto, 30); };
+
+/* ================= align & distribute ================= */
+const AL_ICON = {
+  l: '<path d="M3 2v16" stroke-width="1.6"/><rect x="5" y="4" width="10" height="4"/><rect x="5" y="11" width="6" height="4"/>',
+  c: '<path d="M10 2v16" stroke-width="1.6"/><rect x="4" y="4" width="12" height="4"/><rect x="6.5" y="11" width="7" height="4"/>',
+  r: '<path d="M17 2v16" stroke-width="1.6"/><rect x="5" y="4" width="10" height="4"/><rect x="9" y="11" width="6" height="4"/>',
+  t: '<path d="M2 3h16" stroke-width="1.6"/><rect x="4" y="5" width="4" height="10"/><rect x="11" y="5" width="4" height="6"/>',
+  m: '<path d="M2 10h16" stroke-width="1.6"/><rect x="4" y="4" width="4" height="12"/><rect x="11" y="6.5" width="4" height="7"/>',
+  b: '<path d="M2 17h16" stroke-width="1.6"/><rect x="4" y="5" width="4" height="10"/><rect x="11" y="9" width="4" height="6"/>',
+  dh: '<rect x="2" y="6" width="3" height="8"/><rect x="8.5" y="6" width="3" height="8"/><rect x="15" y="6" width="3" height="8"/><path d="M1 3h18M1 17h18" stroke-width=".8"/>',
+  dv: '<rect x="6" y="2" width="8" height="3"/><rect x="6" y="8.5" width="8" height="3"/><rect x="6" y="15" width="8" height="3"/><path d="M3 1v18M17 1v18" stroke-width=".8"/>'
+};
+const alIcon = k => `<svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" stroke="currentColor">${AL_ICON[k]}</svg>`;
+function alignBar() {
+  const rel = MM.alignRel || 'page'; const n = MM.sel.length;
+  return `<div class="mm-align" title="Align & distribute">${[['l', 'Align left edges'], ['c', 'Centre horizontally'], ['r', 'Align right edges'], ['t', 'Align top edges'], ['m', 'Centre vertically'], ['b', 'Align bottom edges']].map(([k, t]) => `<button data-act="mmAlign" data-k="${k}" data-tip="${t}" ${n ? '' : 'disabled'}>${alIcon(k)}</button>`).join('')}<button data-act="mmAlign" data-k="dh" data-tip="Distribute horizontally (equal gaps)" ${n > 2 ? '' : 'disabled'}>${alIcon('dh')}</button><button data-act="mmAlign" data-k="dv" data-tip="Distribute vertically (equal gaps)" ${n > 2 ? '' : 'disabled'}>${alIcon('dv')}</button>
+    <select data-change="mmAlignRel" title="Align relative to">${opt([['page', 'to page'], ['sel', 'to selection'], ['first', 'to first selected'], ['biggest', 'to largest']], rel)}</select><button class="mm-snapbtn ${MM.snap === false ? '' : 'on'}" data-act="mmSnapToggle" data-tip="Snap to page, centres and other objects while dragging (hold Alt to move freely)">🧲 Snap</button></div>`;
+}
+const _mmRender8 = VIEWS.mapmaker.render;
+VIEWS.mapmaker.render = function () { const h = _mmRender8.call(this); return h.replace('<div class="spacer"></div><button class="btn sm ghost" data-act="mmTab" data-t="trace">', '<span class="mm-sep"></span><span id="mmAlignHost">' + alignBar() + '</span><div class="spacer"></div><button class="btn sm ghost" data-act="mmTab" data-t="trace">'); };
+const _mmSelect8 = mmSelect;
+mmSelect = function (list, add) { _mmSelect8(list, add); const ah = $('#mmAlignHost'); if (ah) ah.innerHTML = alignBar(); };
+ACT.mmAlignRel = t => { MM.alignRel = t.value; };
+ACT.mmSnapToggle = () => { MM.snap = MM.snap === false; const ah = $('#mmAlignHost'); if (ah) ah.innerHTML = alignBar(); toast(MM.snap ? 'Snapping on (hold Alt to move freely)' : 'Snapping off'); };
+ACT.mmAlign = t => {
+  const k = t.dataset.k; const els = MM.sel.filter(Boolean); if (!els.length) return; const bbs = els.map(mmBBoxRoot); if (bbs.some(b => !b)) return;
+  const vb = mmVB(); const U = bs => { const x0 = Math.min(...bs.map(b => b.x)), y0 = Math.min(...bs.map(b => b.y)), x1 = Math.max(...bs.map(b => b.x + b.w)), y1 = Math.max(...bs.map(b => b.y + b.h)); return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 }; };
+  const rel = els.length === 1 ? 'page' : (MM.alignRel || 'page');
+  const R = rel === 'page' ? { x: vb[0], y: vb[1], w: vb[2], h: vb[3] } : rel === 'first' ? bbs[0] : rel === 'biggest' ? bbs.reduce((a, b) => a.w * a.h >= b.w * b.h ? a : b) : U(bbs);
+  mmBegin();
+  if (k === 'dh' || k === 'dv') {
+    const H = k === 'dh'; const idx = els.map((el, i) => i).sort((a, b) => H ? bbs[a].x - bbs[b].x : bbs[a].y - bbs[b].y); const first = bbs[idx[0]], last = bbs[idx[idx.length - 1]];
+    const span = H ? last.x + last.w - first.x : last.y + last.h - first.y; const tot = sum(idx.map(i => H ? bbs[i].w : bbs[i].h)); const gap = (span - tot) / (idx.length - 1); let pos = H ? first.x : first.y;
+    idx.forEach(i => { const b = bbs[i]; const d = pos - (H ? b.x : b.y); if (Math.abs(d) > 1e-6) mmTranslate([[els[i], els[i].getAttribute('transform') || '']], H ? d : 0, H ? 0 : d); pos += (H ? b.w : b.h) + gap; });
+  } else els.forEach((el, i) => { const b = bbs[i]; let dx = 0, dy = 0;
+    if (k === 'l') dx = R.x - b.x; if (k === 'c') dx = R.x + R.w / 2 - (b.x + b.w / 2); if (k === 'r') dx = R.x + R.w - (b.x + b.w);
+    if (k === 't') dy = R.y - b.y; if (k === 'm') dy = R.y + R.h / 2 - (b.y + b.h / 2); if (k === 'b') dy = R.y + R.h - (b.y + b.h);
+    if (rel === 'first' && i === 0) return; if (dx || dy) mmTranslate([[el, el.getAttribute('transform') || '']], dx, dy); });
+  mmEnd('Align'); mmSave(); mmStatus();
+};
+
+/* ================= snapping with guides ================= */
+function mmSnapTargets(drag) {
+  const vb = mmVB(); const xs = [vb[0], vb[0] + vb[2] / 2, vb[0] + vb[2]], ys = [vb[1], vb[1] + vb[3] / 2, vb[1] + vb[3]]; const moving = new Set(drag.els.map(x => x[0]));
+  const cand = [...MM.svg.querySelectorAll('[data-mmgfx], text, svg > g > g, svg > g > path, svg > g > rect, svg > g > image')].filter(el => !moving.has(el) && ![...moving].some(m => m.contains(el) || el.contains(m)) && !el.closest('defs,#layer-background,[data-mmref]') && !(el.tagName.toLowerCase() === 'text' && el.closest('[data-mmgfx]'))).slice(0, 400);
+  cand.forEach(el => { const b = mmBBoxRoot(el); if (!b || !b.w && !b.h) return; xs.push(b.x, b.x + b.w / 2, b.x + b.w); ys.push(b.y, b.y + b.h / 2, b.y + b.h); });
+  return { xs, ys };
+}
+function mmSnap(drag, dx, dy, alt) {
+  if (alt || MM.snap === false) { mmSnapEnd(); return [dx, dy]; }
+  if (!drag.sb) { const bs = drag.els.map(x => mmBBoxRoot(x[0])).filter(Boolean); if (!bs.length) return [dx, dy]; const x0 = Math.min(...bs.map(b => b.x)), y0 = Math.min(...bs.map(b => b.y)), x1 = Math.max(...bs.map(b => b.x + b.w)), y1 = Math.max(...bs.map(b => b.y + b.h)); drag.sb = { x: x0, y: y0, w: x1 - x0, h: y1 - y0 }; drag.tg = mmSnapTargets(drag); }
+  const thr = 7 / (MM.z || 1); const b = drag.sb; let best = (vals, mov) => { let bd = thr, bv = null; mov.forEach(m => vals.forEach(v => { const d = v - m; if (Math.abs(d) < Math.abs(bd)) { bd = d; bv = v; } })); return bv == null ? null : [bd, bv]; };
+  const sx = best(drag.tg.xs, [b.x + dx, b.x + b.w / 2 + dx, b.x + b.w + dx]), sy = best(drag.tg.ys, [b.y + dy, b.y + b.h / 2 + dy, b.y + b.h + dy]);
+  if (sx) dx += sx[0]; if (sy) dy += sy[0];
+  mmGuides(sx && sx[1], sy && sy[1]); return [dx, dy];
+}
+function mmGuides(gx, gy) {
+  const st = $('#mmStage'); if (!st || !MM.svg) return; let g = $('#mmGuides'); if (!g) { g = document.createElement('div'); g.id = 'mmGuides'; st.appendChild(g); }
+  const sr = st.getBoundingClientRect(), m = MM.svg.getScreenCTM(); let h = '';
+  if (gx != null) h += `<i class="gv" style="left:${(m.a * gx + m.e - sr.left).toFixed(1)}px"></i>`; if (gy != null) h += `<i class="gh" style="top:${(m.d * gy + m.f - sr.top).toFixed(1)}px"></i>`; g.innerHTML = h;
+}
+function mmSnapEnd() { const g = $('#mmGuides'); if (g) g.innerHTML = ''; }
+
+/* ================= type a number beside every slider ================= */
+function rangeEnhance() {
+  document.querySelectorAll('input[type=range]:not([data-rn])').forEach(r => {
+    r.dataset.rn = '1'; if (r.closest('[data-norn]')) return;
+    const n = document.createElement('input'); n.type = 'number'; n.className = 'rangenum'; n.value = r.value; n.step = r.step || 'any'; n.title = 'Type an exact value (can go beyond the slider)';
+    Object.keys(r.dataset).forEach(k => { if (k !== 'rn' && k !== 'act') n.dataset[k] = r.dataset[k]; }); if (n.dataset.set && !n.dataset.type) n.dataset.type = 'num';
+    if (r.dataset.act && !r.dataset.change) n.dataset.change = r.dataset.act;
+    const hasHandler = n.dataset.set || n.dataset.change || n.dataset.input;
+    if (!hasHandler && r.id) { n.addEventListener('change', () => { r.value = n.value; r.dispatchEvent(new Event('input', { bubbles: true })); r.dispatchEvent(new Event('change', { bubbles: true })); }); }
+    if (r.id && !hasHandler) n.removeAttribute('id');
+    r.after(n); r.addEventListener('input', () => { n.value = r.value; });
+    n.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); n.blur(); } });
+  });
+}
+new MutationObserver(() => { clearTimeout(rangeEnhance._t); rangeEnhance._t = setTimeout(rangeEnhance, 40); }).observe(document.body, { childList: true, subtree: true });
+
+</script>
+<script>/* js/update9.js */
+'use strict';
+/* =====================================================================
+   update9.js : Map Maker — edit any text inside a results graphic,
+   customisable margin ladders and party colours, page size, insets
+   (live magnified copies with frames), line / curve / rectangle /
+   ellipse tools with dash and corner styles, and using a Map Maker map
+   in the encyclopedia.
+   ===================================================================== */
+
+/* ================= text overrides inside results graphics ================= */
+const _mmgFill9 = mmgFill;
+mmgFill = function (g, cfg) {
+  _mmgFill9(g, cfg); const tx = cfg.tx || {}; const texts = [...g.querySelectorAll('text')];
+  Object.entries(tx).forEach(([i, v]) => { const t = /^\d+$/.test(i) ? texts[+i] : g.querySelector(`text[data-tk="${i}"]`); if (!t || !v) return; if (v.t != null) { t.textContent = v.t; } const st = t.getAttribute('style') || ''; let s2 = st; if (v.s) s2 = s2.replace(/font-size:[^;]+;?/, '') + `;font-size:${v.s}px`; if (v.c) s2 = s2.replace(/fill:[^;]+;?/, '') + `;fill:${v.c}`; if (v.b != null) s2 = s2.replace(/font-weight:[^;]+;?/, '') + `;font-weight:${v.b ? 700 : 400}`; if (v.f) s2 = s2.replace(/font-family:[^;]+;?/, '') + `;font-family:${v.f}`; if (s2 !== st) t.setAttribute('style', s2.replace(/^;+/, '')); if (v.size && !v.s) { } });
+};
+async function mmgEditText(g, t) {
+  const cfg = mmgCfgOf(g); const i = t.getAttribute('data-tk') || [...g.querySelectorAll('text')].indexOf(t); if (i === -1) return; const cur = (cfg.tx || {})[i] || {}; const cs = getComputedStyle(t);
+  const r = await form('Edit text in graphic', [{ k: 't', label: 'Text', value: t.textContent }, { k: 's', label: 'Size (px)', type: 'number', value: cur.s || parseFloat(cs.fontSize) || '' }, { k: 'c', label: 'Colour (hex, blank = automatic)', value: cur.c || '' }, { k: 'b', label: 'Weight', type: 'select', value: cur.b == null ? '' : cur.b ? '1' : '0', options: [['', 'Automatic'], ['1', 'Bold'], ['0', 'Regular']] }, { k: 'reset', label: 'Keep or reset', type: 'select', value: 'keep', options: [['keep', 'Use these values'], ['reset', 'Reset to automatic (follow the results)']] }], 'Apply');
+  if (!r) return; cfg.tx = cfg.tx || {};
+  if (r.reset === 'reset') delete cfg.tx[i]; else cfg.tx[i] = { t: r.t, s: num(r.s) || null, c: /^#?[0-9a-f]{3,8}$/i.test(r.c.trim()) ? (r.c.trim().startsWith('#') ? r.c.trim() : '#' + r.c.trim()) : null, b: r.b === '' ? null : r.b === '1' };
+  mmBegin(); mmgSetCfg(g, cfg); mmEnd('Edit text'); mmSave(); mmPanel();
+}
+
+/* ================= results key with customisable ladder & colours ================= */
+function ladderTone(c, f, light, dark) { return f < 0.5 ? mix(c, '#ffffff', light * (1 - f / 0.5)) : mix(c, '#000000', dark * ((f - 0.5) / 0.5)); }
+function mmgBuildKey9(cfg) {
+  const e = elec(cfg.eid); if (!e) return ''; const o = { ...MMG_DEF, minShare: 1, ladder: true, seatLbl: 'Seats', voteLbl: 'Vote %', head: 'Party Results', ladderN: 10, ladderStart: 25, ladderStep: 5, ladLight: 0.8, ladDark: 0.5, ...cfg.o }; const f = mmgFont(o); const rows = mmgRowsFor(e, o); const pc = o.pc || {};
+  const N = Math.max(1, Math.min(40, Math.round(num(o.ladderN) || 10))); const W = 420, bw = 300, rh = o.ladder ? 46 : 36, bh = 28; const lw = (bw - 14) / N;
+  let s = `<text data-tk="head" x="0" y="16" style="font-family:${f};font-size:19px;font-weight:700;fill:#111">${esc(o.head)}</text>`;
+  s += `<text data-tk="seatLbl" x="${bw + 38}" y="${o.ladder ? 30 : 16}" text-anchor="middle" style="font-family:${f};font-size:12px;font-weight:700;fill:#111">${esc(o.seatLbl)}</text><text data-tk="voteLbl" x="${bw + 92}" y="${o.ladder ? 30 : 16}" text-anchor="middle" style="font-family:${f};font-size:12px;font-weight:700;fill:#111">${esc(o.voteLbl)}</text>`;
+  if (o.ladder && o.ladderLabels !== false) for (let i = 0; i <= N; i++) s += `<text data-tk="lab${i}" x="${(14 + i * lw).toFixed(2)}" y="34" text-anchor="middle" style="font-family:${f};font-size:${Math.max(4, Math.min(6.5, lw * 0.32)).toFixed(1)}px;fill:#333">${+(num(o.ladderStart) + i * num(o.ladderStep)).toFixed(1)}%</text>`;
+  rows.forEach((r, i) => {
+    const y = 40 + i * rh; const c = pc[r.partyId] || r.color;
+    if (o.ladder) for (let k = 0; k < N; k++) s += `<rect x="${(14 + k * lw).toFixed(2)}" y="${y}" width="${(lw - (lw > 6 ? 1 : 0.4)).toFixed(2)}" height="5" style="fill:${(o.lc?.[r.partyId] || [])[k] || ladderTone(c, N === 1 ? 0.5 : k / (N - 1), num(o.ladLight), num(o.ladDark))}"/>`;
+    const by = y + (o.ladder ? 9 : 0);
+    s += `<rect x="0" y="${by}" width="7" height="${bh}" style="fill:${mix(c, '#ffffff', .45)}"/><rect x="14" y="${by}" width="${bw - 14}" height="${bh}" style="fill:${c}"/>`;
+    s += `<text data-tk="name-${r.partyId}" x="26" y="${by + bh / 2 + 5}" style="font-family:${f};font-size:14px;font-weight:700;fill:${textOn(c)}">${esc(trunc(r.name, 34))}</text>`;
+    s += `<text data-tk="seats-${r.partyId}" x="${bw + 38}" y="${by + bh / 2 + 7}" text-anchor="middle" style="font-family:${f};font-size:20px;font-weight:700;fill:${c}">${r.seatsWon}</text><text data-tk="vote-${r.partyId}" x="${bw + 92}" y="${by + bh / 2 + 7}" text-anchor="middle" style="font-family:${f};font-size:20px;font-weight:700;fill:${c}">${o.pad0 === false ? r.share.toFixed(1) : r.share.toFixed(1).padStart(4, '0')}</text>`;
+  });
+  return `<rect x="-8" y="-8" width="${W + 16}" height="${40 + rows.length * rh + 10}" style="fill:#ffffff;fill-opacity:${o.bg === false ? 0 : 0.92};stroke:none"/>` + s;
+}
+MMG_BUILD.key = mmgBuildKey9;
+
+/* ================= insets ================= */
+function mmMainLayerId() {
+  const ls = mmLayers().filter(g => !/^(layer-results|layer-labels|layer-annot|layer-background)$/.test(g.id) && !g.hasAttribute('data-mmref'));
+  let best = ls.sort((a, b) => b.querySelectorAll('path,polygon').length - a.querySelectorAll('path,polygon').length)[0]; if (!best) return null; if (!best.id) best.id = mmUniqueId('layer-districts'); return best.id;
+}
+function insetFrameD(W, H, corner) {
+  const c = Math.min(W, H) * 0.14, r = Math.min(W, H) * 0.07;
+  if (corner === 'circle') return `M0 ${f2(H / 2)}A${f2(W / 2)} ${f2(H / 2)} 0 1 0 ${f2(W)} ${f2(H / 2)}A${f2(W / 2)} ${f2(H / 2)} 0 1 0 0 ${f2(H / 2)}Z`;
+  if (corner === 'cut') return `M0 0H${f2(W - c)}L${f2(W)} ${f2(c)}V${f2(H)}H0Z`;
+  if (corner === 'round') return `M${f2(r)} 0H${f2(W - r)}Q${f2(W)} 0 ${f2(W)} ${f2(r)}V${f2(H - r)}Q${f2(W)} ${f2(H)} ${f2(W - r)} ${f2(H)}H${f2(r)}Q0 ${f2(H)} 0 ${f2(H - r)}V${f2(r)}Q0 0 ${f2(r)} 0Z`;
+  return `M0 0H${f2(W)}V${f2(H)}H0Z`;
+}
+const DASHES = { solid: '', dashed: '4 2.5', dotted: '0.1 2.2', dashdot: '5 2 0.1 2', long: '9 4' };
+function dashFor(name, w) { const d = DASHES[name]; if (!d) return ''; return d.split(' ').map(v => +(v * w).toFixed(2)).join(' '); }
+function mmgBuildInset(cfg) {
+  const o = { corner: 'square', sw: 2.5, stroke: '#111111', dash: 'solid', bg: '#ffffff', title: '', tsize: 16, font: 0, labels: false, ...cfg.o }; const s = cfg.src; const k = num(cfg.k) || 2; const W = s.w * k, H = s.h * k; const id = 'clip-' + cfg.uid; const d = insetFrameD(W, H, o.corner);
+  const ref = (rid) => `<use href="#${rid}" xlink:href="#${rid}" transform="scale(${k}) translate(${f2(-s.x)} ${f2(-s.y)})"/>`;
+  const ds = dashFor(o.dash, o.sw);
+  return `<defs><clipPath id="${id}"><path d="${d}"/></clipPath></defs><path d="${d}" style="fill:${o.bg}"/><g clip-path="url(#${id})">${ref(cfg.ref)}${o.labels && cfg.refLabels ? ref(cfg.refLabels) : ''}</g><path d="${d}" style="fill:none;stroke:${o.stroke};stroke-width:${o.sw};stroke-linejoin:round;stroke-linecap:round${ds ? ';stroke-dasharray:' + ds : ''}"/>${o.title ? `<text x="0" y="${f2(-o.tsize * 0.45)}" style="font-family:${(MMG_FONTS[o.font] || MMG_FONTS[0])[0].replace(/"/g, "'")};font-size:${o.tsize}px;font-weight:700;fill:#111">${esc(o.title)}</text>` : ''}`;
+}
+MMG_BUILD.inset = mmgBuildInset; MMG_NAME.inset = 'Inset';
+async function mmCreateInset(src) {
+  const ref = mmMainLayerId(); if (!ref) return toast('No map layer to magnify');
+  const vb = mmVB(); const fs = Math.round(Math.max(vb[2], vb[3]) / 60);
+  const r = await form('New inset', [{ k: 'title', label: 'Title', value: '' }, { k: 'k', label: 'Magnification (×)', type: 'number', value: '3' }, { k: 'corner', label: 'Frame corners', type: 'select', value: 'square', options: [['square', 'Square / rectangle'], ['round', 'Rounded'], ['cut', 'Cut corner'], ['circle', 'Circle / oval']] }, { k: 'conn', label: 'Line to the source area', type: 'select', value: 'curve', options: [['curve', 'Dashed curve'], ['line', 'Straight dashed line'], ['none', 'None']] }, { k: 'outline', label: 'Mark the source area on the main map', type: 'select', value: 'grey', options: [['grey', 'Light grey wash with a thin outline'], ['yes', 'Thin outline only'], ['no', 'Nothing']] }], 'Create inset');
+  if (!r) return; const k = Math.max(0.2, num(r.k) || 3); const uid = Math.random().toString(36).slice(2, 8);
+  const lbl = MM.svg.querySelector('#layer-labels'); const sw = Math.max(1, Math.max(vb[2], vb[3]) / 400);
+  const cfg = { type: 'inset', uid, ref, refLabels: lbl ? 'layer-labels' : '', src, k, o: { corner: r.corner, sw: +(sw * 1.4).toFixed(2), stroke: '#111111', dash: 'solid', bg: '#ffffff', title: r.title, tsize: fs, font: mmgOpts().font, labels: false } };
+  let x = src.x + src.w + vb[2] * 0.03, y = src.y; if (x + src.w * k > vb[0] + vb[2]) x = Math.max(vb[0] + vb[2] * 0.02, src.x - src.w * k - vb[2] * 0.03); if (y + src.h * k > vb[1] + vb[3]) y = vb[1] + vb[3] - src.h * k - vb[3] * 0.02;
+  mmBegin(); const g = mmgMake(cfg, x, y, 1); mmgLayer().appendChild(g);
+  const annot = mmAnnotLayer();
+  if (r.outline !== 'no') { const st = r.outline === 'grey' ? `fill:#ffffff;fill-opacity:.42;stroke:#333;stroke-width:${f2(sw * .7)}` : `fill:none;stroke:#111;stroke-width:${f2(sw)};stroke-dasharray:${dashFor('dashed', sw)}`; mmFrag(r.corner === 'circle' ? `<ellipse cx="${f2(src.x + src.w / 2)}" cy="${f2(src.y + src.h / 2)}" rx="${f2(src.w / 2)}" ry="${f2(src.h / 2)}" style="${st}" data-mmshape="ellipse"/>` : `<rect x="${f2(src.x)}" y="${f2(src.y)}" width="${f2(src.w)}" height="${f2(src.h)}" rx="${r.corner === 'round' ? f2(Math.min(src.w, src.h) * .07) : 0}" style="${st}" data-mmshape="rect"/>`).forEach(n => annot.appendChild(n)); }
+  if (r.conn !== 'none') { const a = [src.x + src.w / 2, src.y + src.h / 2]; const b = [x + (x > src.x ? 0 : src.w * k), y + src.h * k / 2]; annot.appendChild(mmCurveEl(a, b, r.conn === 'curve' ? 0.25 : 0, { stroke: '#111111', sw, dash: 'dashed' })); }
+  mmEnd('Inset'); mmSelect([g]); mmSave(); MM.tab = 'sel'; ACT.mmTab({ dataset: { t: 'sel' } }); toast('Inset created — it updates live as you paint the map. Drag it into place; edit it in Selection.', 5000);
+}
+
+/* ================= drawing tools ================= */
+MM_TOOLS.push(['line', '╱', 'Line (L) — hold Shift for 45° angles'], ['curve', '⌒', 'Curved line (C) — adjust the bend in Selection'], ['rect', '▭', 'Rectangle / box (R) — rounded corners in Selection'], ['ellipse', '◯', 'Ellipse / circle (E) — Shift for a circle'], ['inset', '⧉', 'Inset (N) — drag a box over the area to magnify']);
+MM.shapeStyle = MM.shapeStyle || { stroke: '#111111', sw: 0, dash: 'solid', fill: 'none' };
+function mmAnnotLayer() { let g = MM.svg.querySelector('#layer-annot'); if (g) return g; g = document.createElementNS(SVG_NS, 'g'); g.id = 'layer-annot'; g.setAttributeNS(INK_NS, 'inkscape:groupmode', 'layer'); g.setAttributeNS(INK_NS, 'inkscape:label', 'Lines & shapes'); const before = MM.svg.querySelector('#layer-results'); MM.svg.insertBefore(g, before || null); return g; }
+function mmDefSW() { const vb = mmVB(); return MM.shapeStyle.sw || +(Math.max(vb[2], vb[3]) / 500).toFixed(2); }
+function mmStyleStr(st) { const ds = dashFor(st.dash, st.sw); return `fill:${st.fill || 'none'};stroke:${st.stroke};stroke-width:${st.sw};stroke-linecap:round;stroke-linejoin:round${ds ? ';stroke-dasharray:' + ds : ''}`; }
+function curveD(a, b, bend) { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1]; const cx = mx - dy * bend, cy = my + dx * bend; return `M${f2(a[0])} ${f2(a[1])}Q${f2(cx)} ${f2(cy)} ${f2(b[0])} ${f2(b[1])}`; }
+function mmCurveEl(a, b, bend, st) { const p = document.createElementNS(SVG_NS, 'path'); p.setAttribute('d', curveD(a, b, bend)); p.setAttribute('style', mmStyleStr({ fill: 'none', ...st })); p.setAttribute('data-mmshape', 'curve'); p.setAttribute('data-mmpts', [a[0], a[1], b[0], b[1], bend].map(v => +(+v).toFixed(3)).join(',')); p.setAttribute('data-mmdash', st.dash || 'solid'); p.id = mmUniqueId('curve'); return p; }
+const MM_DRAW = new Set(['line', 'curve', 'rect', 'ellipse', 'inset']);
+function mmBindDraw() {
+  const st = $('#mmStage'); if (!st || st.dataset.draw) return; st.dataset.draw = '1';
+  const toDoc = (cx, cy) => { const p = MM.svg.createSVGPoint(); p.x = cx; p.y = cy; return p.matrixTransform(MM.svg.getScreenCTM().inverse()); };
+  st.addEventListener('pointerdown', e => {
+    if (!MM_DRAW.has(MM.tool) || e.button !== 0 || MM.space) return; e.stopPropagation(); e.preventDefault(); st.setPointerCapture(e.pointerId);
+    const p0 = toDoc(e.clientX, e.clientY); const sw = mmDefSW(); const style = { ...MM.shapeStyle, sw };
+    let el;
+    if (MM.tool === 'inset') { el = document.createElement('div'); el.className = 'mm-insetbox'; st.appendChild(el); }
+    else { mmBegin(); const L = mmAnnotLayer(); const T = { line: 'line', curve: 'path', rect: 'rect', ellipse: 'ellipse' }[MM.tool]; el = document.createElementNS(SVG_NS, T); el.id = mmUniqueId(MM.tool); el.setAttribute('data-mmshape', MM.tool); el.setAttribute('data-mmdash', style.dash); el.setAttribute('style', mmStyleStr(MM.tool === 'line' || MM.tool === 'curve' ? { ...style, fill: 'none' } : style)); L.appendChild(el); }
+    const sr = st.getBoundingClientRect(); const s0 = [e.clientX, e.clientY]; let last = p0;
+    const mv = ev => {
+      let p = toDoc(ev.clientX, ev.clientY);
+      if (MM.tool === 'line' && ev.shiftKey) { const dx = p.x - p0.x, dy = p.y - p0.y, a = Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) * Math.PI / 4, L = Math.hypot(dx, dy); p = { x: p0.x + L * Math.cos(a), y: p0.y + L * Math.sin(a) }; }
+      last = p; const x = Math.min(p0.x, p.x), y = Math.min(p0.y, p.y); let w = Math.abs(p.x - p0.x), h = Math.abs(p.y - p0.y);
+      if (MM.tool === 'inset') { Object.assign(el.style, { left: Math.min(s0[0], ev.clientX) - sr.left + 'px', top: Math.min(s0[1], ev.clientY) - sr.top + 'px', width: Math.abs(ev.clientX - s0[0]) + 'px', height: Math.abs(ev.clientY - s0[1]) + 'px' }); return; }
+      if (MM.tool === 'line') { el.setAttribute('x1', f2(p0.x)); el.setAttribute('y1', f2(p0.y)); el.setAttribute('x2', f2(p.x)); el.setAttribute('y2', f2(p.y)); }
+      if (MM.tool === 'curve') { el.setAttribute('d', curveD([p0.x, p0.y], [p.x, p.y], 0.22)); el.setAttribute('data-mmpts', [p0.x, p0.y, p.x, p.y, 0.22].map(v => +(+v).toFixed(3)).join(',')); }
+      if (MM.tool === 'rect') { if (ev.shiftKey) w = h = Math.max(w, h); el.setAttribute('x', f2(x)); el.setAttribute('y', f2(y)); el.setAttribute('width', f2(w)); el.setAttribute('height', f2(h)); }
+      if (MM.tool === 'ellipse') { if (ev.shiftKey) w = h = Math.max(w, h); el.setAttribute('cx', f2(x + w / 2)); el.setAttribute('cy', f2(y + h / 2)); el.setAttribute('rx', f2(w / 2)); el.setAttribute('ry', f2(h / 2)); }
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', mv, true); window.removeEventListener('pointerup', up, true);
+      const tiny = Math.hypot(last.x - p0.x, last.y - p0.y) < 3 / (MM.z || 1);
+      if (MM.tool === 'inset') { el.remove(); if (!tiny) mmCreateInset({ x: Math.min(p0.x, last.x), y: Math.min(p0.y, last.y), w: Math.abs(last.x - p0.x), h: Math.abs(last.y - p0.y) }); ACT.mmTool({ dataset: { t: 'select' } }); return; }
+      if (tiny) { el.remove(); MM.obs?.takeRecords(); return; }
+      mmEnd('Draw ' + MM.tool); mmSelect([el]); mmSave(); ACT.mmTool({ dataset: { t: 'select' } }); MM.tab = 'sel'; ACT.mmTab({ dataset: { t: 'sel' } });
+    };
+    window.addEventListener('pointermove', mv, true); window.addEventListener('pointerup', up, true);
+  }, true);
+  /* double-click any text inside a results graphic to edit just that text */
+  st.addEventListener('dblclick', e => { const hit = document.elementFromPoint(e.clientX, e.clientY); const t = hit?.closest?.('text'); const g = t?.closest('[data-mmgfx]'); if (!t || !g) return; e.stopImmediatePropagation(); e.preventDefault(); mmgEditText(g, t); }, true);
+}
+document.addEventListener('keydown', e => { if (S.view !== 'mapmaker' || !MM.svg || e.ctrlKey || e.metaKey || e.altKey || e.target.closest('input,textarea,select,[contenteditable="true"]')) return; const t = { l: 'line', c: 'curve', r: 'rect', e: 'ellipse', n: 'inset' }[e.key.toLowerCase()]; if (t) ACT.mmTool({ dataset: { t } }); });
+
+/* ================= selection panels: shapes, graphics, insets ================= */
+function shapePanel(els) {
+  const el = els[0]; const cs = getComputedStyle(el); const sh = el.getAttribute('data-mmshape'); const sw = parseFloat(el.style.strokeWidth || cs.strokeWidth) || 1; const dash = el.getAttribute('data-mmdash') || (cs.strokeDasharray && cs.strokeDasharray !== 'none' ? 'custom' : 'solid');
+  const stroke = mmNormColor(el.style.stroke || cs.stroke); const fill = mmNormColor(el.style.fill || cs.fill);
+  return `<div class="mm-gfx"><div class="mm-h">${sh ? { line: 'Line', curve: 'Curved line', rect: 'Rectangle', ellipse: 'Ellipse' }[sh] : 'Stroke & shape'}${els.length > 1 ? ` · ${els.length} objects` : ''}</div>
+    <div class="mm-row"><span class="mm-tip">Line</span><input type="color" value="${stroke.startsWith('#') ? stroke : '#111111'}" data-change="mmShp" data-k="stroke"><input type="number" class="w60" step="0.25" min="0" value="${+sw.toFixed(2)}" data-change="mmShp" data-k="sw" title="Line width"><select data-change="mmShp" data-k="dash">${opt([['solid', 'Solid'], ['dashed', 'Dashed'], ['dotted', 'Dotted'], ['dashdot', 'Dash-dot'], ['long', 'Long dash'], ['none', 'No line']], dash)}</select></div>
+    <div class="mm-row"><span class="mm-tip">Fill</span><input type="color" value="${fill.startsWith('#') ? fill : '#ffffff'}" data-change="mmShp" data-k="fill"><label class="chk xs"><input type="checkbox" ${fill === 'none' ? 'checked' : ''} data-change="mmShp" data-k="nofill"> None</label><select data-change="mmShp" data-k="cap">${opt([['round', 'Round ends'], ['butt', 'Flat ends'], ['square', 'Square ends']], cs.strokeLinecap)}</select></div>
+    ${sh === 'rect' ? `<label class="mm-sl"><span>Corner radius</span><input type="range" min="0" max="${Math.round(Math.min(+el.getAttribute('width') || 100, +el.getAttribute('height') || 100) / 2)}" step="0.5" value="${+el.getAttribute('rx') || 0}" data-change="mmShp" data-k="rx"><b>${+el.getAttribute('rx') || 0}</b></label>` : ''}
+    ${sh === 'curve' ? `<label class="mm-sl"><span>Bend</span><input type="range" min="-0.8" max="0.8" step="0.02" value="${(el.getAttribute('data-mmpts') || '').split(',')[4] || 0.22}" data-change="mmShp" data-k="bend"><b>${(el.getAttribute('data-mmpts') || '').split(',')[4] || 0.22}</b></label><button class="btn sm ghost" data-act="mmShpFlip">Flip bend</button>` : ''}
+    <button class="btn sm ghost" data-act="mmShpDefault" title="New lines and shapes use this style">Use as default style</button></div>`;
+}
+ACT.mmShp = t => {
+  const k = t.dataset.k; const v = t.type === 'checkbox' ? t.checked : t.value; const els = MM.sel.filter(x => !x.hasAttribute('data-mmgfx')); if (!els.length) return; mmBegin();
+  els.forEach(el => { const tg = el.tagName.toLowerCase() === 'g' ? [...el.querySelectorAll('path,polygon,rect,circle,ellipse,line,polyline')] : [el];
+    tg.forEach(x => { const sw = parseFloat(x.style.strokeWidth || getComputedStyle(x).strokeWidth) || 1;
+      if (k === 'stroke') x.style.stroke = v; if (k === 'fill') x.style.fill = v; if (k === 'nofill') x.style.fill = v ? 'none' : '#ffffff'; if (k === 'cap') x.style.strokeLinecap = v;
+      if (k === 'sw') { x.style.strokeWidth = v; const d = x.getAttribute('data-mmdash'); if (d && DASHES[d]) x.style.strokeDasharray = dashFor(d, +v); }
+      if (k === 'dash') { if (v === 'none') { x.style.stroke = 'none'; } else { if (x.style.stroke === 'none') x.style.stroke = '#111111'; x.setAttribute('data-mmdash', v); x.style.strokeDasharray = dashFor(v, sw) || 'none'; if (v === 'dotted') x.style.strokeLinecap = 'round'; } }
+      if (k === 'rx' && x.tagName.toLowerCase() === 'rect') { x.setAttribute('rx', v); x.setAttribute('ry', v); }
+      if (k === 'bend' && x.getAttribute('data-mmshape') === 'curve') { const p = x.getAttribute('data-mmpts').split(',').map(Number); p[4] = +v; x.setAttribute('d', curveD([p[0], p[1]], [p[2], p[3]], p[4])); x.setAttribute('data-mmpts', p.join(',')); } }); });
+  mmEnd('Style'); mmSave(); mmPanel();
+};
+ACT.mmShpFlip = () => { const el = MM.sel[0]; if (!el?.getAttribute('data-mmpts')) return; ACT.mmShp({ dataset: { k: 'bend' }, value: String(-(+el.getAttribute('data-mmpts').split(',')[4])) }); };
+ACT.mmShpDefault = () => { const el = MM.sel[0]; if (!el) return; const cs = getComputedStyle(el); MM.shapeStyle = { stroke: mmNormColor(cs.stroke), sw: parseFloat(cs.strokeWidth) || 0, dash: el.getAttribute('data-mmdash') || 'solid', fill: mmNormColor(cs.fill) === 'none' ? 'none' : mmNormColor(cs.fill) }; toast('New lines and shapes will use this style'); };
+const _gfxPanel9 = mmGfxSelPanel;
+mmGfxSelPanel = function (g) {
+  const c = mmgCfgOf(g); let h = _gfxPanel9(g); const nOv = Object.keys(c.tx || {}).length;
+  const tip = `<p class="mm-tip">Double-click any text in the graphic to change just that text, its size or colour.${nOv ? ` ${nOv} text${nOv === 1 ? '' : 's'} edited — <a data-act="mmgResetTx">reset all</a>.` : ''}</p>`;
+  if (c.type === 'key') {
+    const o = { ladder: true, ladderN: 10, ladderStart: 25, ladderStep: 5, ladLight: 0.8, ladDark: 0.5, minShare: 1, ...c.o }; const e = elec(c.eid); const rows = e ? mmgRowsFor(e, o) : [];
+    const sl = (k, l, min, max, st) => `<label class="mm-sl"><span>${l}</span><input type="range" min="${min}" max="${max}" step="${st}" value="${o[k]}" data-change="mmgKeyOpt" data-k="${k}"><b>${o[k]}</b></label>`;
+    h += `<div class="mm-gfx"><div class="mm-h">Margin ladder</div><label class="chk"><input type="checkbox" ${o.ladder ? 'checked' : ''} data-change="mmgKeyOpt" data-k="ladder"> Show the ladder above each party</label>
+      ${o.ladder ? `${sl('ladderN', 'Rectangles', 1, 20, 1)}${sl('ladderStart', 'First label (%)', 0, 90, 1)}${sl('ladderStep', 'Step (%)', 1, 25, 0.5)}${sl('ladLight', 'Lightest tint', 0, 1, 0.02)}${sl('ladDark', 'Darkest shade', 0, 1, 0.02)}<label class="chk"><input type="checkbox" ${o.ladderLabels !== false ? 'checked' : ''} data-change="mmgKeyOpt" data-k="ladderLabels"> Percentage labels</label>` : ''}
+      <div class="mm-h">Parties</div>${sl('minShare', 'Hide parties under (%)', 0, 10, 0.1)}
+      <div class="mm-keyp">${rows.map(r => `<div><input type="color" value="${(o.pc || {})[r.partyId] || r.color}" data-change="mmgKeyPC" data-pid="${r.partyId}" title="Colour for ${esc(r.name)} in this graphic"><span>${esc(trunc(r.name, 22))}</span>${o.ladder ? `<button class="iconbtn xs" data-act="mmgKeyLad" data-pid="${r.partyId}" title="Pick each ladder colour by hand">▤</button>` : ''}${(o.pc || {})[r.partyId] || (o.lc || {})[r.partyId] ? `<button class="iconbtn xs" data-act="mmgKeyPCReset" data-pid="${r.partyId}" title="Back to automatic colours">↺</button>` : ''}</div>`).join('')}</div>${tip}</div>`;
+  } else if (c.type === 'inset') {
+    const o = c.o || {}; h = `<div class="mm-gfx"><div class="mm-h">Inset</div><label class="mm-sl"><span>Title</span><input value="${esc(o.title || '')}" data-change="mmgInsetOpt" data-k="title"></label>
+      <label class="mm-sl"><span>Magnification ×</span><input type="range" min="0.5" max="12" step="0.1" value="${c.k}" data-change="mmgInsetOpt" data-k="k"><b>${c.k}</b></label>
+      <div class="mm-row"><span class="mm-tip">Frame</span><select data-change="mmgInsetOpt" data-k="corner">${opt([['square', 'Square'], ['round', 'Rounded'], ['cut', 'Cut corner'], ['circle', 'Circle / oval']], o.corner)}</select><select data-change="mmgInsetOpt" data-k="dash">${opt([['solid', 'Solid'], ['dashed', 'Dashed'], ['dotted', 'Dotted'], ['long', 'Long dash']], o.dash || 'solid')}</select></div>
+      <div class="mm-row"><span class="mm-tip">Border</span><input type="color" value="${o.stroke || '#111111'}" data-change="mmgInsetOpt" data-k="stroke"><input type="number" class="w60" step="0.25" value="${o.sw}" data-change="mmgInsetOpt" data-k="sw"><span class="mm-tip">Back</span><input type="color" value="${o.bg || '#ffffff'}" data-change="mmgInsetOpt" data-k="bg"></div>
+      <label class="mm-sl"><span>Title size</span><input type="range" min="4" max="80" step="0.5" value="${o.tsize}" data-change="mmgInsetOpt" data-k="tsize"><b>${o.tsize}</b></label>
+      <label class="chk"><input type="checkbox" ${o.labels ? 'checked' : ''} data-change="mmgInsetOpt" data-k="labels"> Show the map's text labels inside</label>
+      <p class="mm-tip">The inset is a live, full-quality copy of the area you boxed: painting districts updates it automatically. Drag to move; snapping lines it up with the other graphics.</p></div>`;
+  } else h += tip;
+  return h;
+};
+const keyCfg = () => { const g = MM.sel[0]; return g && g.getAttribute('data-mmgfx') ? [g, mmgCfgOf(g)] : [null, null]; };
+ACT.mmgKeyOpt = t => { const [g, c] = keyCfg(); if (!g) return; c.o = c.o || {}; c.o[t.dataset.k] = t.type === 'checkbox' ? t.checked : +t.value; mmBegin(); mmgSetCfg(g, c); mmEnd('Ladder'); mmSave(); mmPanel(); };
+ACT.mmgKeyPC = t => { const [g, c] = keyCfg(); if (!g) return; c.o = c.o || {}; c.o.pc = { ...(c.o.pc || {}), [t.dataset.pid]: t.value }; mmBegin(); mmgSetCfg(g, c); mmEnd('Party colour'); mmSave(); mmPanel(); };
+ACT.mmgKeyPCReset = t => { const [g, c] = keyCfg(); if (!g) return; if (c.o?.pc) delete c.o.pc[t.dataset.pid]; if (c.o?.lc) delete c.o.lc[t.dataset.pid]; mmBegin(); mmgSetCfg(g, c); mmEnd('Party colour'); mmSave(); mmPanel(); };
+ACT.mmgKeyLad = async t => {
+  const [g, c] = keyCfg(); if (!g) return; const o = { ladderN: 10, ladLight: 0.8, ladDark: 0.5, ...c.o }; const N = Math.round(num(o.ladderN) || 10); const pid = t.dataset.pid; const base = (o.pc || {})[pid] || pColor(pid, eYear(elec(c.eid)));
+  const cur = (o.lc || {})[pid] || [...Array(N)].map((_, k) => ladderTone(base, N === 1 ? .5 : k / (N - 1), num(o.ladLight), num(o.ladDark)));
+  const m = modal(`<h3>Ladder colours — ${esc(pName(pid, eYear(elec(c.eid))))}</h3><div class="lad-edit">${cur.map((col, k) => `<label><input type="color" value="${col}" data-i="${k}"><small>${k + 1}</small></label>`).join('')}</div><div class="row end"><button class="btn ghost" data-act="closeModal">Cancel</button><button class="btn" id="ladOk">Apply</button></div>`);
+  $('#ladOk', m).onclick = () => { const cols = [...m.querySelectorAll('input[type=color]')].map(i => i.value); c.o = c.o || {}; c.o.lc = { ...(c.o.lc || {}), [pid]: cols }; closeModal(); mmBegin(); mmgSetCfg(g, c); mmEnd('Ladder colours'); mmSave(); mmPanel(); };
+};
+ACT.mmgResetTx = () => { const [g, c] = keyCfg(); if (!g) return; delete c.tx; mmBegin(); mmgSetCfg(g, c); mmEnd('Reset text'); mmSave(); mmPanel(); };
+ACT.mmgInsetOpt = t => { const [g, c] = keyCfg(); if (!g) return; const k = t.dataset.k; const v = t.type === 'checkbox' ? t.checked : (t.type === 'range' || t.type === 'number') ? +t.value : t.value; if (k === 'k') c.k = Math.max(0.1, v); else { c.o = c.o || {}; c.o[k] = v; } mmBegin(); mmgSetCfg(g, c); mmEnd('Inset'); mmSave(); mmPanel(); };
+const _mmPanel9 = mmPanel;
+mmPanel = function () {
+  _mmPanel9(); const el = $('#mmPanel'); if (!el || MM.tab !== 'sel' || !MM.sel.length) return;
+  const shapes = MM.sel.filter(x => !x.hasAttribute('data-mmgfx') && x.tagName.toLowerCase() !== 'text'); if (shapes.length && shapes.length === MM.sel.length) el.insertAdjacentHTML('afterbegin', shapePanel(shapes));
+};
+
+/* ================= page size ================= */
+ACT.mmPage = async () => {
+  if (!MM.svg) return; const vb = mmVB();
+  const r = await form('Page size', [{ k: 'mode', label: 'Change', type: 'select', value: 'size', options: [['size', 'Set width and height'], ['margin', 'Add space around every side'], ['fit', 'Fit the page to the drawing']] }, { k: 'w', label: 'Width', type: 'number', value: String(+vb[2].toFixed(1)) }, { k: 'h', label: 'Height', type: 'number', value: String(+vb[3].toFixed(1)) }, { k: 'anchor', label: 'Keep the drawing at', type: 'select', value: 'tl', options: [['tl', 'Top left (grow right and down)'], ['c', 'Centre (grow on all sides)'], ['tr', 'Top right (grow left and down)']] }, { k: 'm', label: 'Margin / space to add', type: 'number', value: String(Math.round(Math.max(vb[2], vb[3]) * 0.05)) }], 'Apply');
+  if (!r) return; let nv = [...vb];
+  if (r.mode === 'size') { const w = Math.max(10, num(r.w)), h = Math.max(10, num(r.h)); if (r.anchor === 'c') nv = [vb[0] - (w - vb[2]) / 2, vb[1] - (h - vb[3]) / 2, w, h]; else if (r.anchor === 'tr') nv = [vb[0] - (w - vb[2]), vb[1], w, h]; else nv = [vb[0], vb[1], w, h]; }
+  if (r.mode === 'margin') { const m = num(r.m); nv = [vb[0] - m, vb[1] - m, vb[2] + 2 * m, vb[3] + 2 * m]; }
+  if (r.mode === 'fit') { const bs = [...MM.svg.children].filter(c => c.tagName.toLowerCase() === 'g' && c.id !== 'layer-background' && c.style.display !== 'none').map(mmBBoxRoot).filter(b => b && b.w); if (!bs.length) return; const m = num(r.m); const x0 = Math.min(...bs.map(b => b.x)) - m, y0 = Math.min(...bs.map(b => b.y)) - m, x1 = Math.max(...bs.map(b => b.x + b.w)) + m, y1 = Math.max(...bs.map(b => b.y + b.h)) + m; nv = [x0, y0, x1 - x0, y1 - y0]; }
+  mmBegin(); MM.svg.setAttribute('viewBox', nv.map(v => +v.toFixed(2)).join(' ')); MM.svg.setAttribute('width', nv[2]); MM.svg.setAttribute('height', nv[3]);
+  const bg = MM.svg.querySelector('#layer-background rect'); if (bg) { bg.setAttribute('x', nv[0]); bg.setAttribute('y', nv[1]); bg.setAttribute('width', nv[2]); bg.setAttribute('height', nv[3]); }
+  mmEnd('Page size'); mmSave(); ACT.mmFit(); toast(`Page is now ${Math.round(nv[2])} × ${Math.round(nv[3])}`);
+};
+
+/* ================= use a Map Maker map in the encyclopedia ================= */
+ACT.mmUseInWiki = async () => {
+  const d = mmDoc(); if (!d) return; mmSave(true); const els = [...P.elections].sort((a, b) => dateKey(b.date) - dateKey(a.date)); if (!els.length) return toast('Create an election first');
+  const r = await form('Use this map in the encyclopedia', [{ k: 'eid', label: 'Election article', type: 'select', value: mmgOpts().eid || els[0].id, options: els.map(e => [e.id, e.name]) }, { k: 'where', label: 'Show it', type: 'select', value: 'both', options: [['both', 'In the infobox and the results-by-region section'], ['infobox', 'Infobox only'], ['none', 'Stop using a Map Maker map (go back to the electoral map)']] }], 'Use');
+  if (!r) return; const e = elec(r.eid); if (r.where === 'none') { delete e.wikiMapDoc; delete e.wikiMapWhere; } else { e.wikiMapDoc = d.id; e.wikiMapWhere = r.where; } commit();
+  toast(r.where === 'none' ? 'The article uses the electoral map again' : `“${d.name}” now appears in the ${e.name} article — it stays in sync as you edit this map`, 5000);
+};
+function wikiDocSVG(e) { const d = e?.wikiMapDoc && (P.mapdocs || []).find(x => x.id === e.wikiMapDoc); if (!d) return null; return d.svg.replace(/<svg\b/, '<svg class="map-svg" preserveAspectRatio="xMidYMid meet"').replace(/data-mmref="1"[^>]*style="[^"]*"/g, m => m); }
+let WK_RENDERING = false;
+['article', 'nationArticle', 'page', 'partyArticle', 'personArticle'].forEach(v => { const V = VIEWS[v]; if (!V) return; const r0 = V.render; V.render = function () { WK_RENDERING = true; try { return r0.apply(this, arguments); } finally { WK_RENDERING = false; } }; });
+const _renderMap9 = renderMapSVG; renderMapSVG = function (map, e, o = {}) { if (WK_RENDERING && e?.wikiMapDoc && !o.interactive) { const s = wikiDocSVG(e); if (s) return s; } return _renderMap9(map, e, o); };
+const _elecMap9 = electionMap; electionMap = function (e) { const m = _elecMap9(e); if (m || !WK_RENDERING || !e?.wikiMapDoc) return m; return { id: '_mmdoc', name: 'map', svg: '<svg xmlns="http://www.w3.org/2000/svg"/>', assign: {} }; };
+
+/* ================= top bar additions ================= */
+const _mmRender9 = VIEWS.mapmaker.render;
+VIEWS.mapmaker.render = function () { const h = _mmRender9.call(this); return h.replace('<button class="btn sm ghost" data-act="mmTab" data-t="trace">', '<button class="btn sm ghost" data-act="mmPage" title="Page / canvas size">▭ Page</button><button class="btn sm ghost" data-act="mmUseInWiki" title="Show this map in an election article">⧉ Use in article</button><button class="btn sm ghost" data-act="mmTab" data-t="trace">'); };
+const _mmMount9 = VIEWS.mapmaker.mount; VIEWS.mapmaker.mount = function (root) { _mmMount9.call(this, root); mmBindDraw(); };
+
+</script>
+<script>/* js/update10.js */
+'use strict';
+/* =====================================================================
+   update10.js : encyclopedia infobox — type into any cell (placeholders
+   for inaugural elections), swap portraits, swap the map, uniform style
+   (flag / portrait / party bar sizes, fonts, alignment, padding, table
+   width); Map Maker — title alignment, party results key styles
+   (Scottish bars, Alberta mirror, Welsh blocks, Australian / German pill).
+   ===================================================================== */
+
+/* ================= infobox: overrides, portraits ================= */
+function ibInline(s) { try { return typeof wkInline === 'function' ? wkInline(String(s)) : esc(s); } catch (e) { return esc(s); } }
+const _eib10 = electionInfobox;
+electionInfobox = function (e, art) {
+  const h = _eib10(e, art);
+  try {
+    const t = document.createElement('div'); t.innerHTML = h; const tb = t.querySelector('table'); if (!tb) return h;
+    const ov = e.ibOv || {}, img = e.ibImg || {}; const c = computeElection(e); const ib = art?.infobox || {}; const cols = ib.cols || 3; const top = c.sorted.filter(r => r.votes || r.seatsWon).slice(0, ib.parties || 3);
+    const mark = (el, k) => { el.setAttribute('data-ibk', k); if (ov[k] != null) { el.innerHTML = ov[k] === '' ? '' : ibInline(ov[k]); el.classList.add('ib-ov'); } };
+    const cap = tb.querySelector('caption'); if (cap) mark(cap, 'caption');
+    tb.querySelectorAll('table.ib-cands').forEach((ct, bi) => [...ct.rows].forEach(tr => {
+      const th = tr.querySelector('th'); const lab = th ? th.textContent.trim() : (tr.classList.contains('ib-bars') ? 'bars' : 'portrait'); const tds = [...tr.children].filter(x => x.tagName === 'TD' && !x.classList.contains('ib-l'));
+      if (th) mark(th, 'l:' + lab);
+      tds.forEach((td, j) => { const r = top[bi * cols + j]; if (!r || lab === 'bars') return; if (lab === 'portrait') { const im = td.querySelector('img'); if (im) { im.dataset.ibimg = r.partyId; if (img[r.partyId]) im.src = img[r.partyId]; } return; } mark(td, `p:${r.partyId}:${lab}`); });
+    }));
+    tb.querySelectorAll('table.ib-nav tr').forEach((tr, ri) => [...tr.cells].forEach((td, ci) => mark(td, `nav:${ri}:${ci}`)));
+    tb.querySelectorAll('table.ib-gov tr').forEach((tr, ri) => [...tr.cells].forEach((td, ci) => { const im = td.querySelector('img'); if (im) { const k = `gov${ri}${ci}`; im.dataset.ibimg = k; if (img[k]) im.src = img[k]; const parts = [...td.childNodes].filter(n => n !== im && !(n.nodeType === 1 && n.contains(im))); const wrap = document.createElement('div'); parts.forEach(n => wrap.appendChild(n)); td.appendChild(wrap); mark(wrap, `gov:${ri}:${ci}`); } else mark(td, `gov:${ri}:${ci}`); }));
+    [...tb.rows].forEach((tr, ri) => { const th = tr.querySelector(':scope > th'), td = tr.querySelector(':scope > td'); if (!td || td.querySelector('table,svg') || (td.querySelector('img') && !th)) return; if (th) { mark(th, 'rl:' + th.textContent.trim()); mark(td, 'r:' + th.textContent.trim()); } else if (td.classList.contains('ib-c')) mark(td, 'c:' + ri); });
+    return t.innerHTML;
+  } catch (x) { console.warn(x); return h; }
+};
+/* edit mode: every marked cell becomes typeable; portraits become clickable */
+const _mountWiki10 = mountWiki;
+mountWiki = function (root, key) {
+  _mountWiki10(root, key); if (!S.ui.wedit || S.view !== 'article') return; const e = elec(S.sel.election); if (!e) return;
+  $$('.infobox [data-ibk]', root).forEach(el => {
+    el.contentEditable = 'true'; el.classList.add('ib-edit'); el.title = 'Type to replace (wiki markup like [[Link]] works). Leave empty for a blank placeholder. Right-click to restore the automatic value.';
+    el.addEventListener('focus', () => { const ov = e.ibOv?.[el.dataset.ibk]; el.dataset.ibo = el.textContent; if (ov != null) el.textContent = ov; });
+    el.addEventListener('blur', () => { const k = el.dataset.ibk; const v = el.innerText.replace(/\s+/g, ' ').trim(); const had = e.ibOv?.[k] != null; if (!had && v === (el.dataset.ibo || '').replace(/\s+/g, ' ').trim()) return; e.ibOv = e.ibOv || {}; e.ibOv[k] = v; commit(); toast('Infobox updated — right-click the cell to go back to the automatic value'); });
+    el.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); el.blur(); } });
+    el.addEventListener('contextmenu', ev => { if (e.ibOv?.[el.dataset.ibk] == null) return; ev.preventDefault(); delete e.ibOv[el.dataset.ibk]; commit(); toast('Restored the automatic value'); });
+  });
+  $$('.infobox img[data-ibimg]', root).forEach(im => { im.classList.add('ib-edit-img'); im.title = 'Click to choose a different picture (right-click to restore)'; im.addEventListener('click', () => pickFile('image/*', async f => { const url = await shrinkImage(await readAsDataURL(f), 360); e.ibImg = e.ibImg || {}; e.ibImg[im.dataset.ibimg] = url; commit(); })); im.addEventListener('contextmenu', ev => { if (!e.ibImg?.[im.dataset.ibimg]) return; ev.preventDefault(); delete e.ibImg[im.dataset.ibimg]; commit(); }); });
+};
+function shrinkImage(url, max) { return new Promise(res => { const i = new Image(); i.onload = () => { const s = Math.min(1, max / Math.max(i.width, i.height)); const c = document.createElement('canvas'); c.width = Math.round(i.width * s); c.height = Math.round(i.height * s); c.getContext('2d').drawImage(i, 0, 0, c.width, c.height); res(c.toDataURL('image/jpeg', 0.9)); }; i.onerror = () => res(url); i.src = url; }); }
+
+/* ================= uniform infobox & table style ================= */
+const IBS_DEF = { ibw: '', fs: '', pad: '', flag: '', pw: '', ph: '', tube: '', al: '', lal: '', font: '', wfs: '', wpv: '', wph: '', wfull: false, wal: '' };
+function ibsCSS() {
+  const s = { ...IBS_DEF, ...(P?.settings?.ibs || {}) }; let c = '';
+  if (s.ibw) c += `.wk-root table.infobox{width:${s.ibw}px!important}`;
+  if (s.fs) c += `.wk-root table.infobox{font-size:${s.fs}%!important}.wk-root .ib-cands td{font-size:inherit!important}`;
+  if (s.pad !== '') c += `.wk-root table.infobox th,.wk-root table.infobox td{padding:${s.pad}px ${+s.pad + 2}px!important}`;
+  if (s.flag) c += `.wk-root .ib-bigflag{width:${s.flag}px!important;height:auto!important}`;
+  if (s.pw || s.ph) c += `.wk-root .ib-img img,.wk-root .ib-gov img{${s.pw ? `width:${s.pw}px!important;max-width:none!important;` : ''}${s.ph ? `height:${s.ph}px!important;` : ''}aspect-ratio:auto!important;object-fit:cover!important;margin:0 auto}`;
+  if (s.tube) c += `.wk-root .ib-bars td div{height:${s.tube}px!important}`;
+  if (s.al) c += `.wk-root .ib-cands td{text-align:${s.al}!important}.wk-root table.infobox td{text-align:${s.al}}`;
+  if (s.lal) c += `.wk-root .ib-cands th.ib-l,.wk-root table.infobox th{text-align:${s.lal}!important}`;
+  if (s.font) c += `.wk-root table.infobox,.wk-root .wikitable{font-family:${s.font}!important}`;
+  if (s.wfs) c += `.wk-root .wikitable{font-size:${s.wfs}%!important}`;
+  if (s.wpv !== '' || s.wph !== '') c += `.wk-root .wikitable th,.wk-root .wikitable td{padding:${s.wpv === '' ? 4 : s.wpv}px ${s.wph === '' ? 8 : s.wph}px!important}`;
+  if (s.wfull) c += `.wk-root .wk-content .wikitable{width:100%!important}`;
+  if (s.wal) c += `.wk-root .wikitable td{text-align:${s.wal}}`;
+  return c;
+}
+function applyIbs() { let st = document.getElementById('ibsStyle'); if (!st) { st = document.createElement('style'); st.id = 'ibsStyle'; document.head.appendChild(st); } const c = ibsCSS(); if (st.textContent !== c) st.textContent = c; }
+const _render10 = render; render = function () { const r = _render10.apply(this, arguments); try { applyIbs(); } catch (e) { } return r; };
+ACT.ibStyle = async () => {
+  const s = { ...IBS_DEF, ...(P.settings.ibs || {}) }; const e = elec(S.sel.election);
+  const maps = [['auto', 'Electoral map (automatic)'], ...P.maps.map(m => ['m:' + m.id, 'Electoral map: ' + m.name]), ...(P.mapdocs || []).map(d => ['d:' + d.id, 'Map Maker: ' + d.name]), ['none', 'No map']];
+  const curMap = e?.ibNoMap ? 'none' : e?.wikiMapDoc ? 'd:' + e.wikiMapDoc : e?.mapId ? 'm:' + e.mapId : 'auto';
+  const fonts = [['', 'Default (sans-serif)'], ['Arial, Helvetica, sans-serif', 'Arial'], ['"Linux Libertine","Georgia",serif', 'Libertine / Georgia'], ['Calibri, Carlito, sans-serif', 'Calibri'], ['Verdana, sans-serif', 'Verdana'], ['"Times New Roman", serif', 'Times New Roman']];
+  const al = [['', 'Default'], ['left', 'Left'], ['center', 'Centre'], ['right', 'Right']];
+  const m = modal(`<h3>Infobox & table style</h3><p class="muted small">Applies to every article, so all infoboxes, portraits, flags and tables stay uniform. Leave a box empty for the default.</p>
+    <form id="ibsForm" class="ibs-grid">
+      <fieldset><legend>Infobox</legend>${[['ibw', 'Width (px)', 330], ['fs', 'Text size (%)', 88], ['pad', 'Cell padding (px)', 2], ['flag', 'Flag width (px)', 100], ['pw', 'Portrait width (px)', 84], ['ph', 'Portrait height (px)', 104], ['tube', 'Party colour bar height (px)', 5]].map(([k, l, ph]) => `<label class="fld"><span>${l}</span><input name="${k}" type="number" value="${s[k] ?? ''}" placeholder="${ph}"></label>`).join('')}
+        <label class="fld"><span>Value alignment</span><select name="al">${opt(al, s.al)}</select></label><label class="fld"><span>Label alignment</span><select name="lal">${opt(al, s.lal)}</select></label><label class="fld"><span>Font</span><select name="font">${opt(fonts, s.font)}</select></label></fieldset>
+      <fieldset><legend>Wikitables</legend>${[['wfs', 'Text size (%)', 100], ['wpv', 'Cell padding — vertical (px)', 4], ['wph', 'Cell padding — horizontal (px)', 8]].map(([k, l, ph]) => `<label class="fld"><span>${l}</span><input name="${k}" type="number" value="${s[k] ?? ''}" placeholder="${ph}"></label>`).join('')}
+        <label class="fld"><span>Cell alignment</span><select name="wal">${opt(al, s.wal)}</select></label><label class="chk"><input type="checkbox" name="wfull" ${s.wfull ? 'checked' : ''}> Stretch tables to the full column width</label></fieldset>
+      ${e ? `<fieldset><legend>This article — ${esc(e.name)}</legend><label class="fld"><span>Map in the infobox</span><select name="map">${opt(maps, curMap)}</select></label><label class="chk"><input type="checkbox" name="inaug" ${e.inaugural ? 'checked' : ''}> Inaugural election (no previous election, members or government)</label><p class="muted small">Turn on <b>Edit</b> to type straight into any infobox cell — names, figures, placeholders such as “Colonial Council” for the government before — and click portraits to swap them.</p>${Object.keys(e.ibOv || {}).length + Object.keys(e.ibImg || {}).length ? `<button type="button" class="btn sm ghost" id="ibsResetOv">Restore all ${Object.keys(e.ibOv || {}).length + Object.keys(e.ibImg || {}).length} typed values and pictures</button>` : ''}</fieldset>` : ''}
+      <div class="row end"><button type="button" class="btn ghost" id="ibsDefault">Reset style</button><button type="button" class="btn ghost" data-act="closeModal">Cancel</button><button class="btn">Apply</button></div></form>`);
+  $('#ibsDefault', m).onclick = () => { P.settings.ibs = {}; closeModal(); commit(); toast('Infobox and table style reset'); };
+  const ro = $('#ibsResetOv', m); if (ro) ro.onclick = () => { delete e.ibOv; delete e.ibImg; closeModal(); commit(); toast('Automatic values restored'); };
+  $('#ibsForm', m).onsubmit = ev => { ev.preventDefault(); const f = ev.target; const n = {}; Object.keys(IBS_DEF).forEach(k => { const el = f.elements[k]; if (!el) return; n[k] = el.type === 'checkbox' ? el.checked : el.value; }); P.settings.ibs = n;
+    if (e) { const mv = f.elements.map.value; delete e.ibNoMap; if (mv === 'none') e.ibNoMap = true; else if (mv.startsWith('d:')) { e.wikiMapDoc = mv.slice(2); e.wikiMapWhere = e.wikiMapWhere || 'both'; } else { delete e.wikiMapDoc; if (mv.startsWith('m:')) e.mapId = mv.slice(2); else if (mv === 'auto') delete e.mapId; } e.inaugural = f.elements.inaug.checked; }
+    closeModal(); commit(); toast('Style applied to every article'); };
+};
+const _artRender10 = VIEWS.article.render;
+VIEWS.article.render = function () { let h = _artRender10.apply(this, arguments); h = h.replace(/(data-act="ibConfig"[^>]*>[^<]*<\/button>)/, '$1<button class="btn sm ghost" data-act="ibStyle">Infobox & table style</button>'); return h; };
+
+const _elecMap10 = electionMap; electionMap = function (e) { if (e?.ibNoMap && WK_RENDERING) return null; return _elecMap10(e); };
+
+/* ================= Map Maker: title alignment ================= */
+function mmgBuildTitle10(cfg) {
+  const e = elec(cfg.eid); if (!e) return ''; const o = { ...MMG_DEF, align: 'left', tsz: 40, ssz: 22, subItalic: true, ...cfg.o }; const f = mmgFont(o); const c = computeElection(e);
+  const t = cfg.title || e.name; const word = o.memberWord || 'seats'; const sub = cfg.sub || `${num(e.seats) || c.totalSeats} ${word} | ${c.majority} for majority | ${fmtDate(e.date)}`;
+  const tsz = num(o.tsz) || 40, ssz = num(o.ssz) || 22; const tw = num(o.tw) || Math.max(t.length * tsz * 0.56, sub.length * ssz * 0.5); const x = o.align === 'right' ? tw : o.align === 'center' ? tw / 2 : 0; const an = { left: 'start', center: 'middle', right: 'end' }[o.align] || 'start';
+  return `<rect x="0" y="0" width="${f2(tw)}" height="${f2(tsz * 1.05 + ssz * 1.5)}" style="fill:none;stroke:none"/><text data-tk="title" x="${f2(x)}" y="${f2(tsz * 0.9)}" text-anchor="${an}" style="font-family:${f};font-size:${tsz}px;font-weight:700;fill:#111">${esc(t)}</text><text data-tk="sub" x="${f2(x + (an === 'start' ? 2 : 0))}" y="${f2(tsz * 0.9 + ssz * 1.45)}" text-anchor="${an}" style="font-family:${f};font-size:${ssz}px;${o.subItalic !== false ? 'font-style:italic;' : ''}fill:#111">${esc(sub)}</text>`;
+}
+MMG_BUILD.title = mmgBuildTitle10;
+
+/* ================= party results key styles ================= */
+const KEY_STYLES = [['bars', 'Scottish — bars, figures on the right'], ['mirror', 'Alberta — figures on the left, right-aligned bars'], ['blocks', 'Welsh — name block, shade blocks, seats & vote box'], ['pill', 'Australian / German — rounded bars, leader, vote bar']];
+function keyCommon(cfg) {
+  const e = elec(cfg.eid); const o = { ...MMG_DEF, minShare: 1, ladder: true, seatLbl: 'Seats', voteLbl: 'Vote %', head: 'Party Results', ladderN: 10, ladderStart: 25, ladderStep: 5, ladLight: 0.8, ladDark: 0.5, sub: 'leader', split: false, progress: true, pScale: 50, ...cfg.o };
+  const rows = e ? mmgRowsFor(e, o) : []; const N = Math.max(1, Math.min(40, Math.round(num(o.ladderN) || 10))); const f = mmgFont(o); const pc = o.pc || {};
+  const col = r => pc[r.partyId] || r.color; const tones = r => (o.lc?.[r.partyId]) || [...Array(N)].map((_, k) => ladderTone(col(r), N === 1 ? .5 : k / (N - 1), num(o.ladLight), num(o.ladDark)));
+  const subOf = r => o.sub === 'leader' ? (r.leader?.name || '') : o.sub === 'abbr' ? (r.abbr || '') : o.sub === 'ideology' ? (party(r.partyId)?.ideology || '') : '';
+  const labs = [...Array(N + 1)].map((_, i) => +(num(o.ladderStart) + i * num(o.ladderStep)).toFixed(1) + '%');
+  return { e, o, rows, N, f, col, tones, subOf, labs, c: e ? computeElection(e) : null };
+}
+const fitSz = (t, w, sz, k = 0.58) => +Math.min(sz, w / Math.max(1, String(t).length * k)).toFixed(1);
+const KEY_W = { bars: 436, mirror: 556, blocks: 676, pill: 840 };
+const KT = (x, y, txt, st, an = 'start', tk = '') => `<text${tk ? ` data-tk="${tk}"` : ''} x="${f2(x)}" y="${f2(y)}" text-anchor="${an}" style="${st}">${esc(txt)}</text>`;
+function keyMirror(cfg) {
+  const { o, rows, N, f, col, tones, labs } = keyCommon(cfg); const W = 540, bx = 160, bw = W - bx - 12, rh = 66; let s = '';
+  s += KT(W, 18, o.head, `font-family:${f};font-size:19px;font-weight:700;fill:#111`, 'end', 'head');
+  s += KT(40, 52, o.voteLbl, `font-family:${f};font-size:14px;font-weight:700;fill:#111`, 'middle', 'voteLbl') + KT(112, 52, o.seatLbl, `font-family:${f};font-size:14px;font-weight:700;fill:#111`, 'middle', 'seatLbl');
+  if (o.ladder && o.ladderLabels !== false) { s += KT(bx, 36, labs[0], `font-family:${f};font-size:7px;font-style:italic;fill:#333`, 'start', 'lab0') + KT(bx + bw, 36, labs[N], `font-family:${f};font-size:7px;font-style:italic;fill:#333`, 'end', 'lab' + N); s += `<path d="M${bx + 22} 34H${bx + bw - 22}" style="stroke:#111;stroke-width:.7;stroke-dasharray:3 2"/>`; }
+  rows.forEach((r, i) => { const y = 44 + i * rh, c = col(r), lw = bw / N;
+    if (o.ladder) tones(r).forEach((t, k) => { s += `<rect x="${f2(bx + k * lw)}" y="${y}" width="${f2(lw - 1.5)}" height="8" style="fill:${t}"/>`; });
+    const by = y + 12, bh = 40; s += `<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" style="fill:${c}"/><rect x="${bx + bw + 4}" y="${by}" width="7" height="${bh}" style="fill:${mix(c, '#ffffff', .55)}"/>`;
+    s += KT(bx + bw - 14, by + 27, r.name, `font-family:${f};font-size:${fitSz(r.name, bw - 30, 20)}px;font-weight:700;fill:${textOn(c)}`, 'end', 'name-' + r.partyId);
+    s += KT(40, by + 27, r.share.toFixed(2) + '%', `font-family:${f};font-size:20px;font-weight:700;fill:${c}`, 'middle', 'vote-' + r.partyId) + KT(112, by + 27, String(r.seatsWon), `font-family:${f};font-size:20px;font-weight:700;fill:${c}`, 'middle', 'seats-' + r.partyId); });
+  return `<rect x="-8" y="-8" width="${W + 16}" height="${52 + rows.length * rh}" style="fill:#fff;fill-opacity:${o.bg === false ? 0 : .92}"/>` + s;
+}
+function keyBlocks(cfg) {
+  const { o, rows, N, f, col, tones, subOf, labs, c } = keyCommon(cfg); const W = 660, nw = 250, lx = nw + 8, lw = 230, bxo = lx + lw + 8, bw = W - bxo, rh = 52; let s = '';
+  if (o.ladder && o.ladderLabels !== false) { s += KT(lx - 12, 20, o.ladTitle || 'ELECTED VOTE SHARE (%):', `font-family:${f};font-size:11px;font-weight:700;fill:#111`, 'end', 'ladTitle'); for (let i = 0; i < N; i += Math.max(1, Math.round(N / 5))) s += KT(lx + (i + .5) * lw / N, 20, labs[i], `font-family:${f};font-size:14px;fill:#111`, 'middle', 'lab' + i); }
+  rows.forEach((r, i) => { const y = 32 + i * rh, h = 46, cc = col(r);
+    s += `<path d="M10 ${y}H${nw}V${y + h}H10Q2 ${y + h} 2 ${y + h - 8}V${y + 8}Q2 ${y} 10 ${y}Z" style="fill:${cc}"/><rect x="2" y="${y + 6}" width="5" height="${h - 12}" style="fill:${mix(cc, '#ffffff', .4)}"/>`;
+    s += KT(nw - 10, y + 23, r.name.toUpperCase(), `font-family:${f};font-size:${fitSz(r.name, nw - 24, 20, 0.68)}px;font-weight:700;fill:${textOn(cc)}`, 'end', 'name-' + r.partyId);
+    const sub = subOf(r); if (sub) s += KT(nw - 10, y + 40, sub, `font-family:${f};font-size:${fitSz(sub, nw - 24, 14)}px;fill:${textOn(cc)}`, 'end', 'sub-' + r.partyId);
+    if (o.ladder) tones(r).forEach((t, k) => { s += `<rect x="${f2(lx + k * lw / N)}" y="${y}" width="${f2(lw / N)}" height="${h}" style="fill:${t};fill-opacity:.85"/>`; });
+    s += `<path d="M${bxo} ${y}H${W - 8}Q${W} ${y} ${W} ${y + 8}V${y + h - 8}Q${W} ${y + h} ${W - 8} ${y + h}H${bxo}Z" style="fill:${cc}"/>`;
+    s += KT(bxo + 12, y + 12, o.seatLbl.toUpperCase(), `font-family:${f};font-size:8px;fill:${textOn(cc)}`, 'start', 'seatLbl' + i) + KT(bxo + 12, y + 37, String(r.seatsWon).padStart(2, '0'), `font-family:${f};font-size:22px;font-weight:700;fill:${textOn(cc)}`, 'start', 'seats-' + r.partyId);
+    s += KT(bxo + 62, y + 12, o.voteLbl.toUpperCase(), `font-family:${f};font-size:8px;fill:${textOn(cc)}`, 'start', 'voteLbl' + i) + KT(bxo + 62, y + 37, r.share.toFixed(1).padStart(4, '0') + '%', `font-family:${f};font-size:22px;font-weight:700;fill:${textOn(cc)}`, 'start', 'vote-' + r.partyId); });
+  const yb = 32 + rows.length * rh + 18; if (c?.turnout != null && o.turnout !== false) s += KT(W, yb, `VOTER TURNOUT: ${c.turnout.toFixed(1)} %`, `font-family:${f};font-size:17px;font-weight:700;fill:#111`, 'end', 'turnout');
+  return `<rect x="-8" y="-8" width="${W + 16}" height="${yb + 16}" style="fill:#fff;fill-opacity:${o.bg === false ? 0 : .92}"/>` + s;
+}
+function keyPill(cfg) {
+  const { o, rows, N, f, col, tones, subOf, labs } = keyCommon(cfg); const W = 820, bh = 62, lw = 420, rh = 136; const split = !!o.split; const uid = (cfg.uid || cfg.eid || 'k').replace(/\W/g, '');
+  const nx = split ? [W - 290, W - 175, W - 70] : [W - 250, W - 90];
+  let s = `<defs><pattern id="hatch-${uid}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" style="fill:#d6d6d6"/><rect width="3" height="7" style="fill:#a9a9a9"/></pattern></defs>`;
+  if (o.ladder) { s += KT(lw / 2 + 14, 16, o.ladTitle || 'Winning vote share', `font-family:${f};font-size:17px;font-weight:700;font-style:italic;fill:#111`, 'middle', 'ladTitle'); if (o.ladderLabels !== false) for (let i = 0; i < N; i += Math.max(1, Math.round(N / 6))) s += KT(14 + i * lw / N, 42, labs[i], `font-family:${f};font-size:15px;font-style:italic;fill:#111`, 'start', 'lab' + i); }
+  const hd = split ? [[nx[0], o.voteLbl], [nx[1], o.cLbl || 'Districts'], [nx[2], o.seatLbl]] : [[nx[0], o.voteLbl], [nx[1], o.seatLbl]];
+  hd.forEach(([x, l], j) => { s += KT(x, 34, l, `font-family:${f};font-size:17px;font-weight:700;font-style:italic;fill:#111`, 'middle', 'h' + j); });
+  rows.forEach((r, i) => { const y = 56 + i * rh, cc = col(r);
+    if (o.ladder) tones(r).forEach((t, k) => { s += `<rect x="${f2(14 + k * lw / N)}" y="${y}" width="${f2(lw / N - 2)}" height="16" style="fill:${t}"/>`; });
+    const by = y + 22; s += `<rect x="0" y="${by - 6}" width="7" height="${bh + 12}" style="fill:${mix(cc, '#000000', .25)}"/><path d="M14 ${by}H${W - bh / 2}A${bh / 2} ${bh / 2} 0 0 1 ${W - bh / 2} ${by + bh}H14Z" style="fill:${cc};stroke:${mix(cc, '#000000', .15)};stroke-width:1.2"/>`;
+    const tc = textOn(cc); s += KT(30, by + 33, r.name, `font-family:${f};font-size:${fitSz(r.name, nx[0] - 110, 30)}px;font-weight:700;fill:${tc}`, 'start', 'name-' + r.partyId);
+    const sub = subOf(r); if (sub) s += KT(30, by + 54, sub, `font-family:${f};font-size:16px;font-style:italic;fill:${tc}`, 'start', 'sub-' + r.partyId);
+    const vals = split ? [r.share.toFixed(2) + '%', String(r.cWon || 0), String(r.seatsWon)] : [r.share.toFixed(2) + '%', String(r.seatsWon)];
+    vals.forEach((v, j) => { s += KT(nx[j], by + 42, v, `font-family:${f};font-size:30px;font-weight:700;fill:${tc}`, 'middle', ['vote-', split ? 'dist-' : 'seats-', 'seats-'][j] + r.partyId); });
+    if (o.progress !== false) { const py = by + bh + 8, pw = 620, fw = Math.min(1, r.share / (num(o.pScale) || 50)) * pw; s += `<rect x="14" y="${py}" width="${pw}" height="12" style="fill:url(#hatch-${uid})"/><rect x="14" y="${py}" width="${f2(fw)}" height="12" style="fill:${mix(cc, '#000000', .18)}"/>`; } });
+  return `<rect x="-10" y="-8" width="${W + 20}" height="${56 + rows.length * rh + 4}" style="fill:#fff;fill-opacity:${o.bg === false ? 0 : .92}"/>` + s;
+}
+const _keyBars10 = MMG_BUILD.key;
+MMG_BUILD.key = cfg => { const st = cfg.o?.style || 'bars'; return st === 'mirror' ? keyMirror(cfg) : st === 'blocks' ? keyBlocks(cfg) : st === 'pill' ? keyPill(cfg) : _keyBars10(cfg); };
+/* new keys take the style chosen in the Results tab */
+const _mmgMake10 = mmgMake; mmgMake = function (cfg, x, y, sc) { if (cfg.type === 'key') { cfg.o = cfg.o || {}; if (!cfg.o.style) cfg.o.style = mmgOpts().keyStyle || 'bars'; cfg.uid = cfg.uid || Math.random().toString(36).slice(2, 7); } if (cfg.type === 'title') { cfg.o = cfg.o || {}; if (!cfg.o.align) cfg.o.align = mmgOpts().titleAlign || 'left'; } return _mmgMake10(cfg, x, y, sc); };
+const _resPanel10 = mmResPanel;
+mmResPanel = function () { const o = mmgOpts(); return _resPanel10().replace('<div class="mm-h">Results graphics</div>', `<div class="mm-h">Results graphics</div><label class="mm-sl"><span>Party key style</span><select data-change="mmgOpt" data-k="keyStyle">${opt(KEY_STYLES, o.keyStyle || 'bars')}</select></label><label class="mm-sl"><span>Title alignment</span><select data-change="mmgOpt" data-k="titleAlign">${opt([['left', 'Left (Scottish)'], ['center', 'Centre'], ['right', 'Right (Alberta)']], o.titleAlign || 'left')}</select></label>`); };
+const _gfxPanel10 = mmGfxSelPanel;
+mmGfxSelPanel = function (g) {
+  const c = mmgCfgOf(g); let h = _gfxPanel10(g); const o = c.o || {};
+  if (c.type === 'key') h = h.replace('<div class="mm-h">Margin ladder</div>', `<div class="mm-h">Style</div><label class="mm-sl"><span>Key style</span><select data-change="mmgKeyOpt" data-k="style">${opt(KEY_STYLES, o.style || 'bars')}</select></label>
+    ${['blocks', 'pill'].includes(o.style) ? `<label class="mm-sl"><span>Line under name</span><select data-change="mmgKeyOpt" data-k="sub">${opt([['leader', 'Party leader'], ['abbr', 'Abbreviation'], ['ideology', 'Ideology'], ['none', 'Nothing']], o.sub || 'leader')}</select></label>` : ''}
+    ${o.style === 'pill' ? `<label class="chk"><input type="checkbox" ${o.split ? 'checked' : ''} data-change="mmgKeyOpt" data-k="split"> Separate district and overall seats (MMP / two-tier)</label><label class="chk"><input type="checkbox" ${o.progress !== false ? 'checked' : ''} data-change="mmgKeyOpt" data-k="progress"> Vote-share bar under each party</label><label class="mm-sl"><span>Vote bar full at (%)</span><input type="range" min="10" max="100" step="1" value="${o.pScale || 50}" data-change="mmgKeyOpt" data-k="pScale"><b>${o.pScale || 50}</b></label>` : ''}
+    ${o.style === 'blocks' ? `<label class="chk"><input type="checkbox" ${o.turnout !== false ? 'checked' : ''} data-change="mmgKeyOpt" data-k="turnout"> Show voter turnout</label>` : ''}
+    <div class="mm-h">Margin ladder</div>`);
+  if (c.type === 'title') { const sl = (k, l, min, max, st, d) => `<label class="mm-sl"><span>${l}</span><input type="range" min="${min}" max="${max}" step="${st}" value="${o[k] ?? d}" data-change="mmgKeyOpt" data-k="${k}"><b>${o[k] ?? d}</b></label>`;
+    h = h.replace(/(<label class="mm-sl"><span>Size)/, `<label class="mm-sl"><span>Alignment</span><select data-change="mmgKeyOpt" data-k="align">${opt([['left', 'Left'], ['center', 'Centre'], ['right', 'Right']], o.align || 'left')}</select></label>${sl('tsz', 'Title size', 8, 160, 1, 40)}${sl('ssz', 'Subtitle size', 6, 100, 1, 22)}${sl('tw', 'Box width (0 = fit)', 0, 3000, 10, 0)}<label class="chk"><input type="checkbox" ${o.subItalic !== false ? 'checked' : ''} data-change="mmgKeyOpt" data-k="subItalic"> Italic subtitle</label>$1`); }
+  return h;
+};
+const _keyOpt10 = ACT.mmgKeyOpt;
+ACT.mmgKeyOpt = t => { if (t.tagName === 'SELECT') { const [g, c] = keyCfg(); if (!g) return; c.o = c.o || {}; const old = c.o.style || 'bars'; c.o[t.dataset.k] = t.value; if (t.dataset.k === 'style' && c.type === 'key' && old !== t.value) { const tr = g.getAttribute('transform') || ''; const m0 = tr.match(/scale\(([-\d.e]+)/); const sc = m0 ? +m0[1] : 1; const ns = sc * (KEY_W[old] || 436) / (KEY_W[t.value] || 436); g.setAttribute('transform', m0 ? tr.replace(/scale\([^)]*\)/, `scale(${+ns.toFixed(4)})`) : `${tr} scale(${+ns.toFixed(4)})`); } mmBegin(); mmgSetCfg(g, c); mmEnd('Style'); mmSave(); mmPanel(); return; } _keyOpt10(t); };
 
 </script>
 <script>/* js/demo.js */
