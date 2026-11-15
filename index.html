@@ -755,6 +755,22 @@ body.wk-linkedit a.wl{outline:1px dashed #3366cc;outline-offset:1px;cursor:point
 .wk-root .infobox .ib-ov{box-shadow:inset 0 -2px 0 #f0c040}.wk-root .infobox img.ib-edit-img{cursor:pointer;outline:2px dashed #36c;outline-offset:-2px}
 .ibs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ibs-grid fieldset{border:1px solid var(--line2);padding:8px 10px;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;align-content:start}.ibs-grid fieldset .chk,.ibs-grid fieldset p,.ibs-grid fieldset button{grid-column:1/-1}.ibs-grid fieldset:nth-of-type(3){grid-column:1/-1}.ibs-grid>.row{grid-column:1/-1}
 </style>
+<style>
+/* ---- update 11 ---- */
+#mmBox{position:absolute;border:1px dashed #0a84ff;pointer-events:none;z-index:7;display:none}#mmBox.busy{border-style:solid}
+#mmBox i{position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid #0a84ff;pointer-events:auto;margin:-5px 0 0 -5px;border-radius:1px}
+#mmBox i[data-h=nw]{left:0;top:0;cursor:nwse-resize}#mmBox i[data-h=n]{left:50%;top:0;cursor:ns-resize}#mmBox i[data-h=ne]{left:100%;top:0;cursor:nesw-resize}#mmBox i[data-h=e]{left:100%;top:50%;cursor:ew-resize}
+#mmBox i[data-h=se]{left:100%;top:100%;cursor:nwse-resize}#mmBox i[data-h=s]{left:50%;top:100%;cursor:ns-resize}#mmBox i[data-h=sw]{left:0;top:100%;cursor:nesw-resize}#mmBox i[data-h=w]{left:0;top:50%;cursor:ew-resize}
+.xf-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;margin:4px 0}.xf-grid label{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600}.xf-grid input{width:100%;min-width:0;font:12px ui-monospace,Menlo,monospace;padding:3px 4px}.xf-grid .iconbtn{grid-row:2;grid-column:1/-1;justify-self:center;margin:-2px 0;height:18px;font-size:11px}.xf-grid label:nth-of-type(3){grid-row:3;grid-column:1}.xf-grid label:nth-of-type(4){grid-row:3;grid-column:2}.xf-grid label:nth-of-type(5){grid-column:1/-1}
+.mm-stage.tool-poly{cursor:crosshair}.mm-world [data-mmguide]{opacity:.55}
+</style>
+<style>
+.gundo{display:inline-flex;gap:2px;margin-right:6px}.gundo .iconbtn:disabled{opacity:.3}
+.mm-lockbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 0 8px;font-size:12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.mm-obj{position:relative}.mm-olock{margin-left:auto;border:0;background:none;cursor:pointer;font-size:11px;opacity:.35;padding:0 2px}.mm-obj:hover .mm-olock,.mm-obj.locked .mm-olock{opacity:1}.mm-obj.locked span{color:var(--muted);font-style:italic}
+.mm-lockbtn{float:right;margin-top:-4px;padding:1px 6px!important;font-size:11px!important}
+.flash{animation:flash .9s ease}@keyframes flash{0%,40%{box-shadow:0 0 0 3px #0a84ff88}100%{box-shadow:none}}
+</style>
 </head>
 <body data-theme="newsroom">
 <div id="app"></div>
@@ -4047,7 +4063,7 @@ function mmVB() { return (MM.svg.getAttribute('viewBox') || '0 0 1000 800').spli
 
 /* undo/redo via MutationObserver — every edit is reversible */
 function mmObserve() { MM.obs?.disconnect(); MM.obs = new MutationObserver(() => { }); MM.obs.observe(MM.svg, { attributes: true, attributeOldValue: true, childList: true, subtree: true, characterData: true, characterDataOldValue: true }); }
-const mmRelevant = r => !(r.type === 'attributes' && /^data-mm/.test(r.attributeName));
+const mmRelevant = r => !(r.type === 'attributes' && /^data-mm(sel|hov)$/.test(r.attributeName));
 function mmBegin() { MM.obs?.takeRecords(); }
 function mmEnd(label) { const recs = (MM.obs?.takeRecords() || []).filter(mmRelevant); if (recs.length) { MM.undo.push({ label, recs }); if (MM.undo.length > 80) MM.undo.shift(); MM.redo = []; mmSave(); } mmStatus(); mmPanel(); }
 function mmApplyReverse(op) {
@@ -4491,7 +4507,7 @@ VIEWS.parties.render = function () { const h = _partiesRender.call(this); const 
 VIEWS.parties.mount = function (root) { const box = $('#ppTags', root); const p = party(S.sel.party); if (!box || !p) return; const tags = (p.ideology || '').split(',').map(s => s.trim()).filter(Boolean); let first = true; bindTagEditor(box, tags, t => { if (first) { first = false; return; } p.ideology = t.join(', '); markDirty(); }); };
 
 /* ---------------- what's new ---------------- */
-const WHATS_NEW = [['Infobox editing', 'In Edit mode, type straight into any infobox cell (wiki links work) — placeholders for inaugural elections, custom names and figures — and click portraits to swap them. Right-click restores the automatic value.'], ['Uniform article style', 'Infobox & table style: width, text size, padding, flag width, portrait width and height, party bar height, alignment and font for every infobox; text size, padding, alignment and full width for every wikitable; and which map the article shows.'], ['Results key styles', 'Map Maker party keys in four styles — Scottish bars, Alberta mirrored, Welsh blocks and Australian/German rounded bars with leaders, district/overall seats and vote bars — plus left, centre or right title alignment and circular insets with a light grey source wash.'], ['Edit inside graphics', 'Double-click any text in a results graphic (title, party names, seat and vote figures) to change it, its size or colour; reset any time to follow the results again.'], ['Margin ladders', 'Choose how many rectangles the ladder has, its labels, lightest and darkest tones, a custom colour per party, or pick every rectangle’s colour by hand.'], ['Insets, lines & shapes', 'Map Maker: drag a box to make a live, full-quality inset (square, rounded or cut corner, titled, with a dashed connector); draw straight, curved, dashed or dotted lines, rectangles with rounded corners and ellipses; resize the page.'], ['Maps in articles', 'Map Maker → Use in article puts your finished map into an election’s infobox and results-by-region section, kept in sync.'], ['Open in Map Maker', 'Electoral Map Studio → Open in Map Maker: the map arrives with every region named and linked, coloured by results, with a title, party results (votes, %, seats), hemicycle and vote/seat ring laid out beside it.'], ['Align & snap', 'Map Maker has Inkscape-style align (left, centre, right, top, middle, bottom) and distribute, relative to the page, selection, first or largest object — and objects snap to the page, centres and each other while you drag, with pink guides.'], ['Exact numbers', 'Every slider now has a number box beside it — type any value, even beyond the slider’s range.'], ['Results workbooks', 'Download a real Excel workbook laid out like a results sheet — states, seats, population, enrolled, votes, % and seats per party, turnout, quota and levelling seats — fill it in and import it back (.xlsx or .csv).'], ['Count structure', 'Choose a single national count, a count built from the regions (national totals = sum of states, seats won region by region with D’Hondt, Sainte-Laguë, Hare, Droop, STV or block vote), or a two-tier system (MMP, AMS, parallel, levelling).'], ['Inaugural elections', 'Mark the first election so the infobox and articles show no previous election, outgoing members, government or swings.'], ['Parliament diagrams', 'Square or rounded seats, gaps between parties, a speaker’s seat, a mirrored chamber layout with curved crossbench, and Arial (or any) font for the numbers — also from the encyclopedia’s Appearance column.'], ['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
+const WHATS_NEW = [['Undo everywhere', 'Ctrl+Z / Ctrl+Shift+Z (or Ctrl+Y) now undo and redo any change across the whole project — parties, elections, articles, settings — with ↶ ↷ buttons beside Save. Map Maker keeps its own step-by-step undo.'], ['Lock objects', 'Map Maker: lock any object (Ctrl+L, or 🔓 in the Objects list) so it can’t be selected, moved or painted by accident; Ctrl+Shift+L unlocks everything. Layers lock too.'], ['Double-click to edit', 'Double-click a district, seat cluster, inset or graphic to select it and jump straight to its settings.'], ['Resize & transform', 'Map Maker: drag handles to resize anything (Ctrl keeps proportions, Shift from the centre) while borders stay the same width; type exact X, Y, W, H or scale %; make several objects the same width, height or size; Ctrl while moving keeps it straight.'], ['Pen tool & guides', 'Draw custom shapes and borders point by point (P), and mark any shape as a guide — it snaps and aligns but never exports.'], ['Infobox editing', 'In Edit mode, type straight into any infobox cell (wiki links work) — placeholders for inaugural elections, custom names and figures — and click portraits to swap them. Right-click restores the automatic value.'], ['Uniform article style', 'Infobox & table style: width, text size, padding, flag width, portrait width and height, party bar height, alignment and font for every infobox; text size, padding, alignment and full width for every wikitable; and which map the article shows.'], ['Results key styles', 'Map Maker party keys in four styles — bar list, mirrored, blocks and rounded bars with leaders, district/overall seats and vote bars — plus left, centre or right title alignment and circular insets with a light grey source wash.'], ['Edit inside graphics', 'Double-click any text in a results graphic (title, party names, seat and vote figures) to change it, its size or colour; reset any time to follow the results again.'], ['Margin ladders', 'Choose how many rectangles the ladder has, its labels, lightest and darkest tones, a custom colour per party, or pick every rectangle’s colour by hand.'], ['Insets, lines & shapes', 'Map Maker: drag a box to make a live, full-quality inset (square, rounded or cut corner, titled, with a dashed connector); draw straight, curved, dashed or dotted lines, rectangles with rounded corners and ellipses; resize the page.'], ['Maps in articles', 'Map Maker → Use in article puts your finished map into an election’s infobox and results-by-region section, kept in sync.'], ['Open in Map Maker', 'Electoral Map Studio → Open in Map Maker: the map arrives with every region named and linked, coloured by results, with a title, party results (votes, %, seats), hemicycle and vote/seat ring laid out beside it.'], ['Align & snap', 'Map Maker has Inkscape-style align (left, centre, right, top, middle, bottom) and distribute, relative to the page, selection, first or largest object — and objects snap to the page, centres and each other while you drag, with pink guides.'], ['Exact numbers', 'Every slider now has a number box beside it — type any value, even beyond the slider’s range.'], ['Results workbooks', 'Download a real Excel workbook laid out like a results sheet — states, seats, population, enrolled, votes, % and seats per party, turnout, quota and levelling seats — fill it in and import it back (.xlsx or .csv).'], ['Count structure', 'Choose a single national count, a count built from the regions (national totals = sum of states, seats won region by region with D’Hondt, Sainte-Laguë, Hare, Droop, STV or block vote), or a two-tier system (MMP, AMS, parallel, levelling).'], ['Inaugural elections', 'Mark the first election so the infobox and articles show no previous election, outgoing members, government or swings.'], ['Parliament diagrams', 'Square or rounded seats, gaps between parties, a speaker’s seat, a mirrored chamber layout with curved crossbench, and Arial (or any) font for the numbers — also from the encyclopedia’s Appearance column.'], ['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
 ACT.whatsNew = () => modal(`<h3>What's New in MAPS</h3><div class="wn">${WHATS_NEW.map(([t, d]) => `<div><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('')}</div><div class="row end"><button class="btn" data-act="closeModal">Got it</button></div>`);
 
 </script>
@@ -5889,7 +5905,7 @@ document.addEventListener('keydown', e => { if (S.view !== 'mapmaker' || !MM.svg
 function shapePanel(els) {
   const el = els[0]; const cs = getComputedStyle(el); const sh = el.getAttribute('data-mmshape'); const sw = parseFloat(el.style.strokeWidth || cs.strokeWidth) || 1; const dash = el.getAttribute('data-mmdash') || (cs.strokeDasharray && cs.strokeDasharray !== 'none' ? 'custom' : 'solid');
   const stroke = mmNormColor(el.style.stroke || cs.stroke); const fill = mmNormColor(el.style.fill || cs.fill);
-  return `<div class="mm-gfx"><div class="mm-h">${sh ? { line: 'Line', curve: 'Curved line', rect: 'Rectangle', ellipse: 'Ellipse' }[sh] : 'Stroke & shape'}${els.length > 1 ? ` · ${els.length} objects` : ''}</div>
+  return `<div class="mm-gfx"><div class="mm-h">${sh ? ({ line: 'Line', curve: 'Curved line', rect: 'Rectangle', ellipse: 'Ellipse', poly: 'Custom shape', polyline: 'Custom line' }[sh] || 'Shape') : 'Stroke & shape'}${els.length > 1 ? ` · ${els.length} objects` : ''}</div>
     <div class="mm-row"><span class="mm-tip">Line</span><input type="color" value="${stroke.startsWith('#') ? stroke : '#111111'}" data-change="mmShp" data-k="stroke"><input type="number" class="w60" step="0.25" min="0" value="${+sw.toFixed(2)}" data-change="mmShp" data-k="sw" title="Line width"><select data-change="mmShp" data-k="dash">${opt([['solid', 'Solid'], ['dashed', 'Dashed'], ['dotted', 'Dotted'], ['dashdot', 'Dash-dot'], ['long', 'Long dash'], ['none', 'No line']], dash)}</select></div>
     <div class="mm-row"><span class="mm-tip">Fill</span><input type="color" value="${fill.startsWith('#') ? fill : '#ffffff'}" data-change="mmShp" data-k="fill"><label class="chk xs"><input type="checkbox" ${fill === 'none' ? 'checked' : ''} data-change="mmShp" data-k="nofill"> None</label><select data-change="mmShp" data-k="cap">${opt([['round', 'Round ends'], ['butt', 'Flat ends'], ['square', 'Square ends']], cs.strokeLinecap)}</select></div>
     ${sh === 'rect' ? `<label class="mm-sl"><span>Corner radius</span><input type="range" min="0" max="${Math.round(Math.min(+el.getAttribute('width') || 100, +el.getAttribute('height') || 100) / 2)}" step="0.5" value="${+el.getAttribute('rx') || 0}" data-change="mmShp" data-k="rx"><b>${+el.getAttribute('rx') || 0}</b></label>` : ''}
@@ -6083,7 +6099,7 @@ function mmgBuildTitle10(cfg) {
 MMG_BUILD.title = mmgBuildTitle10;
 
 /* ================= party results key styles ================= */
-const KEY_STYLES = [['bars', 'Scottish — bars, figures on the right'], ['mirror', 'Alberta — figures on the left, right-aligned bars'], ['blocks', 'Welsh — name block, shade blocks, seats & vote box'], ['pill', 'Australian / German — rounded bars, leader, vote bar']];
+const KEY_STYLES = [['bars', 'Bar list — figures to the right of each bar'], ['mirror', 'Mirrored — figures on the left, bars aligned right'], ['blocks', 'Blocks — name panel, shade blocks, seats & vote box'], ['pill', 'Rounded bars — subtitle, vote-share bar, split seats']];
 function keyCommon(cfg) {
   const e = elec(cfg.eid); const o = { ...MMG_DEF, minShare: 1, ladder: true, seatLbl: 'Seats', voteLbl: 'Vote %', head: 'Party Results', ladderN: 10, ladderStart: 25, ladderStep: 5, ladLight: 0.8, ladDark: 0.5, sub: 'leader', split: false, progress: true, pScale: 50, ...cfg.o };
   const rows = e ? mmgRowsFor(e, o) : []; const N = Math.max(1, Math.min(40, Math.round(num(o.ladderN) || 10))); const f = mmgFont(o); const pc = o.pc || {};
@@ -6143,7 +6159,7 @@ MMG_BUILD.key = cfg => { const st = cfg.o?.style || 'bars'; return st === 'mirro
 /* new keys take the style chosen in the Results tab */
 const _mmgMake10 = mmgMake; mmgMake = function (cfg, x, y, sc) { if (cfg.type === 'key') { cfg.o = cfg.o || {}; if (!cfg.o.style) cfg.o.style = mmgOpts().keyStyle || 'bars'; cfg.uid = cfg.uid || Math.random().toString(36).slice(2, 7); } if (cfg.type === 'title') { cfg.o = cfg.o || {}; if (!cfg.o.align) cfg.o.align = mmgOpts().titleAlign || 'left'; } return _mmgMake10(cfg, x, y, sc); };
 const _resPanel10 = mmResPanel;
-mmResPanel = function () { const o = mmgOpts(); return _resPanel10().replace('<div class="mm-h">Results graphics</div>', `<div class="mm-h">Results graphics</div><label class="mm-sl"><span>Party key style</span><select data-change="mmgOpt" data-k="keyStyle">${opt(KEY_STYLES, o.keyStyle || 'bars')}</select></label><label class="mm-sl"><span>Title alignment</span><select data-change="mmgOpt" data-k="titleAlign">${opt([['left', 'Left (Scottish)'], ['center', 'Centre'], ['right', 'Right (Alberta)']], o.titleAlign || 'left')}</select></label>`); };
+mmResPanel = function () { const o = mmgOpts(); return _resPanel10().replace('<div class="mm-h">Results graphics</div>', `<div class="mm-h">Results graphics</div><label class="mm-sl"><span>Party key style</span><select data-change="mmgOpt" data-k="keyStyle">${opt(KEY_STYLES, o.keyStyle || 'bars')}</select></label><label class="mm-sl"><span>Title alignment</span><select data-change="mmgOpt" data-k="titleAlign">${opt([['left', 'Left'], ['center', 'Centre'], ['right', 'Right']], o.titleAlign || 'left')}</select></label>`); };
 const _gfxPanel10 = mmGfxSelPanel;
 mmGfxSelPanel = function (g) {
   const c = mmgCfgOf(g); let h = _gfxPanel10(g); const o = c.o || {};
@@ -6158,6 +6174,225 @@ mmGfxSelPanel = function (g) {
 };
 const _keyOpt10 = ACT.mmgKeyOpt;
 ACT.mmgKeyOpt = t => { if (t.tagName === 'SELECT') { const [g, c] = keyCfg(); if (!g) return; c.o = c.o || {}; const old = c.o.style || 'bars'; c.o[t.dataset.k] = t.value; if (t.dataset.k === 'style' && c.type === 'key' && old !== t.value) { const tr = g.getAttribute('transform') || ''; const m0 = tr.match(/scale\(([-\d.e]+)/); const sc = m0 ? +m0[1] : 1; const ns = sc * (KEY_W[old] || 436) / (KEY_W[t.value] || 436); g.setAttribute('transform', m0 ? tr.replace(/scale\([^)]*\)/, `scale(${+ns.toFixed(4)})`) : `${tr} scale(${+ns.toFixed(4)})`); } mmBegin(); mmgSetCfg(g, c); mmEnd('Style'); mmSave(); mmPanel(); return; } _keyOpt10(t); };
+
+</script>
+<script>/* js/update11.js */
+'use strict';
+/* =====================================================================
+   update11.js : Map Maker transform tools — resize handles (keep or
+   scale border widths), Ctrl-constrained move / proportional resize,
+   Shift resize from centre, X/Y/W/H boxes, match size, pen / polygon
+   tool and guide shapes hidden from exports.
+   ===================================================================== */
+const IDM = () => MM.svg.createSVGMatrix();
+function localM(el) { const b = el.transform && el.transform.baseVal; let m = IDM(); if (b) for (let i = 0; i < b.numberOfItems; i++) m = m.multiply(b.getItem(i).matrix); return m; }
+function parentM(el) { return el.parentNode === MM.svg ? IDM() : mmRootM(el.parentNode); }
+function unionBB(els) { const bs = els.map(mmBBoxRoot).filter(b => b && (b.w || b.h)); if (!bs.length) return null; const x0 = Math.min(...bs.map(b => b.x)), y0 = Math.min(...bs.map(b => b.y)), x1 = Math.max(...bs.map(b => b.x + b.w)), y1 = Math.max(...bs.map(b => b.y + b.h)); return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 }; }
+function setTf(el, m) {
+  if (el.hasAttribute('data-mmgfx') && Math.abs(m.b) < 1e-9 && Math.abs(m.c) < 1e-9 && Math.abs(m.a - m.d) < 1e-6) el.setAttribute('transform', `translate(${+m.e.toFixed(3)} ${+m.f.toFixed(3)}) scale(${+m.a.toFixed(5)})`);
+  else el.setAttribute('transform', mmMatrixStr(m));
+}
+/* snapshot of each element so a drag can always re-apply from the original */
+function xfSnap(els) { return els.map(el => ({ el, L: localM(el), Mp: parentM(el), tf: el.getAttribute('transform') })); }
+function xfApply(snap, T) { snap.forEach(s => setTf(s.el, s.Mp.inverse().multiply(T).multiply(s.Mp).multiply(s.L))); }
+const scaleAbout = (ax, ay, sx, sy) => IDM().translate(ax, ay).scaleNonUniform(sx, sy).translate(-ax, -ay);
+/* keep borders the same width after scaling (Inkscape's "scale stroke width" off) */
+function keepStrokes(els, k) {
+  if (MM.scaleStrokes || !isFinite(k) || Math.abs(k - 1) < 1e-6) return;
+  els.forEach(el => { if (el.hasAttribute('data-mmgfx')) return; [el, ...el.querySelectorAll('path,polygon,polyline,rect,circle,ellipse,line')].forEach(x => { if (x.closest('defs,pattern,clipPath,[data-mmgfx]')) return; const cs = getComputedStyle(x); if (!cs.stroke || cs.stroke === 'none' || cs.vectorEffect === 'non-scaling-stroke' || /non-scaling-stroke/.test(x.getAttribute('style') || '') || x.getAttribute('vector-effect') === 'non-scaling-stroke') return; const w = parseFloat(cs.strokeWidth); if (w) x.style.strokeWidth = +(w / k).toFixed(4); const da = cs.strokeDasharray; if (da && da !== 'none') x.style.strokeDasharray = da.split(/[ ,]+/).map(v => +(parseFloat(v) / k).toFixed(3)).join(' '); }); });
+}
+
+/* ================= resize handles ================= */
+function mmHandles() {
+  const st = $('#mmStage'); if (!st || !MM.svg) return; let box = $('#mmBox');
+  const show = MM.sel.length && ['select', 'move'].includes(MM.tool) && !MM._xf;
+  const B = show ? unionBB(MM.sel) : null; if (!B) { if (box) box.style.display = 'none'; return; }
+  if (!box) { box = document.createElement('div'); box.id = 'mmBox'; box.innerHTML = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'].map(h => `<i data-h="${h}"></i>`).join(''); st.appendChild(box); box.querySelectorAll('i').forEach(h => h.addEventListener('pointerdown', mmResizeStart)); }
+  const m = MM.svg.getScreenCTM(), sr = st.getBoundingClientRect();
+  Object.assign(box.style, { display: 'block', left: (m.a * B.x + m.e - sr.left) + 'px', top: (m.d * B.y + m.f - sr.top) + 'px', width: Math.max(1, m.a * B.w) + 'px', height: Math.max(1, m.d * B.h) + 'px' });
+}
+function mmResizeStart(e) {
+  e.stopPropagation(); e.preventDefault(); const h = e.currentTarget.dataset.h; const els = MM.sel.slice(); const B = unionBB(els); if (!B || !B.w || !B.h) return;
+  const snap = xfSnap(els); const gfx = els.some(x => x.hasAttribute('data-mmgfx')); let started = false, last = { sx: 1, sy: 1 };
+  const toDoc = (cx, cy) => { const p = MM.svg.createSVGPoint(); p.x = cx; p.y = cy; return p.matrixTransform(MM.svg.getScreenCTM().inverse()); };
+  const mv = ev => {
+    if (!started) { started = true; mmBegin(); MM._xf = true; $('#mmBox').classList.add('busy'); }
+    const p = toDoc(ev.clientX, ev.clientY); const centre = ev.shiftKey; const prop = ev.ctrlKey || ev.metaKey || gfx;
+    let x0 = B.x, y0 = B.y, x1 = B.x + B.w, y1 = B.y + B.h;
+    if (h.includes('w')) x0 = Math.min(p.x, x1 - 1e-3); if (h.includes('e')) x1 = Math.max(p.x, x0 + 1e-3); if (h.includes('n')) y0 = Math.min(p.y, y1 - 1e-3); if (h.includes('s')) y1 = Math.max(p.y, y0 + 1e-3);
+    let sx = (x1 - x0) / B.w, sy = (y1 - y0) / B.h; if (centre) { if (h.includes('w') || h.includes('e')) sx = 2 * sx - 1; if (h.includes('n') || h.includes('s')) sy = 2 * sy - 1; }
+    if (h.length === 1) { if (h === 'n' || h === 's') { if (prop) sx = sy; else sx = 1; } else { if (prop) sy = sx; else sy = 1; } }
+    else if (prop) { const k = Math.max(sx, sy); sx = sy = k; }
+    sx = Math.max(0.01, sx); sy = Math.max(0.01, sy);
+    const ax = centre ? B.x + B.w / 2 : h.includes('w') ? B.x + B.w : B.x, ay = centre ? B.y + B.h / 2 : h.includes('n') ? B.y + B.h : B.y;
+    const hx = h.length === 1 && (h === 'n' || h === 's') ? B.x + B.w / 2 : ax, hy = h.length === 1 && (h === 'e' || h === 'w') ? B.y + B.h / 2 : ay;
+    xfApply(snap, scaleAbout(hx, hy, sx, sy)); last = { sx, sy };
+    const st = $('#mmStatus'); if (st) st.querySelector('span') && (st.querySelector('span').innerHTML = `<b>${(B.w * sx).toFixed(1)} × ${(B.h * sy).toFixed(1)}</b> (${Math.round(sx * 100)}% × ${Math.round(sy * 100)}%) · Ctrl keeps proportions · Shift from centre`);
+    const box = $('#mmBox'); const m = MM.svg.getScreenCTM(), sr = $('#mmStage').getBoundingClientRect(); const nb = unionBB(els); if (box && nb) Object.assign(box.style, { display: 'block', left: (m.a * nb.x + m.e - sr.left) + 'px', top: (m.d * nb.y + m.f - sr.top) + 'px', width: m.a * nb.w + 'px', height: m.d * nb.h + 'px' });
+  };
+  const up = () => { window.removeEventListener('pointermove', mv, true); window.removeEventListener('pointerup', up, true); MM._xf = false; $('#mmBox')?.classList.remove('busy'); if (!started) return; keepStrokes(els, Math.sqrt(last.sx * last.sy)); mmEnd('Resize'); mmSave(); mmStatus(); mmPanel(); mmHandles(); };
+  window.addEventListener('pointermove', mv, true); window.addEventListener('pointerup', up, true);
+}
+['mmSelect', 'mmApplyView', 'mmTranslate', 'mmEnd'].forEach(n => { const f = window[n]; if (typeof f !== 'function') return; window[n] = function () { const r = f.apply(this, arguments); try { mmHandles(); } catch (e) { } return r; }; });
+mmSelect = window.mmSelect; mmApplyView = window.mmApplyView; mmTranslate = window.mmTranslate; mmEnd = window.mmEnd;
+const _tool11 = ACT.mmTool; ACT.mmTool = t => { _tool11(t); mmHandles(); };
+window.addEventListener('resize', () => { if (S.view === 'mapmaker') mmHandles(); });
+
+/* ================= Ctrl while moving: horizontal, vertical or 45° only ================= */
+document.addEventListener('pointermove', e => { MM._ctrl = e.ctrlKey || e.metaKey; }, true);
+const _snap11 = mmSnap;
+mmSnap = function (drag, dx, dy, alt) {
+  if (MM._ctrl) { const a = Math.atan2(dy, dx), L = Math.hypot(dx, dy); if (L > 2 / (MM.z || 1)) { const q = Math.round(a / (Math.PI / 4)) * Math.PI / 4; drag.axis = q; } if (drag.axis != null) { const L2 = dx * Math.cos(drag.axis) + dy * Math.sin(drag.axis); dx = L2 * Math.cos(drag.axis); dy = L2 * Math.sin(drag.axis); } const r = _snap11(drag, dx, dy, alt); const horiz = Math.abs(Math.sin(drag.axis ?? 0)) < 1e-6, vert = Math.abs(Math.cos(drag.axis ?? 0)) < 1e-6; if (horiz) r[1] = 0; else if (vert) r[0] = 0; else { r[0] = dx; r[1] = dy; } return r; }
+  drag.axis = null; return _snap11(drag, dx, dy, alt);
+};
+
+/* ================= numeric transform & match size ================= */
+function xfPanel() {
+  const B = unionBB(MM.sel); if (!B) return ''; const lock = MM.lockRatio !== false; const v = n => +n.toFixed(2);
+  return `<div class="mm-gfx mm-xf"><div class="mm-h">Position & size${MM.sel.length > 1 ? ` · ${MM.sel.length} objects` : ''}</div>
+    <div class="xf-grid"><label>X<input type="number" step="any" value="${v(B.x)}" data-change="mmXf" data-k="x"></label><label>Y<input type="number" step="any" value="${v(B.y)}" data-change="mmXf" data-k="y"></label>
+    <label>W<input type="number" step="any" value="${v(B.w)}" data-change="mmXf" data-k="w"></label><button class="iconbtn xs ${lock ? 'on' : ''}" data-act="mmLock" title="Keep proportions">${lock ? '🔗' : '⛓'}</button><label>H<input type="number" step="any" value="${v(B.h)}" data-change="mmXf" data-k="h"></label>
+    <label>Scale %<input type="number" step="any" value="100" data-change="mmXf" data-k="pct"></label></div>
+    <label class="chk xs"><input type="checkbox" ${MM.scaleStrokes ? 'checked' : ''} data-change="mmScaleStrokes"> Scale border widths with the object</label>
+    ${MM.sel.length > 1 ? `<div class="mm-row"><span class="mm-tip">Make same</span><button class="btn sm ghost" data-act="mmMatch" data-k="w">Width</button><button class="btn sm ghost" data-act="mmMatch" data-k="h">Height</button><button class="btn sm ghost" data-act="mmMatch" data-k="wh">Size</button></div><p class="mm-tip">Matches the first object you selected; proportions are kept for results graphics.</p>` : ''}
+    <p class="mm-tip">Drag the handles to resize — Ctrl keeps proportions, Shift resizes from the centre. Ctrl while moving keeps the move straight (horizontal, vertical or 45°).</p></div>`;
+}
+ACT.mmLock = () => { MM.lockRatio = MM.lockRatio === false; mmPanel(); };
+ACT.mmScaleStrokes = t => { MM.scaleStrokes = t.checked; };
+ACT.mmXf = t => {
+  const els = MM.sel.slice(); const B = unionBB(els); if (!B) return; const k = t.dataset.k, v = num(t.value); const prop = MM.lockRatio !== false || els.some(x => x.hasAttribute('data-mmgfx'));
+  let T, sx = 1, sy = 1;
+  if (k === 'x') T = IDM().translate(v - B.x, 0); else if (k === 'y') T = IDM().translate(0, v - B.y);
+  else { if (k === 'w') { sx = v / B.w; sy = prop ? sx : 1; } if (k === 'h') { sy = v / B.h; sx = prop ? sy : 1; } if (k === 'pct') sx = sy = v / 100; if (!(sx > 0 && sy > 0)) return mmPanel(); T = scaleAbout(B.x, B.y, sx, sy); }
+  mmBegin(); xfApply(xfSnap(els), T); keepStrokes(els, Math.sqrt(sx * sy)); mmEnd('Transform'); mmSave(); mmPanel();
+};
+ACT.mmMatch = t => {
+  const els = MM.sel.slice(); const R = mmBBoxRoot(els[0]); if (!R) return; const k = t.dataset.k; mmBegin();
+  els.slice(1).forEach(el => { const b = mmBBoxRoot(el); if (!b || !b.w || !b.h) return; let sx = k === 'h' ? 1 : R.w / b.w, sy = k === 'w' ? 1 : R.h / b.h; if (el.hasAttribute('data-mmgfx')) { const s = k === 'h' ? sy : sx; sx = sy = s; } xfApply(xfSnap([el]), scaleAbout(b.x, b.y, sx, sy)); keepStrokes([el], Math.sqrt(sx * sy)); });
+  mmEnd('Match size'); mmSave(); mmPanel(); toast(`Matched ${els.length - 1} object${els.length === 2 ? '' : 's'} to the first selected`);
+};
+
+/* ================= guides (custom shapes that never export) ================= */
+ACT.mmGuide = t => { mmBegin(); MM.sel.forEach(el => { if (t.checked) el.setAttribute('data-mmguide', '1'); else el.removeAttribute('data-mmguide'); }); mmEnd('Guide'); mmSave(); toast(t.checked ? 'Guide: still snaps and aligns, but is left out of SVG/PNG exports and articles' : 'No longer a guide'); };
+const _clean11 = mmClean;
+mmClean = function (svgEl, opts = {}) { const s = _clean11(svgEl, opts); if (!opts.export || !/data-mmguide/.test(s)) return s; const d = new DOMParser().parseFromString(s, 'image/svg+xml'); d.querySelectorAll('[data-mmguide]').forEach(n => n.remove()); return new XMLSerializer().serializeToString(d.documentElement); };
+const _wikiDoc11 = typeof wikiDocSVG === 'function' ? wikiDocSVG : null;
+if (_wikiDoc11) wikiDocSVG = function (e) { const s = _wikiDoc11(e); return s ? s.replace(/<[a-z]+\b[^>]*data-mmguide="1"[^>]*\/>/g, '') : s; };
+
+const _panel11 = mmPanel;
+mmPanel = function () {
+  _panel11(); const el = $('#mmPanel'); if (!el || MM.tab !== 'sel' || !MM.sel.length) return; el.insertAdjacentHTML('afterbegin', xfPanel());
+  const shp = el.querySelector('.mm-gfx:not(.mm-xf) .mm-h'); const isShape = MM.sel.every(x => !x.hasAttribute('data-mmgfx'));
+  if (isShape) { const g = MM.sel.every(x => x.hasAttribute('data-mmguide')); const box = el.querySelector('.mm-xf'); box.insertAdjacentHTML('beforeend', `<label class="chk xs"><input type="checkbox" ${g ? 'checked' : ''} data-change="mmGuide"> Guide — snap and align to it, but leave it out of exports</label>`); }
+};
+
+/* ================= pen / polygon tool ================= */
+MM_TOOLS.push(['poly', '⬠', 'Pen / polygon (P) — click points; click the first point to close a shape, double-click or Enter to finish a line; Shift = 45°; Esc cancels']);
+let PEN = null;
+function penPath() { const p = PEN.pts.map((q, i) => (i ? 'L' : 'M') + f2(q[0]) + ' ' + f2(q[1])).join(''); return p + (PEN.closed ? 'Z' : PEN.hover ? 'L' + f2(PEN.hover[0]) + ' ' + f2(PEN.hover[1]) : ''); }
+function penFinish(close) {
+  if (!PEN) return; const ok = PEN.pts.length >= (close ? 3 : 2); PEN.closed = close && ok; PEN.hover = null;
+  if (!ok) { PEN.el.remove(); MM.obs?.takeRecords(); PEN = null; return; }
+  PEN.el.setAttribute('d', penPath()); if (PEN.closed) { const st = MM.shapeStyle; PEN.el.style.fill = st.fill && st.fill !== 'none' ? st.fill : 'none'; } PEN.el.setAttribute('data-mmshape', PEN.closed ? 'poly' : 'polyline');
+  const el = PEN.el; PEN = null; mmEnd('Pen'); mmSelect([el]); mmSave(); ACT.mmTool({ dataset: { t: 'select' } }); MM.tab = 'sel'; ACT.mmTab({ dataset: { t: 'sel' } });
+}
+function mmBindPen() {
+  const st = $('#mmStage'); if (!st || st.dataset.pen) return; st.dataset.pen = '1';
+  const toDoc = (cx, cy) => { const p = MM.svg.createSVGPoint(); p.x = cx; p.y = cy; return p.matrixTransform(MM.svg.getScreenCTM().inverse()); };
+  const ang = (a, p, on) => { if (!on || !a) return p; const dx = p[0] - a[0], dy = p[1] - a[1], L = Math.hypot(dx, dy), q = Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) * Math.PI / 4; return [a[0] + L * Math.cos(q), a[1] + L * Math.sin(q)]; };
+  st.addEventListener('pointerdown', e => {
+    if (MM.tool !== 'poly' || e.button !== 0 || MM.space) return; e.stopPropagation(); e.preventDefault(); const d = toDoc(e.clientX, e.clientY); let p = [d.x, d.y];
+    if (!PEN) { mmBegin(); const el = document.createElementNS(SVG_NS, 'path'); el.id = mmUniqueId('shape'); const sw = mmDefSW(); el.setAttribute('style', mmStyleStr({ ...MM.shapeStyle, sw, fill: 'none' })); el.setAttribute('data-mmdash', MM.shapeStyle.dash || 'solid'); mmAnnotLayer().appendChild(el); PEN = { el, pts: [p] }; return; }
+    p = ang(PEN.pts[PEN.pts.length - 1], p, e.shiftKey); const f = PEN.pts[0]; const m = MM.svg.getScreenCTM();
+    if (PEN.pts.length >= 3 && Math.hypot((p[0] - f[0]) * m.a, (p[1] - f[1]) * m.d) < 9) return penFinish(true);
+    const l = PEN.pts[PEN.pts.length - 1]; if (Math.hypot((p[0] - l[0]) * m.a, (p[1] - l[1]) * m.d) < 2) return;
+    PEN.pts.push(p); PEN.el.setAttribute('d', penPath());
+  }, true);
+  st.addEventListener('pointermove', e => { if (!PEN || MM.tool !== 'poly') return; const d = toDoc(e.clientX, e.clientY); PEN.hover = ang(PEN.pts[PEN.pts.length - 1], [d.x, d.y], e.shiftKey); PEN.el.setAttribute('d', penPath()); });
+  st.addEventListener('dblclick', e => { if (MM.tool !== 'poly' && !PEN) return; e.stopImmediatePropagation(); e.preventDefault(); penFinish(false); }, true);
+}
+document.addEventListener('keydown', e => {
+  if (S.view !== 'mapmaker' || !MM.svg || e.target.closest('input,textarea,select,[contenteditable="true"]')) return;
+  if (PEN && e.key === 'Enter') { e.preventDefault(); penFinish(false); return; }
+  if (PEN && e.key === 'Escape') { PEN.el.remove(); MM.obs?.takeRecords(); PEN = null; return; }
+  if (!e.ctrlKey && !e.metaKey && !e.altKey && e.key.toLowerCase() === 'p') ACT.mmTool({ dataset: { t: 'poly' } });
+}, true);
+const _tool11b = ACT.mmTool; ACT.mmTool = t => { if (PEN && t.dataset.t !== 'poly') penFinish(false); _tool11b(t); };
+const _mount11 = VIEWS.mapmaker.mount; VIEWS.mapmaker.mount = function (root) { _mount11.call(this, root); mmBindPen(); setTimeout(mmHandles, 60); };
+
+</script>
+<script>/* js/update12.js */
+'use strict';
+/* =====================================================================
+   update12.js : app-wide undo / redo (Ctrl+Z, Ctrl+Shift+Z / Ctrl+Y),
+   locking objects and layers in Map Maker, double-click to edit.
+   ===================================================================== */
+
+/* ================= project-wide undo ================= */
+const UND = { pid: null, base: null, undo: [], redo: [], t: null };
+function undCapture() {
+  clearTimeout(UND.t); UND.t = null; if (!P) return; let cur; try { cur = JSON.stringify(P); } catch (e) { return; }
+  if (UND.pid !== P.id) { UND.pid = P.id; UND.base = cur; UND.undo = []; UND.redo = []; return; }
+  if (cur === UND.base) return; UND.undo.push(UND.base); if (UND.undo.length > 40) UND.undo.shift(); UND.redo = []; UND.base = cur; undButtons();
+}
+const _markDirty12 = markDirty;
+markDirty = function () { _markDirty12.apply(this, arguments); if (UND.restoring) return; clearTimeout(UND.t); UND.t = setTimeout(undCapture, 350); };
+function undRestore(s, label) {
+  UND.restoring = true; const sel = { ...S.sel }; try { P = migrate(JSON.parse(s)); S.sel = sel; UND.base = s; render(); _markDirty12(); } finally { UND.restoring = false; } undButtons(); toast(label);
+}
+ACT.undo = () => { if (UND.t) undCapture(); if (!UND.undo.length) return toast('Nothing to undo'); UND.redo.push(UND.base); undRestore(UND.undo.pop(), `Undone · ${UND.undo.length} more step${UND.undo.length === 1 ? '' : 's'} available`); };
+ACT.redo = () => { if (!UND.redo.length) return toast('Nothing to redo'); UND.undo.push(UND.base); undRestore(UND.redo.pop(), 'Redone'); };
+function undButtons() { const u = $('#gUndo'), r = $('#gRedo'); if (u) u.disabled = !UND.undo.length && !UND.t; if (r) r.disabled = !UND.redo.length; }
+const _render12 = render;
+render = function () {
+  const out = _render12.apply(this, arguments);
+  try {
+    if (P && UND.pid !== P.id) { UND.pid = P.id; UND.base = JSON.stringify(P); UND.undo = []; UND.redo = []; }
+    const ss = document.querySelector('.savestate'); if (ss && !$('#gUndo') && S.view !== 'mapmaker') ss.insertAdjacentHTML('beforebegin', '<span class="gundo"><button id="gUndo" class="iconbtn" data-act="undo" title="Undo (Ctrl+Z)">↶</button><button id="gRedo" class="iconbtn" data-act="redo" title="Redo (Ctrl+Shift+Z / Ctrl+Y)">↷</button></span>');
+    undButtons();
+  } catch (e) { }
+  return out;
+};
+document.addEventListener('keydown', e => {
+  if (!P || S.view === 'mapmaker' || !(e.ctrlKey || e.metaKey)) return; const k = e.key.toLowerCase(); if (k !== 'z' && k !== 'y') return;
+  if (e.target.closest?.('input,textarea,select,[contenteditable="true"]')) return; /* typing fields keep their own undo */
+  e.preventDefault(); (k === 'y' || e.shiftKey) ? ACT.redo() : ACT.undo();
+});
+
+/* ================= Map Maker: locking ================= */
+const isLocked = el => !!el?.closest?.('[data-mmlock="1"]');
+const _target12 = mmTarget; mmTarget = function (t) { const r = _target12(t); return r && isLocked(r) ? null : r; };
+const _select12 = mmSelect; mmSelect = function (list, add) { return _select12((list || []).filter(el => !isLocked(el)), add); };
+function setLock(els, on, label) { if (!els.length) return; mmBegin(); els.forEach(el => on ? el.setAttribute('data-mmlock', '1') : el.removeAttribute('data-mmlock')); mmEnd(label); mmSave(); }
+ACT.mmLockSel = () => { const els = MM.sel.slice(); if (!els.length) return toast('Select what you want to lock'); _select12([]); setLock(els, true, 'Lock'); mmPanel(); toast(`Locked ${els.length} object${els.length === 1 ? '' : 's'} — it can't be selected, moved or painted until you unlock it (Objects tab or Ctrl+Shift+L)`, 5000); };
+ACT.mmUnlockAll = () => { const els = [...MM.svg.querySelectorAll('[data-mmlock="1"]')]; if (!els.length) return toast('Nothing is locked'); setLock(els, false, 'Unlock all'); mmPanel(); toast(`Unlocked ${els.length} object${els.length === 1 ? '' : 's'}`); };
+ACT.mmObjLock = (t, e) => { e?.stopPropagation(); const el = MM.svg.querySelector('#' + CSS.escape(t.dataset.id)); if (!el) return; const on = el.getAttribute('data-mmlock') !== '1'; if (on) _select12(MM.sel.filter(x => x !== el && !el.contains(x))); setLock([el], on, on ? 'Lock' : 'Unlock'); mmPanel(); };
+document.addEventListener('keydown', e => {
+  if (S.view !== 'mapmaker' || !MM.svg || !(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== 'l' || e.target.closest('input,textarea,select,[contenteditable="true"]')) return;
+  e.preventDefault(); e.shiftKey ? ACT.mmUnlockAll() : ACT.mmLockSel();
+}, true);
+const _panel12 = mmPanel;
+mmPanel = function () {
+  _panel12(); const el = $('#mmPanel'); if (!el || !MM.svg) return;
+  if (MM.tab === 'objects') {
+    const n = MM.svg.querySelectorAll('[data-mmlock="1"]').length;
+    el.insertAdjacentHTML('afterbegin', `<div class="mm-lockbar"><span>🔒 ${n} locked</span><button class="btn sm ghost" data-act="mmUnlockAll" ${n ? '' : 'disabled'}>Unlock all</button><span class="mm-tip">Click 🔓 on a row to lock it · ● hides a layer</span></div>`);
+    el.querySelectorAll('.mm-obj[data-id]').forEach(row => { if (!row.dataset.id) return; const o = MM.svg.querySelector('#' + CSS.escape(row.dataset.id)); if (!o) return; const L = o.getAttribute('data-mmlock') === '1'; row.classList.toggle('locked', L); row.insertAdjacentHTML('beforeend', `<button class="mm-olock" data-act="mmObjLock" data-id="${esc(row.dataset.id)}" title="${L ? 'Unlock' : 'Lock — stop it being selected or moved'}">${L ? '🔒' : '🔓'}</button>`); });
+  }
+  if (MM.tab === 'sel' && MM.sel.length) { const box = el.querySelector('.mm-xf .mm-h'); if (box) box.insertAdjacentHTML('beforeend', ` <button class="btn sm ghost mm-lockbtn" data-act="mmLockSel" title="Lock (Ctrl+L)">🔒 Lock</button>`); }
+};
+
+/* ================= double-click to edit ================= */
+function mmBindDbl() {
+  const st = $('#mmStage'); if (!st || st.dataset.dbl12) return; st.dataset.dbl12 = '1';
+  st.addEventListener('dblclick', e => {
+    if (!['select', 'move'].includes(MM.tool)) return; const el = mmTarget(document.elementFromPoint(e.clientX, e.clientY)); if (!el) return;
+    if (el.tagName.toLowerCase() === 'text' && !el.closest('[data-mmgfx]')) return; /* plain text: the text editor opens */
+    e.stopImmediatePropagation(); e.preventDefault(); mmSelect([el]); MM.tab = 'sel'; ACT.mmTab({ dataset: { t: 'sel' } });
+    setTimeout(() => { const p = $('#mmPanel'); if (!p) return; p.scrollTop = 0; const inp = el.hasAttribute('data-mmgfx') ? p.querySelector('.mm-gfx input[data-k="title"], .mm-gfx select, .mm-gfx input:not([type=range]):not([type=checkbox])') : p.querySelector('input[data-k="label"]'); if (inp) { inp.focus(); inp.select?.(); inp.classList.add('flash'); setTimeout(() => inp.classList.remove('flash'), 900); } }, 40);
+  }, true);
+}
+const _mount12 = VIEWS.mapmaker.mount; VIEWS.mapmaker.mount = function (root) { _mount12.call(this, root); mmBindDbl(); };
 
 </script>
 <script>/* js/demo.js */
