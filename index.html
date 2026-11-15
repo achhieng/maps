@@ -785,12 +785,51 @@ details.mm-sec>summary::before{content:'▸';font-size:10px;transition:transform
 .arr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:3px 0}.arr-grid.two{grid-template-columns:1fr 1fr}.arr-grid button{font:11px/1.2 inherit;padding:5px 2px;border:1px solid var(--line2);background:var(--panel);cursor:pointer;border-radius:3px;color:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.arr-grid button:hover:not(:disabled){border-color:#0a84ff;color:#0a84ff}.arr-grid button:disabled{opacity:.35;cursor:default}
 .mapbg{font-size:12px;padding:3px 4px;height:28px;margin-left:4px;width:auto!important}
 </style>
+<style>
+/* ---- update 16: legislature, seat history, ministries ---- */
+.wk-root .lg-sw{display:inline-block;width:1em;height:1em;vertical-align:-2px;margin-right:4px;border:1px solid rgba(0,0,0,.25)}
+.wk-root .lg-grp ul{list-style:none;margin:0 0 4px 0;padding:0 0 0 .3em}.wk-root .lg-grp li{margin:1px 0}.wk-root .lg-grp>b{display:inline}
+.wk-root .ib-leg svg.parl-svg,.wk-root .ib-ministry svg{width:100%;height:auto}
+.gov-heads{display:flex;justify-content:center;gap:4px}.gov-heads figure{margin:0;text-align:center;flex:1}.gov-heads img{width:100%;max-width:130px;aspect-ratio:4/5;object-fit:cover;display:block;margin:0 auto}.gov-heads figcaption{font-size:95%}
+.wk-root .gov-tab td{vertical-align:top}.wk-root .gov-tab ul{margin:0 0 0 1.1em;padding:0}.wk-root .gov-por img{object-fit:cover;display:block}
+.wk-root .sh-tab{width:100%;border-collapse:collapse}.wk-root .sh-tab td{padding:3px 4px;vertical-align:middle}.wk-root .sh-y{width:44px;text-align:center}.wk-root .sh-t{width:34px;text-align:center;font-weight:700}
+.wk-root .sh-bar{position:relative;padding:4px 6px!important}.sh-row{display:flex;height:22px;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.sh-seg{display:flex;align-items:center;justify-content:center;font:700 12px Arial,sans-serif;overflow:hidden;border-right:1px solid #fff;box-sizing:border-box}
+.sh-seg.gov{box-shadow:inset 0 -3px 0 rgba(0,0,0,.0);border-bottom:3px dotted #555}.sh-maj{position:absolute;left:50%;top:0;bottom:0;border-left:1px solid #8a8fa8;pointer-events:none}
+.wk-root .sh-leg{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:space-around}.sh-leg span{display:inline-flex;align-items:center;gap:4px}.sh-leg i{width:14px;height:14px;display:inline-block;border:1px solid rgba(0,0,0,.3)}
+.ws-grid{width:min(940px,86vw);display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:70vh;overflow:auto}.ws-grid fieldset{border:1px solid var(--line2);padding:8px 10px}.ws-grid .span2{grid-column:1/-1}.ws-checks{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}
+.ws-row,.ws-img{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap;border-bottom:1px dashed var(--line);padding:4px 0}.ws-row .fld{flex:1;min-width:110px}.ws-img .imgfld{flex:0 0 150px}.ws-img .imgbox{height:70px}
+.wp-tab td{text-align:center}.wp-tab td:first-child{text-align:left}
+/* update17: infobox styles */
+.wk-root .ib17-gov{width:100%;border-collapse:collapse}.wk-root .ib17-gov th,.wk-root .ib17-gov td{width:50%;padding:1px 2px;font-weight:normal}
+.wk-root .ib17-gov.split th{font-weight:bold;white-space:nowrap;font-size:96%}.wk-root .ib17-gov .l{text-align:left!important}.wk-root .ib17-gov .r{text-align:right!important}
+.wk-root .ib17-gov.band th{font-weight:bold;font-size:95%}.wk-root .ib17-big{font-size:118%}
+.wk-root .ib17-gimg{width:64px;height:80px;object-fit:cover;display:inline-block;border:1px solid var(--wk-bd)}
+.wk-root .ib17-list-td{padding:2px 0!important}.wk-root .ib17-list{width:100%;border-collapse:collapse;background:var(--wk-bg,#fff);font-size:100%}
+.wk-root .ib17-list th,.wk-root .ib17-list td{border:1px solid var(--wk-bd);padding:2px 4px;text-align:left;width:auto}
+.wk-root .ib17-list tr:first-child th{background:var(--wk-th);text-align:center}.wk-root .ib17-list th.grp{background:var(--wk-th);text-align:center}
+.wk-root .ib17-list td.pn{border-left-width:5px;border-left-style:solid}.wk-root .ib17-list td.num{text-align:right}
+.wk-root .ib17-up{color:#14866d}.wk-root .ib17-dn{color:#d33}.wk-root .ib17-note{font-size:90%;padding:3px 2px;text-align:center}
+.wk-root .ib17-round{border-spacing:0}.wk-root .ib17-round>tbody>tr>th,.wk-root .ib17-round>tbody>tr>td{padding:2px 4px}
+.wk-root .ib17-round .ib17-band{background:#ccf!important;color:#202122;font-size:105%}.wk-root.dark .ib17-round .ib17-band{background:#2b3570!important;color:#eaecf0}
+.wk-root .ib17-round .ib17-head{font-size:130%;line-height:1.25}.wk-root .ib17-bsub{font-weight:normal;font-size:85%}
+.wk-root .ib17-bandlite{background:#e6e6ff}.wk-root.dark .ib17-bandlite{background:#232a52}
+.wk-root .ib17-nav{width:100%}.wk-root .ib17-nav td{width:33%;vertical-align:middle}.wk-root .ib17-nav .l{text-align:left}.wk-root .ib17-nav .r{text-align:right}.wk-root .ib17-nav .m{text-align:center}
+.wk-root .ib17-navflag{width:56px;height:auto;border:1px solid var(--wk-bd)}
+.wk-root .ib17-round td.num{text-align:right}.wk-root .ib17-tr{white-space:nowrap}
+.wk-root .fr-bar{display:inline-block;width:58%;height:13px;border:1px solid #202122;vertical-align:middle;background:#fff;margin-right:6px}.wk-root .fr-bar>div{height:100%}
+.wk-root .fr-pct{display:inline-block;min-width:4.5em;text-align:right}.wk-root .fr-ch{font-size:85%;white-space:nowrap}
+.wk-root .fr-party{border-top:5px solid #888;padding:3px 2px!important}.wk-root .fr-head{width:100%}.wk-root .fr-head td{vertical-align:top}
+.wk-root .fr-img{width:56px}.wk-root .fr-img img{width:50px;height:62px;object-fit:cover;border:1px solid var(--wk-bd)}
+.wk-root .fr-list{margin-top:4px}.wk-root .fr-list div{margin-left:0}.wk-root .fr-v{width:100%;margin-top:4px}.wk-root .fr-v th{font-weight:bold;width:auto}.wk-root .fr-v td.num{text-align:right}
+.wk-root .ib17-grp ul{list-style:none;margin:2px 0 2px 0;padding:0}.wk-root .ib17-grp ul ul{margin-left:1.2em}.wk-root .ib17-grp li.g{margin-top:2px}
+.ib17-cfg fieldset{margin:8px 0;border:1px solid var(--line,#ccd);border-radius:6px;padding:6px 10px}.ib17-cfg .row.wrap{flex-wrap:wrap;gap:10px;align-items:end}
+</style>
 </head>
 <body data-theme="newsroom">
 <div id="app"></div>
 <div id="tip"></div>
 <svg width="0" height="0" style="position:absolute"><filter id="sharpen"><feConvolveMatrix order="3" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"/></filter></svg>
-<script>/* js/core.js */
+<script>
 'use strict';
 /* =====================================================================
    MAPS — Maps Archiving Political Simulator
@@ -1341,7 +1380,7 @@ ACT.cmdk = () => {
 document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k' && P) { e.preventDefault(); ACT.cmdk(); } });
 
 </script>
-<script>/* js/graphics.js */
+<script>
 'use strict';
 /* =====================================================================
    graphics.js : colours, flags, portraits, parliament diagrams, charts,
@@ -1728,7 +1767,7 @@ function electionGroups(e, year) { const s = seatsOf(e); const y = year ?? eYear
 function voteSlices(e) { const c = computeElection(e); return c.sorted.filter(r => r.votes > 0).map(r => ({ id: r.partyId, value: r.votes, color: r.color, label: r.name, title: fmt(r.votes) + ' votes' })); }
 
 </script>
-<script>/* js/bg.js */
+<script>
 'use strict';
 /* =====================================================================
    bg.js : animated election background — falling ballot papers of many
@@ -1870,7 +1909,7 @@ function bgSync() {
 }
 
 </script>
-<script>/* js/views-world.js */
+<script>
 'use strict';
 /* =====================================================================
    views-world.js : shell, welcome, wizards, Worldbuilding mode views
@@ -2327,7 +2366,7 @@ ACT.newPartyQuick = async () => { await ACT.newParty(); go('electionNew'); };
 ACT.ewizFinish = () => { const e = S.ewiz.e; if (!e.name) e.name = `${yearOf(e.date) ?? ''} ${e.divisionId ? (divi(e.divisionId)?.name + ' ') : ''}${etLabel(e.type).toLowerCase()}`.trim(); e.name = e.name.charAt(0).toUpperCase() + e.name.slice(1); P.elections.push(e); S.ewiz = null; S.ui.etab = 'results'; S.sel.election = e.id; go('election'); commit(); toast('Election created — enter the results'); };
 
 </script>
-<script>/* js/views-election.js */
+<script>
 'use strict';
 /* =====================================================================
    views-election.js : the election editor (results, regional, polls,
@@ -2485,7 +2524,7 @@ ACT.importWiki = () => {
 };
 
 </script>
-<script>/* js/views-wiki.js */
+<script>
 'use strict';
 /* =====================================================================
    views-wiki.js : Encyclopedia mode — Wikipedia-inspired articles,
@@ -2759,7 +2798,7 @@ ACT.tblDelete = async () => { if (!await ask('Delete this custom table?', 'Delet
 ACT.importTable = () => { const m = modal(`<h3>Import MediaWiki table markup</h3><textarea id="tiSrc" class="code" rows="12" placeholder="{| class=&quot;wikitable&quot; …"></textarea><div class="row end"><button class="btn ghost" data-act="closeModal">Cancel</button><button class="btn" id="tiGo">Import as custom table</button></div>`, { wide: true }); $('#tiGo', m).onclick = () => { const tb = parseWikitable($('#tiSrc', m).value)[0]; if (!tb || !tb.rows.length) return toast('No table found'); const head = tb.rows.find(r => r.every(c => c.head)) || tb.rows[0]; const headers = head.flatMap(c => Array(c.span).fill(c.text)); const rows = tb.rows.filter(r => r !== head).map(r => { const cells = r.flatMap(c => Array(c.span).fill(c.text)); while (cells.length < headers.length) cells.push(''); return cells.slice(0, headers.length); }); const t = { id: uid('t'), name: 'Imported table', headers, rows }; P.tables.push(t); S.ui.tsrc = 'custom:' + t.id; closeModal(); commit(); toast('Table imported'); }; };
 
 </script>
-<script>/* js/views-studio.js */
+<script>
 'use strict';
 /* =====================================================================
    views-studio.js : Design Studio — parliament generator, map studio,
@@ -3096,7 +3135,7 @@ VIEWS.prefs = {
 ACT.setTheme = t => { P.settings.theme = t.dataset.k; P.settings.themePicked = true; applyTheme(); commit(); };
 
 </script>
-<script>/* js/canvas.js */
+<script>
 'use strict';
 /* =====================================================================
    canvas.js : Infographics Studio — layer-based canvas editor with
@@ -3404,7 +3443,7 @@ ACT.cvSaveTemplate = async () => { const g = curGraphic(); const r = await form(
 ACT.cvExportMenu = () => { const m = modal(`<h3>Export infographic</h3><div class="exp-list"><button class="btn" data-x="png" data-s="1">PNG — 1× (${curGraphic().w}px)</button><button class="btn" data-x="png" data-s="2">PNG — 2× high resolution</button><button class="btn" data-x="png" data-s="4">PNG — 4× print resolution</button><button class="btn ghost" data-x="svg">SVG — scalable vector</button><button class="btn ghost" data-x="pdf" data-s="2">PDF</button></div><p class="muted small">Transparent backgrounds are preserved in PNG and SVG. Web fonts may fall back to system fonts in exported files.</p>`); m.addEventListener('click', ev => { const b = ev.target.closest('[data-x]'); if (!b) return; closeModal(); exportGraphic(b.dataset.x, +(b.dataset.s || 2)); }); };
 
 </script>
-<script>/* js/wiki2.js */
+<script>
 'use strict';
 /* =====================================================================
    wiki2.js : realistic encyclopedia shell (header, search, contents
@@ -3608,7 +3647,7 @@ const _articleMarkup = articleMarkup;
 articleMarkup = function (key) { if (key.startsWith('pg:')) { const pg = P.pages.find(p => p.id === key.slice(3)); let s = (pg.short ? `{{Short description|${pg.short}}}\n` : '') + (pg.infobox?.show ? `{{Infobox\n| title = ${pg.infobox.title}\n${pg.infobox.rows.map((r, i) => `| label${i + 1} = ${r.k}\n| data${i + 1} = ${r.v}`).join('\n')}\n}}\n` : '') + htmlToWiki(pg.lead) + '\n'; pg.sections.forEach(x => s += `\n${x.level === 3 ? '===' : '=='} ${x.h} ${x.level === 3 ? '===' : '=='}\n${htmlToWiki(x.html)}\n`); return s + `\n== References ==\n${htmlToWiki(pg.refs)}\n{{reflist}}\n` + (pg.cats ? pg.cats.split(',').map(c => `[[Category:${c.trim()}]]`).join('\n') : ''); } return _articleMarkup(key); };
 
 </script>
-<script>/* js/wiki3.js */
+<script>
 'use strict';
 /* =====================================================================
    wiki3.js : MediaWiki/Vector-2022 fidelity layer
@@ -3896,7 +3935,7 @@ ACT.wkInternal = async () => { const keep = WK_RANGE; const titles = [...wkTitle
 const _mountWiki3 = mountWiki; mountWiki = function (root, key) { _mountWiki3(root, key); const t = wkTitles(); $$('a.wl[data-wl]', root).forEach(a => { const ok = t.has(normName(a.dataset.wl)); a.classList.toggle('new', !ok); a.title = a.dataset.wl + (ok ? '' : ' (page does not exist)'); }); };
 
 </script>
-<script>/* js/home.js */
+<script>
 'use strict';
 /* =====================================================================
    home.js : compact, dynamic start screen over the live background
@@ -3950,7 +3989,7 @@ document.addEventListener('keydown', e => {
 });
 
 </script>
-<script>/* js/maptool.js */
+<script>
 'use strict';
 /* =====================================================================
    maptool.js : MAPS Map Maker — an Inkscape-style electoral map editor
@@ -4387,7 +4426,7 @@ ACT.mmToStudio = async () => {
 };
 
 </script>
-<script>/* js/ui-prefs.js */
+<script>
 'use strict';
 /* =====================================================================
    ui-prefs.js : interface fonts, localisation (spelling, dates, numbers),
@@ -4521,11 +4560,11 @@ VIEWS.parties.render = function () { const h = _partiesRender.call(this); const 
 VIEWS.parties.mount = function (root) { const box = $('#ppTags', root); const p = party(S.sel.party); if (!box || !p) return; const tags = (p.ideology || '').split(',').map(s => s.trim()).filter(Boolean); let first = true; bindTagEditor(box, tags, t => { if (first) { first = false; return; } p.ideology = t.join(', '); markDirty(); }); };
 
 /* ---------------- what's new ---------------- */
-const WHATS_NEW = [['Clear map backgrounds', 'Map exports (SVG and PNG) and maps shown in articles now have a transparent background by default — switch to white beside the export buttons.'], ['Full-quality map viewer', '⤢ Open shows any map in a new browser tab where you can preview it on transparent, white or dark, and download SVG or PNG at 1×–8×.'], ['Screenshots', '📷 beside undo/redo saves a PNG of the current page — the visible part, a whole article, or the full window.'], ['Donut clusters & ring', 'Seat clusters can be vote donuts (region vote share around the seat count), and the vote/seat ring has a donut style with seats in the centre, labelled vote shares and a turnout arc.'], ['Map hemicycle', 'The Map Maker hemicycle has no majority line, and adds a separate speaker seat, leader dots, gaps between parties, a centre aisle, seat shapes and number size.'], ['Arrange & groups', 'Map Maker Edit tab: raise or lower one step or to the top/bottom (Page Up/Down, Home/End), take shapes out of a group, move them into another group or layer, and break a shape apart into its separate islands (Ctrl+Shift+K) to regroup or re-merge.'], ['Linked party colours', 'Change a party’s colour on the results key and the districts, seat clusters, hemicycle and ring all follow.'], ['Insets follow', 'Inset connector lines stay attached when you move or resize the inset; switch them between curved, straight or none, and the source area between grey wash, outline or none.'], ['Undo everywhere', 'Ctrl+Z / Ctrl+Shift+Z (or Ctrl+Y) now undo and redo any change across the whole project — parties, elections, articles, settings — with ↶ ↷ buttons beside Save. Map Maker keeps its own step-by-step undo.'], ['Lock objects', 'Map Maker: lock any object (Ctrl+L, or 🔓 in the Objects list) so it can’t be selected, moved or painted by accident; Ctrl+Shift+L unlocks everything. Layers lock too.'], ['Double-click to edit', 'Double-click a district, seat cluster, inset or graphic to select it and jump straight to its settings.'], ['Resize & transform', 'Map Maker: drag handles to resize anything (Ctrl keeps proportions, Shift from the centre) while borders stay the same width; type exact X, Y, W, H or scale %; make several objects the same width, height or size; Ctrl while moving keeps it straight.'], ['Pen tool & guides', 'Draw custom shapes and borders point by point (P), and mark any shape as a guide — it snaps and aligns but never exports.'], ['Infobox editing', 'In Edit mode, type straight into any infobox cell (wiki links work) — placeholders for inaugural elections, custom names and figures — and click portraits to swap them. Right-click restores the automatic value.'], ['Uniform article style', 'Infobox & table style: width, text size, padding, flag width, portrait width and height, party bar height, alignment and font for every infobox; text size, padding, alignment and full width for every wikitable; and which map the article shows.'], ['Results key styles', 'Map Maker party keys in four styles — bar list, mirrored, blocks and rounded bars with leaders, district/overall seats and vote bars — plus left, centre or right title alignment and circular insets with a light grey source wash.'], ['Edit inside graphics', 'Double-click any text in a results graphic (title, party names, seat and vote figures) to change it, its size or colour; reset any time to follow the results again.'], ['Margin ladders', 'Choose how many rectangles the ladder has, its labels, lightest and darkest tones, a custom colour per party, or pick every rectangle’s colour by hand.'], ['Insets, lines & shapes', 'Map Maker: drag a box to make a live, full-quality inset (square, rounded or cut corner, titled, with a dashed connector); draw straight, curved, dashed or dotted lines, rectangles with rounded corners and ellipses; resize the page.'], ['Maps in articles', 'Map Maker → Use in article puts your finished map into an election’s infobox and results-by-region section, kept in sync.'], ['Open in Map Maker', 'Electoral Map Studio → Open in Map Maker: the map arrives with every region named and linked, coloured by results, with a title, party results (votes, %, seats), hemicycle and vote/seat ring laid out beside it.'], ['Align & snap', 'Map Maker has Inkscape-style align (left, centre, right, top, middle, bottom) and distribute, relative to the page, selection, first or largest object — and objects snap to the page, centres and each other while you drag, with pink guides.'], ['Exact numbers', 'Every slider now has a number box beside it — type any value, even beyond the slider’s range.'], ['Results workbooks', 'Download a real Excel workbook laid out like a results sheet — states, seats, population, enrolled, votes, % and seats per party, turnout, quota and levelling seats — fill it in and import it back (.xlsx or .csv).'], ['Count structure', 'Choose a single national count, a count built from the regions (national totals = sum of states, seats won region by region with D’Hondt, Sainte-Laguë, Hare, Droop, STV or block vote), or a two-tier system (MMP, AMS, parallel, levelling).'], ['Inaugural elections', 'Mark the first election so the infobox and articles show no previous election, outgoing members, government or swings.'], ['Parliament diagrams', 'Square or rounded seats, gaps between parties, a speaker’s seat, a mirrored chamber layout with curved crossbench, and Arial (or any) font for the numbers — also from the encyclopedia’s Appearance column.'], ['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
+const WHATS_NEW = [['Infobox styles', 'Election articles can switch the infobox between Columns, List (party table grouped by coalition or region, Danish / Italian style) and Two-round (bands, vote bars and party blocks, French / Spanish style). The government before / after box is now a compact two-sided box, with portraits on or off.'], ['Legislature article', 'A Wikipedia-style article for your parliament (Encyclopedia → Legislature) with a Folketing / Parliament of Australia infobox — native name, emblem and photos, leadership, seat diagrams and political groups per house, term, voting system, last and next election, meeting place, website and your own rows — every part can be shown, hidden or edited.'], ['Seat history', 'Encyclopedia → Seat history: the historical distribution of seats as stacked bars per election, split into left/right or government/opposition blocs with a majority line.'], ['Ministry articles', 'Encyclopedia → Ministries: a Barton-ministry-style article for every government, with the infobox (formed, dissolved, ministers, member parties, status, opposition, elections, predecessor, successor) and a ministry table with party, minister, portrait and portfolios.'], ['Choose parties', 'Parties shown: hide any party from encyclopedia articles, everywhere or just on the legislature page.'], ['Clear map backgrounds', 'Map exports (SVG and PNG) and maps shown in articles now have a transparent background by default — switch to white beside the export buttons.'], ['Full-quality map viewer', '⤢ Open shows any map in a new browser tab where you can preview it on transparent, white or dark, and download SVG or PNG at 1×–8×.'], ['Screenshots', '📷 beside undo/redo saves a PNG of the current page — the visible part, a whole article, or the full window.'], ['Donut clusters & ring', 'Seat clusters can be vote donuts (region vote share around the seat count), and the vote/seat ring has a donut style with seats in the centre, labelled vote shares and a turnout arc.'], ['Map hemicycle', 'The Map Maker hemicycle has no majority line, and adds a separate speaker seat, leader dots, gaps between parties, a centre aisle, seat shapes and number size.'], ['Arrange & groups', 'Map Maker Edit tab: raise or lower one step or to the top/bottom (Page Up/Down, Home/End), take shapes out of a group, move them into another group or layer, and break a shape apart into its separate islands (Ctrl+Shift+K) to regroup or re-merge.'], ['Linked party colours', 'Change a party’s colour on the results key and the districts, seat clusters, hemicycle and ring all follow.'], ['Insets follow', 'Inset connector lines stay attached when you move or resize the inset; switch them between curved, straight or none, and the source area between grey wash, outline or none.'], ['Undo everywhere', 'Ctrl+Z / Ctrl+Shift+Z (or Ctrl+Y) now undo and redo any change across the whole project — parties, elections, articles, settings — with ↶ ↷ buttons beside Save. Map Maker keeps its own step-by-step undo.'], ['Lock objects', 'Map Maker: lock any object (Ctrl+L, or 🔓 in the Objects list) so it can’t be selected, moved or painted by accident; Ctrl+Shift+L unlocks everything. Layers lock too.'], ['Double-click to edit', 'Double-click a district, seat cluster, inset or graphic to select it and jump straight to its settings.'], ['Resize & transform', 'Map Maker: drag handles to resize anything (Ctrl keeps proportions, Shift from the centre) while borders stay the same width; type exact X, Y, W, H or scale %; make several objects the same width, height or size; Ctrl while moving keeps it straight.'], ['Pen tool & guides', 'Draw custom shapes and borders point by point (P), and mark any shape as a guide — it snaps and aligns but never exports.'], ['Infobox editing', 'In Edit mode, type straight into any infobox cell (wiki links work) — placeholders for inaugural elections, custom names and figures — and click portraits to swap them. Right-click restores the automatic value.'], ['Uniform article style', 'Infobox & table style: width, text size, padding, flag width, portrait width and height, party bar height, alignment and font for every infobox; text size, padding, alignment and full width for every wikitable; and which map the article shows.'], ['Results key styles', 'Map Maker party keys in four styles — bar list, mirrored, blocks and rounded bars with leaders, district/overall seats and vote bars — plus left, centre or right title alignment and circular insets with a light grey source wash.'], ['Edit inside graphics', 'Double-click any text in a results graphic (title, party names, seat and vote figures) to change it, its size or colour; reset any time to follow the results again.'], ['Margin ladders', 'Choose how many rectangles the ladder has, its labels, lightest and darkest tones, a custom colour per party, or pick every rectangle’s colour by hand.'], ['Insets, lines & shapes', 'Map Maker: drag a box to make a live, full-quality inset (square, rounded or cut corner, titled, with a dashed connector); draw straight, curved, dashed or dotted lines, rectangles with rounded corners and ellipses; resize the page.'], ['Maps in articles', 'Map Maker → Use in article puts your finished map into an election’s infobox and results-by-region section, kept in sync.'], ['Open in Map Maker', 'Electoral Map Studio → Open in Map Maker: the map arrives with every region named and linked, coloured by results, with a title, party results (votes, %, seats), hemicycle and vote/seat ring laid out beside it.'], ['Align & snap', 'Map Maker has Inkscape-style align (left, centre, right, top, middle, bottom) and distribute, relative to the page, selection, first or largest object — and objects snap to the page, centres and each other while you drag, with pink guides.'], ['Exact numbers', 'Every slider now has a number box beside it — type any value, even beyond the slider’s range.'], ['Results workbooks', 'Download a real Excel workbook laid out like a results sheet — states, seats, population, enrolled, votes, % and seats per party, turnout, quota and levelling seats — fill it in and import it back (.xlsx or .csv).'], ['Count structure', 'Choose a single national count, a count built from the regions (national totals = sum of states, seats won region by region with D’Hondt, Sainte-Laguë, Hare, Droop, STV or block vote), or a two-tier system (MMP, AMS, parallel, levelling).'], ['Inaugural elections', 'Mark the first election so the infobox and articles show no previous election, outgoing members, government or swings.'], ['Parliament diagrams', 'Square or rounded seats, gaps between parties, a speaker’s seat, a mirrored chamber layout with curved crossbench, and Arial (or any) font for the numbers — also from the encyclopedia’s Appearance column.'], ['MAPS logo', 'A new logo — a map pin holding a parliament hemicycle — in the top bar, start page and browser tab. Download it as SVG or PNG under Import / Export.'], ['Website export', 'Export a whole nation’s encyclopedia (nation, elections, parties, people and your pages) as one linked, searchable HTML website you can host anywhere.'], ['Map selection', 'Electoral Map Studio: brush-select (B) across districts, merge shapes into one, and turn a selection into a named region.'], ['Politician categories', 'Monarchs, Politicians and your own categories — drag people up and down or between categories, and fold categories away.'], ['Results templates', 'Download a CSV template with national and regional tables, fill it in any spreadsheet and import it back. Clear regional results in one click.'], ['Link control', 'In articles, choose whether each name is a link, link-coloured only, or plain text (Appearance → Links).'], ['Hex colours', 'Every colour picker now has a hex code box — type or paste codes like #D84C4B.'], ['Newspaper front pages', 'Six era styles — Victorian, mid-century, American daily, modern broadsheet, mid-market and red-top tabloid — written from your results.'], ['Scenarios & backups', 'Save named scenarios of a nation, branch them into new nations, and back up or restore everything in one file.'], ['Seating order', 'Drag parties left or right (the party cards or the Seating order strip on the National Overview) and every parliament diagram follows.'], ['Map results graphics', 'Map Maker → Results: seat clusters for every region (honeycomb, rows or columns; circle, square or hexagon seats; titled), a party results key, hemicycle, vote/seat ring and title block — all filled from your election and updatable.'], ['Line-drawing trace', 'Trace a PNG of black anti-aliased border lines into exact, gap-free districts, then name them and turn them into administrative divisions.'], ['Regional PR + levelling seats', 'A new electoral system: e.g. 150 seats shared out region by region plus 50 national levelling seats, with automatic seat apportionment by population, registered voters or votes.'], ['Characteristics over time', 'Record population, capital, economy and your own custom fields for the modern day and for any year or election.'], ['Vote entry', 'Vote figures show thousands separators and parties re-sort by votes as you type.'], ['Map Maker', 'Trace paint.net bitmaps into vector electoral maps, open Inkscape and Wikipedia SVG maps, then paint, merge, group, stripe, label and add legends — Design Studio → Map Maker.'], ['Party creation', 'A new dialog in the order Name → Abbreviation → Position → Ideology(s) → Founded → Colour, with ideology tags and live preview.'], ['Fonts', 'Choose any installed font (Arial, Calibri, Helvetica, Segoe UI…) or any Google Font for the interface and headings.'], ['Localisation', 'Australian, British, New Zealand, Canadian, Irish or American English spelling, date order and number format.'], ['Capitalisation', 'Title Case or Sentence case for headings and buttons, and automatic capitalisation of new names.'], ['Encyclopedia', 'Wikipedia-style articles with editable results tables, wikitext source editing, blue and red links and page previews.']];
 ACT.whatsNew = () => modal(`<h3>What's New in MAPS</h3><div class="wn">${WHATS_NEW.map(([t, d]) => `<div><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('')}</div><div class="row end"><button class="btn" data-act="closeModal">Got it</button></div>`);
 
 </script>
-<script>/* js/updates5.js */
+<script>
 'use strict';
 /* =====================================================================
    updates5.js : seating order drag, regional PR + levelling seats panel,
@@ -4630,7 +4669,7 @@ ACT.charAddField = async () => { const r = await form('Add a characteristic', [{
 ACT.charDelField = async (t, e) => { e?.preventDefault(); const f = (P.nation.charFields || []).find(x => x.id === t.dataset.id); if (!f || !await ask(`Remove the field <b>${esc(f.label)}</b> and all its values?`, 'Remove')) return; P.nation.charFields = P.nation.charFields.filter(x => x !== f); delete P.nation.cx?.[f.id]; (P.nation.snaps || []).forEach(s => delete s.data?.['cx_' + f.id]); commit(); };
 
 </script>
-<script>/* js/maptool2.js */
+<script>
 'use strict';
 /* =====================================================================
    maptool2.js : Map Maker — results graphics built from election data.
@@ -4856,7 +4895,7 @@ ACT.mmgScale = t => { const g = MM.sel[0]; if (!g) return; const tr = g.getAttri
 ACT.mmgRebuild = () => { const g = MM.sel[0]; if (!g) return; mmBegin(); mmgSetCfg(g, mmgCfgOf(g)); mmEnd('Update graphic'); mmSave(); toast('Updated from the latest results'); };
 
 </script>
-<script>/* js/updates6.js */
+<script>
 'use strict';
 /* =====================================================================
    updates6.js : map-studio selection (brush, merge, regions), politician
@@ -5220,7 +5259,7 @@ const _homeRender6 = VIEWS.home.render;
 VIEWS.home.render = function () { return _homeRender6.call(this).replace('<div class="hl-sort">', '<div class="hl-sort"><button data-act="exportAll" title="Download every nation with its scenarios and versions in one file">⬇ Back up all</button>'); };
 
 </script>
-<script>/* js/brand.js */
+<script>
 'use strict';
 /* =====================================================================
    brand.js : the MAPS logo (a map pin holding a parliament hemicycle),
@@ -5349,7 +5388,7 @@ wikiShell = function (o) { return _wikiShell7(o).replace(/(<button class="btn sm
 if (typeof cmdItems === 'function') { const _ci = cmdItems; cmdItems = function () { const l = _ci.apply(this, arguments); try { if (P) l.push({ l: 'Export encyclopedia website (.html)', sub: 'Export', i: '🌐', go: () => ACT.exportWebsite() }); } catch (e) { } return l; }; }
 
 </script>
-<script>/* js/update7.js */
+<script>
 'use strict';
 /* =====================================================================
    update7.js : count structure (national / built from regions / two
@@ -5659,7 +5698,7 @@ document.addEventListener('click', e => {
 });
 
 </script>
-<script>/* js/update8.js */
+<script>
 'use strict';
 /* =====================================================================
    update8.js : Electoral Map Studio → Map Maker (named regions + results
@@ -5792,7 +5831,7 @@ function rangeEnhance() {
 new MutationObserver(() => { clearTimeout(rangeEnhance._t); rangeEnhance._t = setTimeout(rangeEnhance, 40); }).observe(document.body, { childList: true, subtree: true });
 
 </script>
-<script>/* js/update9.js */
+<script>
 'use strict';
 /* =====================================================================
    update9.js : Map Maker — edit any text inside a results graphic,
@@ -6011,7 +6050,7 @@ VIEWS.mapmaker.render = function () { const h = _mmRender9.call(this); return h.
 const _mmMount9 = VIEWS.mapmaker.mount; VIEWS.mapmaker.mount = function (root) { _mmMount9.call(this, root); mmBindDraw(); };
 
 </script>
-<script>/* js/update10.js */
+<script>
 'use strict';
 /* =====================================================================
    update10.js : encyclopedia infobox — type into any cell (placeholders
@@ -6190,7 +6229,7 @@ const _keyOpt10 = ACT.mmgKeyOpt;
 ACT.mmgKeyOpt = t => { if (t.tagName === 'SELECT') { const [g, c] = keyCfg(); if (!g) return; c.o = c.o || {}; const old = c.o.style || 'bars'; c.o[t.dataset.k] = t.value; if (t.dataset.k === 'style' && c.type === 'key' && old !== t.value) { const tr = g.getAttribute('transform') || ''; const m0 = tr.match(/scale\(([-\d.e]+)/); const sc = m0 ? +m0[1] : 1; const ns = sc * (KEY_W[old] || 436) / (KEY_W[t.value] || 436); g.setAttribute('transform', m0 ? tr.replace(/scale\([^)]*\)/, `scale(${+ns.toFixed(4)})`) : `${tr} scale(${+ns.toFixed(4)})`); } mmBegin(); mmgSetCfg(g, c); mmEnd('Style'); mmSave(); mmPanel(); return; } _keyOpt10(t); };
 
 </script>
-<script>/* js/update11.js */
+<script>
 'use strict';
 /* =====================================================================
    update11.js : Map Maker transform tools — resize handles (keep or
@@ -6335,7 +6374,7 @@ const _tool11b = ACT.mmTool; ACT.mmTool = t => { if (PEN && t.dataset.t !== 'pol
 const _mount11 = VIEWS.mapmaker.mount; VIEWS.mapmaker.mount = function (root) { _mount11.call(this, root); mmBindPen(); setTimeout(mmHandles, 60); };
 
 </script>
-<script>/* js/update12.js */
+<script>
 'use strict';
 /* =====================================================================
    update12.js : app-wide undo / redo (Ctrl+Z, Ctrl+Shift+Z / Ctrl+Y),
@@ -6409,7 +6448,7 @@ function mmBindDbl() {
 const _mount12 = VIEWS.mapmaker.mount; VIEWS.mapmaker.mount = function (root) { _mount12.call(this, root); mmBindDbl(); };
 
 </script>
-<script>/* js/update13.js */
+<script>
 'use strict';
 /* =====================================================================
    update13.js : Map Maker — clearer lock / visibility icons, inset
@@ -6544,7 +6583,7 @@ VIEWS.mapmaker.render = function () {
 };
 
 </script>
-<script>/* js/update14.js */
+<script>
 'use strict';
 /* =====================================================================
    update14.js : Map Maker — vote-donut seat clusters, donut vote/seat
@@ -6637,7 +6676,7 @@ mmGfxSelPanel = function (g) {
 ACT.mmgClStyle = t => { const els = MM.sel.filter(x => x.getAttribute('data-mmgfx') === 'cluster'); if (!els.length) return; mmBegin(); els.forEach(g => { const c = mmgCfgOf(g); c.o = { ...(c.o || {}), cstyle: t.dataset.v }; mmgSetCfg(g, c); }); mmEnd('Cluster style'); mmSave(); mmPanel(); };
 
 </script>
-<script>/* js/update15.js */
+<script>
 'use strict';
 /* =====================================================================
    update15.js : transparent map exports (Map Maker, Electoral Map
@@ -6737,7 +6776,395 @@ const _gfx15 = mmGfxSelPanel;
 mmGfxSelPanel = function (g) { const h = _gfx15(g); const c = mmgCfgOf(g); if (c.type !== 'key') return h; return h.replace('<div class="mm-h">Margin ladder</div>', `<label class="chk"><input type="checkbox" ${c.o?.bg !== false ? 'checked' : ''} data-change="mmgKeyOpt" data-k="bg"> White panel behind the key</label><div class="mm-h">Margin ladder</div>`); };
 
 </script>
-<script>/* js/demo.js */
+<script>
+'use strict';
+/* =====================================================================
+   update16.js : encyclopedia — legislature article (Folketing /
+   Parliament of Australia style infobox), historical distribution of
+   seats, ministry / government articles (Barton ministry style), and
+   showing or hiding parties across the encyclopedia.
+   ===================================================================== */
+const ordn = n => { n = +n || 0; const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
+function legW() { const L = P.legWiki || (P.legWiki = {}); L.hidden = L.hidden || []; L.leadership = L.leadership || []; L.images = L.images || []; L.meeting = L.meeting || []; L.custom = L.custom || []; L.hideParties = L.hideParties || []; return L; }
+const wikiHidden = () => new Set(P.wikiHide || []);
+const ibHead = t => `<tr><th colspan="2" class="ib-title">${t}</th></tr>`;
+const ibRow = (l, v) => v ? `<tr><th>${l}</th><td>${v}</td></tr>` : '';
+const ibImg = (src, cap, w, uni) => src ? `<tr><td colspan="2" class="ib-c ib-media"><img src="${src}" alt="" style="${uni ? `width:${w}px;height:${Math.round(w * 0.62)}px;object-fit:cover` : `max-width:${w}px;width:100%;height:auto`};display:block;margin:4px auto">${cap ? `<div class="ib-caption">${ibInline(cap)}</div>` : ''}</td></tr>` : '';
+const swLi = (pid, y, n, note) => `<li><span class="lg-sw" style="background:${pColor(pid, y)}"></span>${wlP(pid, y)} (${n})${note || ''}</li>`;
+function wrapWiki(key, html) { S.ui.akey = key; return wikiFromLegacy(html, key); }
+function withWK(fn) { const was = WK_RENDERING; WK_RENDERING = true; try { return fn(); } finally { WK_RENDERING = was; } }
+
+/* ================= hide parties from the encyclopedia ================= */
+const _ce16 = computeElection;
+computeElection = function (e) { const c = _ce16(e); if (!WK_RENDERING || !P?.wikiHide?.length) return c; const h = wikiHidden(); return { ...c, rows: c.rows.filter(r => !h.has(r.partyId)), sorted: c.sorted.filter(r => !h.has(r.partyId)) }; };
+ACT.wikiParties = () => {
+  const h = wikiHidden(); const L = legW(); const hl = new Set(L.hideParties);
+  const m = modal(`<h3>Parties in the encyclopedia</h3><p class="muted small">Untick a party to leave it out of articles — results tables, infoboxes, contesting-party tables, lists and the seat history. Seat totals are not changed.</p>
+    <table class="etable wp-tab"><thead><tr><th>Party</th><th>Everywhere</th><th>Legislature article</th></tr></thead><tbody>${P.parties.map(p => `<tr><td><i class="sw" style="background:${p.color}"></i> ${esc(p.name)}</td><td><input type="checkbox" ${h.has(p.id) ? '' : 'checked'} data-change="wpToggle" data-pid="${p.id}" data-k="all"></td><td><input type="checkbox" ${hl.has(p.id) ? '' : 'checked'} data-change="wpToggle" data-pid="${p.id}" data-k="leg"></td></tr>`).join('')}</tbody></table>
+    <div class="row end"><button class="btn" data-act="closeModal">Done</button></div>`);
+};
+ACT.wpToggle = t => { const pid = t.dataset.pid; if (t.dataset.k === 'all') { const s = wikiHidden(); t.checked ? s.delete(pid) : s.add(pid); P.wikiHide = [...s]; } else { const L = legW(); L.hideParties = t.checked ? L.hideParties.filter(x => x !== pid) : [...new Set([...L.hideParties, pid])]; } commit(); };
+
+/* ================= legislature article ================= */
+const LEG_FIELDS = [['native', 'Native / official name'], ['ordinal', 'Current term (e.g. 48th Parliament)'], ['emblem', 'Emblem / coat of arms'], ['photo', 'Building photos'], ['type', 'Type & houses'], ['history', 'Founded'], ['leadership', 'Leadership'], ['structure', 'Seats'], ['diagram', 'Seat diagrams'], ['groups', 'Political groups'], ['term', 'Length of term'], ['elections', 'Voting system & elections'], ['custom', 'Your own rows'], ['meeting', 'Meeting place'], ['website', 'Website']];
+function chamberClass(y, ch) {
+  const comp = composition(y, ch.id); const g = govAt(y); const L = legW(); const hide = new Set([...L.hideParties, ...(P.wikiHide || [])]);
+  const gov = (g?.parties || []).filter(p => comp.seats[p] > 0), sup = (g?.support || []).filter(p => comp.seats[p] > 0 && !gov.includes(p));
+  let opp = Object.keys(comp.seats).filter(p => comp.seats[p] > 0 && !gov.includes(p) && !sup.includes(p)); opp = sortedParties(opp); let cross = [];
+  if ((L.groupMode || 'opposition') === 'crossbench' && opp.length > 1) { const big = [...opp].sort((a, b) => comp.seats[b] - comp.seats[a])[0]; cross = opp.filter(p => p !== big); opp = [big]; }
+  const f = l => l.filter(p => !hide.has(p)); return { comp, g, gov: f(gov), sup: f(sup), opp: f(opp), cross: f(cross) };
+}
+function nextElectionText(ch) {
+  const e = chamberElectionAt(9999, ch.id); if (!e) return ''; const p = parseD(e.date); if (!p) return ''; const term = num(ch.term) || 4; const d = [p[0] + term, p[1], p[2]].filter(v => v != null).join('-'); return `On or before ${fmtDate(d)}`;
+}
+function legInfobox(y) {
+  const L = legW(), Lg = P.legislature, show = k => !L.hidden.includes(k); const chs = Lg.chambers.slice(0, Lg.bicameral ? 2 : 1); const w = num(L.imgW) || 220; const uni = !!L.uniform; let h = '';
+  const ordinal = L.ordinal || (() => { const n = P.elections.filter(e => (e.chamberId || 'lower') === 'lower' && !e.divisionId && eYear(e) <= y && ['general', 'parliamentary'].includes(e.type)).length; return n ? `${ordn(n)} ${Lg.name}` : ''; })();
+  if (show('native') && L.native) h += `<tr><td colspan="2" class="ib-c"><i><b>${ibInline(L.native)}</b></i>${L.nativeLang ? ` (${ibInline(L.nativeLang)})` : ''}</td></tr>`;
+  if (show('ordinal') && ordinal) h += `<tr><td colspan="2" class="ib-c">${wl(ordinal)}</td></tr>`;
+  if (show('emblem')) h += ibImg(L.emblem || P.nation.coa || nationFlag(), L.emblemCap || '', Math.min(w, 180), false);
+  if (show('photo')) L.images.forEach(im => { h += ibImg(im.src, im.cap, w, uni); });
+  if (show('type')) { h += ibHead('Type') + ibRow('Type', wl(Lg.bicameral ? 'Bicameral' : 'Unicameral')); if (Lg.bicameral) h += ibRow('Houses', chs.map(c => wl(c.name)).join('<br>')); }
+  if (show('history') && (L.founded || P.nation.founded)) h += ibHead('History') + ibRow('Founded', esc(fmtDate(L.founded || P.nation.founded)));
+  if (show('leadership')) {
+    let rows = L.leadership.filter(r => r.role); if (!rows.length) { const g = govAt(y); const cl = chamberClass(y, chs[0]); const opl = cl.opp[0] ? leaderAt(party(cl.opp[0]), y) : null; rows = [g?.hosId && { role: P.nation.hosTitle || 'Head of state', pid: g.hosId }, g?.headId && { role: P.nation.leaderTitle || 'Prime Minister', pid: g.headId, since: g.start }, opl && { role: 'Leader of the Opposition', pid: opl.id }].filter(Boolean); }
+    if (rows.length) h += ibHead('Leadership') + rows.map(r => { const pl = pol(r.pid); const pp = pl ? polParty(pl, y) : null; return ibRow(ibInline(r.role), `${pl ? wlB(pl) : ibInline(r.text || '—')}${pp ? ', ' + wlP(pp, y, esc(pAbbr(pp, y) && pName(pp, y).length > 18 ? pAbbr(pp, y) : pName(pp, y))) : ''}${r.since ? `<br>since ${esc(fmtDate(r.since))}` : ''}`); }).join('');
+  }
+  if (show('structure') || show('diagram') || show('groups')) {
+    const totals = chs.map(c => ({ c, n: composition(y, c.id).total })); h += ibHead('Structure');
+    if (show('structure')) h += ibRow('Seats', `${sum(totals.map(t => t.n || num(t.c.seats)))}${chs.length > 1 ? ` (${totals.map(t => `${t.n || t.c.seats} ${esc(t.c.memberWord || t.c.name)}`).join(', ')})` : ''}`);
+    chs.forEach(ch => { const k = chamberClass(y, ch); if (show('diagram') && k.comp.total) h += `<tr><td colspan="2" class="ib-c ib-media">${parliamentSVG(k.comp.groups, { layout: ch.layout, fg: 'currentColor', majority: false, center: true })}</td></tr>`;
+      if (show('groups') && k.comp.total) { const blk = (title, ids, link) => ids.length ? `<div class="lg-grp"><b>${link ? wl(link, title) : title}</b> <b>(${sum(ids.map(p => k.comp.seats[p]))})</b><ul>${ids.map(p => swLi(p, y, k.comp.seats[p])).join('')}</ul></div>` : '';
+        h += ibRow(`${chs.length > 1 ? wl(ch.name) + ' political groups' : 'Political groups'}`, blk('Government', k.gov, k.g?.name) + blk('Supported by', k.sup) + blk('Opposition', k.opp) + blk('Crossbench', k.cross)); } });
+  }
+  if (show('term')) h += ibRow('Length of term', chs.map(c => `${chs.length > 1 ? wl(c.name) + ': ' : ''}${num(c.term) || 4} years${num(c.term) ? '' : ''}`).join('<br>'));
+  if (show('elections')) { h += ibHead('Elections'); chs.forEach(ch => { const pre = chs.length > 1 ? wl(ch.name) + ' ' : ''; const e = chamberElectionAt(9999, ch.id); h += ibRow(pre + (chs.length > 1 ? 'voting system' : 'Voting system'), `${esc(SYSTEMS[ch.system]?.label || '')}${num(ch.threshold) ? ` with a ${ch.threshold}% ${wl('Election threshold', 'election threshold')}` : ''}`); if (e) h += ibRow(`Last ${pre}election`, wlE(e, esc(fmtDate(e.date)))); const nx = nextElectionText(ch); if (nx) h += ibRow(`Next ${pre}election`, esc(nx)); }); }
+  if (show('custom') && L.custom.length) h += L.custom.filter(r => r.label || r.value).map(r => r.head ? ibHead(ibInline(r.label)) : ibRow(ibInline(r.label), ibInline(r.value))).join('');
+  if (show('meeting') && L.meeting.length) h += ibHead('Meeting place') + L.meeting.map(im => ibImg(im.src, im.cap, w, uni)).join('');
+  if (show('website') && L.website) h += ibHead('Website') + `<tr><td colspan="2" class="ib-c"><a class="external">${esc(L.website)}</a></td></tr>`;
+  return `<table class="infobox vevent ib-leg"><caption class="infobox-title">${esc(Lg.name)}${L.nativeTitle ? `<br><i>${ibInline(L.nativeTitle)}</i>` : ''}</caption><tbody>${h}</tbody></table>`;
+}
+VIEWS.legArticle = {
+  mode: 'wiki', render() {
+    return withWK(() => {
+      const y = curYear(); const L = legW(), Lg = P.legislature; const key = 'l:leg'; const art = articleOf(key); const ed = S.ui.wedit; const chs = Lg.chambers.slice(0, Lg.bicameral ? 2 : 1);
+      const k0 = chamberClass(y, chs[0]); const g = k0.g; const tot = chs.map(c => composition(y, c.id).total);
+      const lead = `<p>The <b>${esc(Lg.name)}</b>${L.native ? ` (${L.nativeLang ? esc(L.nativeLang) + ': ' : ''}<i>${esc(L.native)}</i>)` : ''} is the ${Lg.bicameral ? 'bicameral' : 'unicameral'} national legislature of ${wl(P.nation.name)}. ${Lg.bicameral ? `It consists of the ${chs.map(c => wl(c.name)).join(' and the ')}.` : ''} ${chs.map((c, i) => `The ${esc(c.name)} has ${tot[i] || c.seats} members, elected by ${esc((SYSTEMS[c.system]?.label || 'election').toLowerCase())} for terms of up to ${num(c.term) || 4} years.`).join(' ')}${g ? ` The current government is the ${wl(g.name)}${pol(g.headId) ? `, led by ${wlB(pol(g.headId))}` : ''}.` : ''}</p>`;
+      const compTab = chs.map(ch => { const k = chamberClass(y, ch); const ids = [...k.gov, ...k.sup, ...k.opp, ...k.cross]; if (!k.comp.total) return ''; const st = p => k.gov.includes(p) ? 'Government' : k.sup.includes(p) ? 'Confidence and supply' : k.cross.includes(p) ? 'Crossbench' : 'Opposition';
+        return `${chs.length > 1 ? `<h3>${esc(ch.name)}</h3>` : ''}<table class="wikitable sortable"><thead><tr><th colspan="2">Party</th><th>Seats</th><th>%</th><th>Status</th><th>Leader</th></tr></thead><tbody>${ids.map(p => `<tr><td style="background:${pColor(p, y)};width:6px;padding:0"></td><td>${wlP(p, y)}</td><td class="r">${k.comp.seats[p]}</td><td class="r">${(k.comp.seats[p] / k.comp.total * 100).toFixed(1)}</td><td>${st(p)}</td><td>${wlB(leaderAt(party(p), y))}</td></tr>`).join('')}</tbody><tfoot><tr><th colspan="2">Total</th><th class="r">${k.comp.total}</th><th class="r">100</th><th colspan="2">${Math.floor(k.comp.total / 2) + 1} for a majority</th></tr></tfoot></table>`; }).join('');
+      const body = `${wsec(art, 'history', 'History', '', { ph: 'How the legislature was founded and has changed…' })}
+        ${wsec(art, 'organisation', 'Organisation', '', { ph: 'Speaker, committees, procedure…' })}
+        ${wsec(art, 'composition', 'Current composition', compTab)}
+        ${wsec(art, 'historical', 'Historical composition', `<p>See ${wl('Historical composition of the ' + Lg.name, 'historical composition of the ' + esc(Lg.name))} for every election since ${eYear(electionsSorted(x => !x.divisionId)[0]) || 'the first'}.</p>`)}
+        ${wsec(art, 'seealso', 'See also', `<ul><li>${wl('Politics of ' + P.nation.name)}</li>${chs.map(c => `<li>${wl('Elections in ' + P.nation.name)}</li>`).slice(0, 1).join('')}<li>${wl('Ministries of ' + P.nation.name)}</li></ul>`)}`;
+      return wrapWiki(key, `<div class="page wiki-page">${wikiToolbar(key, `<button class="btn sm ghost" data-act="legWikiSettings">Infobox & page settings</button><button class="btn sm ghost" data-act="wikiParties">Parties shown</button>`)}<article class="wpage"><h1 class="wtitle">${esc(Lg.name)}</h1>${legInfobox(y)}<div class="wtext lead ${ed ? 'editable' : ''}" ${ed ? 'contenteditable="true" data-sec="lead"' : ''}>${art.lead || lead}</div>${body}</article></div>`);
+    });
+  }, mount(root) { mountWiki(root, 'l:leg'); }
+};
+ACT.legWikiSettings = () => {
+  const L = legW(); const b = 'legWiki'; const ch = (k, l) => `<label class="chk xs"><input type="checkbox" ${L.hidden.includes(k) ? '' : 'checked'} data-change="legHide" data-k="${k}"> ${l}</label>`;
+  const m = modal(`<h3>Legislature article</h3><div class="ws-grid">
+    <fieldset><legend>Names</legend>${fld('Native name', b + '.native', { ph: 'e.g. Folketinget' })}${fld('Language', b + '.nativeLang', { ph: 'e.g. Danish' })}${fld('Second title line (italic)', b + '.nativeTitle')}${fld('Current term label (blank = automatic)', b + '.ordinal', { ph: 'e.g. 48th Parliament' })}${fld('Founded (blank = nation founding)', b + '.founded')}${fld('Website', b + '.website')}</fieldset>
+    <fieldset><legend>Show in the infobox</legend><div class="ws-checks">${LEG_FIELDS.map(([k, l]) => ch(k, l)).join('')}</div><label class="fld"><span>Groups</span><select data-set="${b}.groupMode">${opt([['opposition', 'Government · Supported by · Opposition'], ['crossbench', 'Government · Opposition (largest) · Crossbench']], L.groupMode || 'opposition')}</select></label><button class="btn sm ghost" data-act="wikiParties">Choose parties shown…</button></fieldset>
+    <fieldset><legend>Images</legend>${imgFld('Emblem (blank = coat of arms / flag)', b + '.emblem')}${fld('Emblem caption', b + '.emblemCap')}
+      ${L.images.map((im, i) => `<div class="ws-img">${imgFld('Photo ' + (i + 1), `${b}.images.${i}.src`)}${fld('Caption', `${b}.images.${i}.cap`)}<button class="iconbtn" data-act="legDel" data-k="images" data-i="${i}">✕</button></div>`).join('')}<button class="btn sm ghost" data-act="legAdd" data-k="images">＋ Photo</button>
+      ${L.meeting.map((im, i) => `<div class="ws-img">${imgFld('Meeting place ' + (i + 1), `${b}.meeting.${i}.src`)}${fld('Caption', `${b}.meeting.${i}.cap`)}<button class="iconbtn" data-act="legDel" data-k="meeting" data-i="${i}">✕</button></div>`).join('')}<button class="btn sm ghost" data-act="legAdd" data-k="meeting">＋ Meeting-place image</button>
+      <div class="grid2">${fld('Image width (px)', b + '.imgW', { type: 'num', ph: '220' })}${fld('Same size for every photo', b + '.uniform', { type: 'check' })}</div></fieldset>
+    <fieldset><legend>Leadership <small class="muted">(empty = automatic)</small></legend>${L.leadership.map((r, i) => `<div class="ws-row">${fld('Role', `${b}.leadership.${i}.role`, { ph: 'e.g. Speaker' })}<label class="fld"><span>Person</span><select data-set="${b}.leadership.${i}.pid">${polOpts(r.pid, '— text instead —')}</select></label>${r.pid ? '' : fld('Text', `${b}.leadership.${i}.text`)}${fld('Since', `${b}.leadership.${i}.since`, { ph: 'YYYY-MM-DD' })}<button class="iconbtn" data-act="legDel" data-k="leadership" data-i="${i}">✕</button></div>`).join('')}<button class="btn sm ghost" data-act="legAdd" data-k="leadership">＋ Office</button></fieldset>
+    <fieldset class="span2"><legend>Your own rows</legend>${L.custom.map((r, i) => `<div class="ws-row">${fld('Label', `${b}.custom.${i}.label`)}${fld('Value (wiki links work)', `${b}.custom.${i}.value`)}${fld('Section heading', `${b}.custom.${i}.head`, { type: 'check' })}<button class="iconbtn" data-act="legDel" data-k="custom" data-i="${i}">✕</button></div>`).join('')}<button class="btn sm ghost" data-act="legAdd" data-k="custom">＋ Row</button></fieldset>
+    </div><div class="row end"><button class="btn" data-act="closeModal">Done</button></div>`);
+  m.classList?.add('wide');
+};
+ACT.legHide = t => { const L = legW(); L.hidden = t.checked ? L.hidden.filter(k => k !== t.dataset.k) : [...new Set([...L.hidden, t.dataset.k])]; commit(); };
+ACT.legAdd = t => { const L = legW(); L[t.dataset.k].push(t.dataset.k === 'leadership' ? { role: '', pid: '', since: '' } : t.dataset.k === 'custom' ? { label: '', value: '' } : { src: '', cap: '' }); commit(); closeModal(); ACT.legWikiSettings(); };
+ACT.legDel = t => { const L = legW(); L[t.dataset.k].splice(+t.dataset.i, 1); commit(); closeModal(); ACT.legWikiSettings(); };
+
+/* ================= historical distribution of seats ================= */
+VIEWS.seatHistory = {
+  mode: 'wiki', render() {
+    return withWK(() => {
+      const key = 'h:hist'; const art = articleOf(key); const H = P.seatHist || (P.seatHist = { chamber: 'lower', bloc: 'position' }); const ch = chamberOf(H.chamber); const hide = wikiHidden();
+      const els = electionsSorted(e => !e.divisionId && (e.chamberId || 'lower') === ch.id && ['general', 'parliamentary', 'upper', 'special'].includes(e.type) && sum(Object.values(seatsOf(e))) > 0);
+      const allP = sortedParties([...new Set(els.flatMap(e => Object.keys(seatsOf(e)).filter(p => seatsOf(e)[p] > 0)))]).filter(p => !hide.has(p)); const y0 = curYear();
+      const side = (p, e) => { if (H.bloc === 'government') { const g = govAfter(e) || govAt(eYear(e)); return (g?.parties || []).includes(p) || (g?.support || []).includes(p) ? 'L' : 'R'; } return partyLR(party(p)) < 0 ? 'L' : 'R'; };
+      const rows = els.map(e => { const s = seatsOf(e), y = eYear(e), T = sum(Object.values(s)); const ids = sortedParties(Object.keys(s).filter(p => s[p] > 0 && !hide.has(p))); const g = govAfter(e) || govAt(y); const gov = new Set([...(g?.parties || []), ...(g?.support || [])]);
+        const Lp = H.bloc === 'none' ? [] : ids.filter(p => side(p, e) === 'L'), Rp = H.bloc === 'none' ? ids : ids.filter(p => side(p, e) === 'R'); const ord = [...Lp, ...Rp]; const lt = sum(Lp.map(p => s[p])), rt = sum(Rp.map(p => s[p]));
+        const lc = Lp.length ? pColor([...Lp].sort((a, b) => s[b] - s[a])[0], y) : '#999', rc = Rp.length ? pColor([...Rp].sort((a, b) => s[b] - s[a])[0], y) : '#999';
+        const segs = ord.map(p => { const w = s[p] / T * 100; return `<div class="sh-seg ${gov.has(p) ? 'gov' : ''}" style="flex:0 0 ${w}%;background:${pColor(p, y)};color:${textOn(pColor(p, y))}" title="${esc(pName(p, y))}: ${s[p]}">${w >= 2.6 ? s[p] : ''}</div>`; }).join('');
+        return `<tr><td class="sh-y">${wlE(e, String(y))}</td>${H.bloc !== 'none' ? `<td class="sh-t" style="color:${lc}">${lt || ''}</td>` : ''}<td class="sh-bar" style="${H.bloc !== 'none' ? `background:linear-gradient(90deg,${mix(lc, '#ffffff', .82)} 50%,${mix(rc, '#ffffff', .82)} 50%)` : ''}"><div class="sh-row">${segs}</div><i class="sh-maj"></i></td>${H.bloc !== 'none' ? `<td class="sh-t" style="color:${rc}">${rt || ''}</td>` : ''}</tr>`; }).join('');
+      const legend = `<tr><td></td>${H.bloc !== 'none' ? '<td></td>' : ''}<td class="sh-leg">${allP.map(p => `<span><i style="background:${pColor(p, y0)}"></i>${wlP(p, y0, esc(pAbbr(p, y0) || pName(p, y0)))}</span>`).join('')}</td>${H.bloc !== 'none' ? '<td></td>' : ''}</tr>`;
+      const table = els.length ? `<table class="wikitable sh-tab"><tbody>${legend}${rows}</tbody></table><p class="wk-small">Bar lengths are each election's share of the chamber; the line marks half. ${H.bloc === 'none' ? '' : `Numbers either side are the seats of the ${H.bloc === 'government' ? 'government and its supporters (left) and everyone else (right)' : 'left-of-centre (left) and centre and right (right) parties'}.`} Dotted underline: party in or supporting the government formed after the election.</p>` : '<p>No elections with seats yet.</p>';
+      const title = `Historical composition of the ${ch.name}`;
+      const body = `${wsec(art, 'intro', 'Overview', '', { ph: 'Notes on how the chamber has changed…' })}${wsec(art, 'table', `${P.nation.demonym || P.nation.name} ${ch.name} elections (since ${eYear(els[0]) || '—'})`, table)}`;
+      return wrapWiki(key, `<div class="page wiki-page">${wikiToolbar(key, `<select data-set="seatHist.chamber">${opt(P.legislature.chambers.map(c => [c.id, c.name]), H.chamber)}</select><select data-set="seatHist.bloc">${opt([['position', 'Blocs: left vs right'], ['government', 'Blocs: government vs rest'], ['none', 'No blocs']], H.bloc)}</select><button class="btn sm ghost" data-act="wikiParties">Parties shown</button>`)}<article class="wpage"><h1 class="wtitle">${esc(title)}</h1><div class="wtext lead">${art.lead || `<p>This page shows the distribution of seats in the ${wl(ch.name)} of ${wl(P.nation.name)} after each election${els.length ? `, from ${eYear(els[0])} to ${eYear(els[els.length - 1])}` : ''}.</p>`}</div>${body}</article></div>`);
+    });
+  }, mount(root) { mountWiki(root, 'h:hist'); }
+};
+
+/* ================= ministry / government articles ================= */
+const GOV_FIELDS = [['flag', 'Flag'], ['ordinal', '“Nth Ministry of …”'], ['image', 'Photo / portraits'], ['dates', 'Date formed / dissolved'], ['hos', 'Head of state'], ['head', 'Head of government'], ['deputy', 'Deputy'], ['count', 'No. of ministers'], ['party', 'Member party'], ['status', 'Status in legislature'], ['opp', 'Opposition party & leader'], ['history', 'Elections & legislature terms'], ['succ', 'Predecessor & successor']];
+function govW(g) { const w = g.wiki || (g.wiki = {}); w.hidden = w.hidden || []; return w; }
+function govMinisters(g) { const map = new Map(); cabinetMembers(g).filter(m => m.role !== 'hos').forEach(m => { if (!m.politicianId) return; if (!map.has(m.politicianId)) map.set(m.politicianId, []); map.get(m.politicianId).push(m); }); return [...map.entries()]; }
+function govInfobox(g) {
+  const w = govW(g), show = k => !w.hidden.includes(k); const y = yearOf(g.start) ?? curYear(); const gs = [...P.governments].sort((a, b) => dateKey(a.start) - dateKey(b.start)); const i = gs.indexOf(g); const word = P.legWiki?.minWord || 'Ministry';
+  const comp = composition(y); const govS = sum((g.parties || []).map(p => comp.seats[p] || 0)), supS = sum((g.support || []).map(p => comp.seats[p] || 0)); const maj = comp.total ? Math.floor(comp.total / 2) + 1 : 0;
+  const oppP = Object.keys(comp.seats).filter(p => !(g.parties || []).includes(p) && !(g.support || []).includes(p)).sort((a, b) => comp.seats[b] - comp.seats[a])[0]; const oppL = oppP ? leaderAt(party(oppP), y) : null;
+  const dep = g.deputyId ? pol(g.deputyId) : pol((g.cabinet || []).find(m => /deputy (prime|premier|head|chancellor)/i.test(m.portfolio))?.politicianId);
+  const heads = [pol(g.headId), dep].filter(Boolean); let h = '';
+  if (show('flag')) h += `<tr><td colspan="2" class="ib-c"><img class="ib-bigflag" src="${nationFlag()}" alt="" style="width:60px"></td></tr>`;
+  if (show('ordinal') && i >= 0) h += `<tr><td colspan="2" class="ib-c"><b>${ordn(i + 1)} ${wl(word + 's of ' + P.nation.name, esc(word) + ' of ' + esc(P.nation.name))}</b></td></tr>`;
+  if (show('image')) { if (w.photo) h += ibImg(w.photo, w.caption || '', 280, false); else if (heads.length) h += `<tr><td colspan="2" class="ib-c"><div class="gov-heads">${heads.map(p => `<figure><img src="${portraitOf(p, y)}" alt=""><figcaption>${esc(p.name)}</figcaption></figure>`).join('')}</div></td></tr>`; }
+  if (show('dates')) h += ibRow('Date formed', esc(fmtDate(g.start))) + ibRow('Date dissolved', g.end ? esc(fmtDate(g.end)) : '<i>Incumbent</i>');
+  h += ibHead('People and organisations');
+  if (show('hos') && g.hosId) h += ibRow(esc(P.nation.hosTitle || 'Head of state'), wlB(pol(g.hosId)));
+  if (show('head')) h += ibRow(esc(P.nation.leaderTitle || 'Prime Minister'), wlB(pol(g.headId)));
+  if (show('deputy') && dep) h += ibRow('Deputy ' + esc(P.nation.leaderTitle || 'Prime Minister'), wlB(dep));
+  if (show('count')) h += ibRow('<abbr title="Number">No.</abbr> of ministers', String(govMinisters(g).length));
+  if (show('party')) h += ibRow('Member part' + ((g.parties || []).length > 1 ? 'ies' : 'y'), (g.parties || []).map(p => wlP(p, y)).join('–') + ((g.parties || []).length > 1 ? ' coalition' : ''));
+  if (show('status') && comp.total) h += ibRow('Status in legislature', `${(g.parties || []).length > 1 ? 'Coalition ' : ''}${govS >= maj ? 'majority' : 'minority'} government${govS < maj && supS ? ` (${(g.support || []).map(p => wlP(p, y, esc(pAbbr(p, y)))).join(', ')} support)` : ''}<br><small>${govS}${supS ? ' + ' + supS : ''} of ${comp.total} seats</small>`);
+  if (show('opp') && oppP) h += ibRow('Opposition party', wlP(oppP, y)) + (oppL ? ibRow('Opposition leader', wlB(oppL)) : '');
+  if (show('history') || show('succ')) h += ibHead('History');
+  if (show('history')) { const els = P.elections.filter(e => !e.divisionId && (e.chamberId || 'lower') === 'lower' && dateKey(e.date) >= dateKey(g.start) - 20000 && (!g.end || dateKey(e.date) <= dateKey(g.end))).sort((a, b) => dateKey(a.date) - dateKey(b.date)); const elx = g.electionId && elec(g.electionId) ? [elec(g.electionId), ...els.filter(e => e.id !== g.electionId && dateKey(e.date) > dateKey(g.start))] : els.filter(e => dateKey(e.date) >= dateKey(g.start) - 20000);
+    if (elx.length) h += ibRow('Election' + (elx.length > 1 ? 's' : ''), elx.map(e => wlE(e, esc(fmtDate(e.date)))).join('<br>'));
+    const terms = elx.map(e => P.elections.filter(x => !x.divisionId && (x.chamberId || 'lower') === 'lower' && ['general', 'parliamentary'].includes(x.type) && dateKey(x.date) <= dateKey(e.date)).length).filter(Boolean); if (terms.length) h += ibRow('Legislature term' + (terms.length > 1 ? 's' : ''), [...new Set(terms)].map(ordn).join('<br>')); }
+  if (show('succ')) { if (gs[i - 1]) h += ibRow('Predecessor', wl(gs[i - 1].name)); if (gs[i + 1]) h += ibRow('Successor', wl(gs[i + 1].name)); }
+  return `<table class="infobox vevent ib-ministry"><caption class="infobox-title">${esc(g.name)}</caption><tbody>${h}</tbody></table>`;
+}
+VIEWS.govArticle = {
+  mode: 'wiki', render() {
+    return withWK(() => {
+      let g = govt(S.sel.gov) || [...P.governments].sort((a, b) => dateKey(b.start) - dateKey(a.start))[0]; if (!g) return `<div class="page">${empty('No governments', 'Record a government under Governments & Cabinets to create its article.', '<button class="btn" data-act="nav" data-view="governments">Governments & Cabinets</button>')}</div>`; S.sel.gov = g.id;
+      const key = 'g:' + g.id; const art = articleOf(key); const ed = S.ui.wedit; const y = yearOf(g.start) ?? curYear(); const gs = [...P.governments].sort((a, b) => dateKey(a.start) - dateKey(b.start)); const i = gs.indexOf(g); const word = P.legWiki?.minWord || 'Ministry'; const head = pol(g.headId);
+      const pw = num(P.legWiki?.portraitW) || 90;
+      const mins = govMinisters(g); let prevParty = null; const rows = mins.map(([pid, ms], k) => { const pl = pol(pid); const pp = polParty(pl, y); const span = (() => { if (pp === prevParty) return -1; let n = 1; for (let j = k + 1; j < mins.length && polParty(pol(mins[j][0]), y) === pp; j++) n++; return n; })(); prevParty = pp;
+        const life = pl?.born ? ` <small>(${yearOf(pl.born)}–${pl.died ? yearOf(pl.died) : ''})</small>` : '';
+        return `<tr><td style="background:${pp ? pColor(pp, y) : '#ccc'};width:8px;padding:0"></td>${span > 0 ? `<td rowspan="${span}">${pp ? wlP(pp, y, esc(pName(pp, y))) : 'Independent'}</td>` : ''}<td>${wlB(pl)}${life}${pl?.constituency ? `<br><small>Member for ${wl(pl.constituency)}</small>` : ''}</td><td class="gov-por"><img src="${portraitOf(pl, y)}" alt="" style="width:${pw}px;height:${Math.round(pw * 1.22)}px"></td><td><ul>${ms.map(m => `<li>${/leader|deputy leader/i.test(m.portfolio) ? `<i>${ibInline(m.portfolio)}</i>` : ibInline(m.portfolio)}${m.from && dateKey(m.from) > dateKey(g.start) ? ` <small>(from ${esc(fmtDate(m.from))})</small>` : ''}${m.to && (!g.end || dateKey(m.to) < dateKey(g.end)) ? ` <small>(to ${esc(fmtDate(m.to))})</small>` : ''}</li>`).join('')}</ul></td></tr>`; }).join('');
+      const table = mins.length ? `<table class="wikitable sortable gov-tab"><thead><tr><th colspan="2">Party</th><th>Minister</th><th>Portrait</th><th>Portfolio</th></tr></thead><tbody>${rows}</tbody></table>` : '<p>No ministers recorded yet — add them under Governments & Cabinets.</p>';
+      const lead = `<p>The <b>${esc(g.name)}</b>${(g.parties || []).length ? ` (${(g.parties || []).map(p => wlP(p, y, esc(pName(p, y)))).join('–')})` : ''} was the ${ordn(i + 1)} ${wl(word.toLowerCase(), esc(word.toLowerCase()))} of the ${wl('Government of ' + P.nation.name)}.${head ? ` It was led by ${wlB(head)} as ${esc(P.nation.leaderTitle || 'Prime Minister')}.` : ''} The ${esc(word.toLowerCase())} was formed on ${esc(fmtDate(g.start))}${gs[i - 1] ? `, succeeding the ${wl(gs[i - 1].name)}` : ''}${g.end ? `, and was replaced by the ${gs[i + 1] ? wl(gs[i + 1].name) : 'next ' + esc(word.toLowerCase())} on ${esc(fmtDate(g.end))}` : ', and remains in office'}.${g.desc ? ' ' + esc(g.desc) : ''}</p>`;
+      const body = `${wsec(art, 'background', 'Background', '', { ph: 'How the ministry came to power…' })}${wsec(art, 'ministry', word, table)}${wsec(art, 'policy', 'Policy and events', '', { ph: 'What the ministry did…' })}${wsec(art, 'seealso', 'See also', `<ul>${gs[i - 1] ? `<li>${wl(gs[i - 1].name)}</li>` : ''}${gs[i + 1] ? `<li>${wl(gs[i + 1].name)}</li>` : ''}<li>${wl(P.legislature.name)}</li></ul>`)}`;
+      return wrapWiki(key, `<div class="page wiki-page">${wikiToolbar(key, `<select data-change="govPick">${gs.map(x => `<option value="${x.id}" ${x.id === g.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select><button class="btn sm ghost" data-act="govWikiSettings">Infobox & table settings</button><button class="btn sm ghost" data-act="nav" data-view="governments" data-sel-gov="${g.id}">Edit data</button>`)}<article class="wpage"><h1 class="wtitle">${esc(g.name)}</h1>${govInfobox(g)}<div class="wtext lead ${ed ? 'editable' : ''}" ${ed ? 'contenteditable="true" data-sec="lead"' : ''}>${art.lead || lead}</div>${body}</article></div>`);
+    });
+  }, mount(root) { mountWiki(root, 'g:' + S.sel.gov); }
+};
+ACT.govPick = t => { S.sel.gov = t.value; render(); };
+ACT.govWikiSettings = () => {
+  const g = govt(S.sel.gov); if (!g) return; const w = govW(g); const i = P.governments.indexOf(g); const b = `governments#${g.id}.wiki`;
+  modal(`<h3>${esc(g.name)} — article</h3><div class="ws-grid"><fieldset><legend>Show in the infobox</legend><div class="ws-checks">${GOV_FIELDS.map(([k, l]) => `<label class="chk xs"><input type="checkbox" ${w.hidden.includes(k) ? '' : 'checked'} data-change="govHide" data-k="${k}"> ${l}</label>`).join('')}</div></fieldset>
+    <fieldset><legend>Picture</legend>${imgFld('Group photo (blank = portraits of the leader and deputy)', b + '.photo')}${fld('Caption', b + '.caption')}<label class="fld"><span>Deputy</span><select data-set="governments#${g.id}.deputyId">${polOpts(g.deputyId, 'Automatic (a “Deputy …” portfolio)')}</select></label></fieldset>
+    <fieldset class="span2"><legend>Every ministry article</legend><div class="grid2">${fld('Word for a government', 'legWiki.minWord', { ph: 'Ministry (or Cabinet, Government…)' })}${fld('Portrait width in the table (px)', 'legWiki.portraitW', { type: 'num', ph: '90' })}</div></fieldset></div>
+    <div class="row end"><button class="btn" data-act="closeModal">Done</button></div>`);
+};
+ACT.govHide = t => { const g = govt(S.sel.gov); const w = govW(g); w.hidden = t.checked ? w.hidden.filter(k => k !== t.dataset.k) : [...new Set([...w.hidden, t.dataset.k])]; commit(); };
+
+/* ================= navigation, links, index ================= */
+NAV.wiki.splice(4, 0, ['legArticle', '⚖', 'Legislature'], ['govArticle', '♜', 'Ministries'], ['seatHistory', '▥', 'Seat history']);
+const _titles16 = wkTitles;
+wkTitles = function () {
+  const t = _titles16(); const add = (title, v, sel) => { if (title && !t.has(normName(title))) t.set(normName(title), { v, sel, title }); };
+  add(P.legislature.name, 'legArticle', {}); P.legislature.chambers.forEach(c => { add(c.name, 'legArticle', {}); add('Historical composition of the ' + c.name, 'seatHistory', {}); }); if (legW().native) add(legW().native, 'legArticle', {});
+  P.governments.forEach(g => add(g.name, 'govArticle', { gov: g.id })); add((P.legWiki?.minWord || 'Ministry') + 's of ' + P.nation.name, 'govArticle', {});
+  return t;
+};
+/* keep WK_RENDERING-aware wrappers working for the new views */
+[['legArticle'], ['seatHistory'], ['govArticle']].forEach(([v]) => { const V = VIEWS[v]; if (!V.mode) V.mode = 'wiki'; });
+
+</script>
+<script>
+'use strict';
+/* =====================================================================
+   update17.js : election infobox styles —
+   • Government before / after: compact two-sided box (name, coalition)
+     with portraits as an option, or an Outgoing / Elected band
+   • List style (party table with leader, vote %, seats, +/–, grouped
+     by coalition or region headings)
+   • Two-round / continental style (blue bands, electorate & results,
+     party blocks with vote bars, grouped hemicycle legend)
+   ===================================================================== */
+const IB17_DEF = { style: 'columns', govStyle: 'split', govPortrait: true, listCols: ['leader', 'pct', 'seats', 'change'], listWhich: 'seats', listGroup: 'alliance', listGroupSeats: true, listNote: true, frImg: 'portrait', frParties: 5, frMembers: true, frGroups: true };
+function ib17(art) { const ib = art.infobox; return { ...IB17_DEF, ...(ib.x17 || {}) }; }
+function ibEnsure(art) { if (!art.infobox) art.infobox = { order: IB_FIELDS.map(f => f[0]), hidden: [], rows: IB_ROWS.map(r => r[0]), cols: 3, parties: 3 }; return art.infobox; }
+const IB_STYLES = [['columns', 'Columns — leaders side by side (UK / US)'], ['list', 'List — party table with leader, % and seats (Danish / Italian)'], ['round', 'Two-round — bands, vote bars and party blocks (French / Spanish)']];
+
+/* editable cell helper: data-ibk + typed override */
+function ibT(e, tag, k, def, cls = '', attrs = '') { const ov = e.ibOv || {}; const has = ov[k] != null; return `<${tag} data-ibk="${k}" class="${cls}${has ? ' ib-ov' : ''}"${attrs}>${has ? (ov[k] === '' ? '' : ibInline(ov[k])) : def}</${tag}>`; }
+const sgnC = (d, isNew) => isNew ? '<span class="ib17-new">New</span>' : d == null ? '—' : d > 0 ? `<span class="ib17-up">+${d}</span>` : d < 0 ? `<span class="ib17-dn">−${-d}</span>` : '0';
+const frArrow = (d, f = v => v.toFixed(1)) => d == null ? '' : d > 0 ? `<span class="fr-ch"><span class="wk-inc">▲</span> ${f(d)}</span>` : d < 0 ? `<span class="fr-ch"><span class="wk-dec">▼</span> ${f(-d)}</span>` : `<span class="fr-ch"><span class="wk-steady">▬</span> 0</span>`;
+
+/* ================= government before / after ================= */
+function govSide(e, g, y, side, x) {
+  const pl = g ? pol(g.headId) : null; const im = (e.ibImg || {})['gv' + side];
+  const parties = g ? (g.parties || []).map(p => wlP(p, y, esc(pAbbr(p, y) || pName(p, y)))).join('–') : '';
+  return { name: g ? wl(g.name) : (side === 'a' ? '<i>To be determined</i>' : '—'), parties, pl, img: pl ? (im || portraitOf(pl, y)) : null, leader: pl ? wlB(pl) : '' };
+}
+function govBlock(e, y, x) {
+  const gb = govBefore(e), ga = govAfter(e); if (!gb && !ga && !e.inaugural) return '';
+  const B = govSide(e, gb, y, 'b', x), A = govSide(e, ga, y, 'a', x); const govL = wl(`Government of ${P.nation.name}`, 'Government');
+  const pic = s => x.govPortrait && s.img ? `<img class="ib17-gimg" data-ibimg="gv${s === B ? 'b' : 'a'}" src="${s.img}" alt="">` : '';
+  if (x.govStyle === 'band') {
+    return `<tr><th colspan="2" class="ib-title ib17-band">${ibT(e, 'span', 'gv:band', govL)}</th></tr><tr><td colspan="2" class="ib-gov-td"><table class="ib17-gov band"><tr>${ibT(e, 'th', 'gv:bh', 'Outgoing', 'l')}${ibT(e, 'th', 'gv:ah', 'Elected', 'r')}</tr>
+      ${x.govPortrait && (B.img || A.img) ? `<tr><td class="l">${pic(B)}</td><td class="r">${pic(A)}</td></tr>` : ''}
+      <tr>${ibT(e, 'td', 'gv:bl', B.pl ? `<span class="ib17-big">${B.leader}</span>` : '', 'l')}${ibT(e, 'td', 'gv:al', A.pl ? `<span class="ib17-big">${A.leader}</span>` : '', 'r')}</tr>
+      <tr>${ibT(e, 'td', 'gv:bn', B.name, 'l')}${ibT(e, 'td', 'gv:an', A.name, 'r')}</tr>
+      <tr>${ibT(e, 'td', 'gv:bp', B.parties ? `<small>(${B.parties})</small>` : '', 'l')}${ibT(e, 'td', 'gv:ap', A.parties ? `<small>(${A.parties})</small>` : '', 'r')}</tr></table></td></tr>`;
+  }
+  return `<tr><td colspan="2" class="ib-bt ib-gov-td"><table class="ib17-gov split"><tr>${ibT(e, 'th', 'gv:bh', `${govL} before election`, 'l')}${ibT(e, 'th', 'gv:ah', 'Government after election', 'r')}</tr>
+    ${x.govPortrait && (B.img || A.img) ? `<tr><td class="l">${pic(B)}</td><td class="r">${pic(A)}</td></tr><tr>${ibT(e, 'td', 'gv:bl', B.leader, 'l')}${ibT(e, 'td', 'gv:al', A.leader, 'r')}</tr>` : ''}
+    <tr>${ibT(e, 'td', 'gv:bn', B.name, 'l')}${ibT(e, 'td', 'gv:an', A.name, 'r')}</tr>
+    <tr>${ibT(e, 'td', 'gv:bp', B.parties, 'l')}${ibT(e, 'td', 'gv:ap', A.parties, 'r')}</tr></table></td></tr>`;
+}
+
+/* ================= list style ================= */
+function listGroups(rows, x) {
+  if (x.listGroup !== 'alliance' || !rows.some(r => (r.alliance || '').trim())) return [{ name: '', rows }];
+  const m = new Map(); rows.forEach(r => { const k = (r.alliance || '').trim() || '\u0000'; if (!m.has(k)) m.set(k, []); m.get(k).push(r); });
+  const gs = [...m.entries()].map(([k, rs]) => ({ name: k === '\u0000' ? 'Other parties' : k, other: k === '\u0000', rows: rs, seats: sum(rs.map(r => r.seatsWon)) }));
+  if (x.listGroupOrder !== 'first') gs.sort((a, b) => (a.other - b.other) || (b.seats - a.seats)); else gs.sort((a, b) => a.other - b.other);
+  return gs;
+}
+function listBlock(e, c, x, ib) {
+  const y = c.year; const inaug = e.inaugural || !c.prev;
+  let rows = c.sorted.filter(r => r.votes || r.seatsWon); if (x.listWhich === 'seats') rows = rows.filter(r => r.seatsWon > 0); else if (x.listWhich === 'top') rows = rows.slice(0, ib.parties || 6);
+  const cols = (x.listCols || []).filter(k => !(k === 'change' && inaug)); const H = { leader: 'Leader', votes: 'Votes', pct: 'Vote %', seats: 'Seats', change: '+/–' };
+  const n = 1 + cols.length; const word = (chamberOf(e.chamberId)?.memberWord || 'seats').toLowerCase().includes('seat') ? 'seats' : 'seats';
+  let h = `<table class="ib17-list"><tr>${ibT(e, 'th', 'ls:h:party', 'Party')}${cols.map(k => ibT(e, 'th', 'ls:h:' + k, H[k])).join('')}</tr>`;
+  listGroups(rows, x).forEach(g => {
+    if (g.name) h += `<tr>${ibT(e, 'th', 'ls:g:' + g.name, `${esc(g.name)}${x.listGroupSeats ? ` (${g.seats} ${g.seats === 1 ? 'seat' : word})` : ''}`, 'grp', ` colspan="${n}"`)}</tr>`;
+    g.rows.forEach(r => {
+      const v = { leader: wlB(r.leader), votes: fmt(r.votes), pct: r.votes ? r.share.toFixed(2) : '—', seats: String(r.seatsWon), change: sgnC(r.seatChange, r.isNew) };
+      h += `<tr><td class="pn" style="border-left-color:${r.color}">${ibT(e, 'span', `ls:${r.partyId}:party`, wlP(r.partyId, y, esc(r.name)))}</td>${cols.map(k => ibT(e, 'td', `ls:${r.partyId}:${k}`, v[k], k === 'leader' ? '' : 'num')).join('')}</tr>`;
+    });
+  });
+  h += '</table>';
+  const note = x.listNote && x.listWhich !== 'all' ? `<div class="ib17-note">${ibT(e, 'span', 'ls:note', `This lists parties that won seats. See the complete <a class="wl" data-act="tocJump" data-k="results">results below</a>.`)}</div>` : '';
+  return `<tr><td colspan="2" class="ib17-list-td">${h}${note}</td></tr>`;
+}
+
+/* ================= two-round (French / Spanish) style ================= */
+const frPct = v => v.toFixed(2).replace('.', '.') + ' %';
+function frBar(p, color, grey) { return `<div class="fr-bar"><div style="width:${Math.max(0, Math.min(100, p))}%;background:${grey ? '#c8ccd1' : color}"></div></div>`; }
+function roundInfobox(e, art) {
+  const ib = ibEnsure(art); const x = ib17(art); const show = k => !ib.hidden.includes(k); const c = computeElection(e); const y = c.year; const ch = chamberOf(e.chamberId);
+  const prevC = c.prev && !e.inaugural ? computeElection(c.prev) : null; const two = (e.results || []).some(r => num(r.votes2)) || !!e.date2;
+  const tot2 = sum((e.results || []).map(r => num(r.votes2))); const cast2 = tot2 + num(e.invalid2) + num(e.blank2);
+  const band = (k, t, sub) => `<tr><th colspan="2" class="ib-title ib17-band">${ibT(e, 'span', 'fr:b:' + k, t)}${sub ? `<div class="ib17-bsub">${ibT(e, 'i', 'fr:bs:' + k, sub)}</div>` : ''}</th></tr>`;
+  const row = (k, l, v) => v === '' || v == null ? '' : `<tr>${ibT(e, 'th', 'fr:l:' + k, l)}${ibT(e, 'td', 'fr:v:' + k, v, 'num')}</tr>`;
+  let h = '';
+  if (show('prevnext') || show('country')) h += `<tr><td colspan="2" class="ib-c"><table class="ib17-nav"><tr><td class="l">${show('prevnext') && c.prev ? `‹ ${wlE(c.prev, eYear(c.prev))}` : ''}</td><td class="m">${show('country') ? `<img class="ib17-navflag" src="${(e.divisionId && divi(e.divisionId)?.flag) || nationFlag()}" alt="">` : ''}</td><td class="r">${show('prevnext') ? (c.next ? `${wlE(c.next, eYear(c.next))} ›` : '<i>Next</i> ›') : ''}</td></tr></table></td></tr>`;
+  h += `<tr><th colspan="2" class="ib-title ib17-band ib17-head">${ibT(e, 'span', 'caption', esc(e.name))}</th></tr>`;
+  if (show('seats') && num(e.seats)) h += `<tr><td colspan="2" class="ib-c ib17-bandlite">${ibT(e, 'span', 'fr:seats', `<b>${e.seats} ${esc((ch?.memberWord || 'seats').toLowerCase())}</b> in the ${wl(ch?.name || 'legislature')}`)}${show('majority') ? `<br><small><b>${ibT(e, 'span', 'fr:maj', `(absolute majority: ${c.majority} seats)`)}</b></small>` : ''}</td></tr>`;
+  h += `<tr><td colspan="2" class="ib-c">${ibT(e, 'span', 'fr:date', two && e.date2 ? `<b>${esc(fmtDate(e.date))}</b> (1st round)<br><b>${esc(fmtDate(e.date2))}</b> (2nd round)` : `<b>${esc(fmtDate(e.date))}</b>`)}</td></tr>`;
+  h += `<tr>${ibT(e, 'th', 'fr:l:type', 'Type of election')}${ibT(e, 'td', 'fr:v:type', (l => wl(l, esc(l)))(/election/i.test(etLabel(e.type)) ? etLabel(e.type) : etLabel(e.type) + ' election'))}</tr>`;
+  if (show('registered') || show('turnout')) {
+    h += band('elect', 'Electorate and results');
+    const pop = e.population || P.nation.population; h += row('pop', 'Population', pop ? esc(typeof pop === 'number' ? fmt(pop) : pop) : '');
+    const r1 = two ? ' (1st round)' : '';
+    if (show('registered')) h += row('reg', 'Registered' + r1, e.registered ? fmt(e.registered) : '');
+    if (show('turnout') && c.turnout != null) h += row('cast', 'Votes cast' + r1, fmt(c.cast)) + `<tr><td colspan="2" class="ib17-tr">${frBar(c.turnout, '', true)}<span class="fr-pct">${frPct(c.turnout)}</span> ${frArrow(c.prevTurnout != null ? c.turnout - c.prevTurnout : null)}</td></tr>`;
+    h += row('valid', 'Valid votes' + r1, fmt(c.tot)) + row('blank', 'Blank votes' + r1, e.blank ? fmt(e.blank) : '') + row('inv', 'Invalid votes' + r1, c.invalid ? fmt(c.invalid) : '');
+    if (two && (num(e.registered2) || tot2)) {
+      const t2 = num(e.registered2) ? cast2 / num(e.registered2) * 100 : null;
+      if (show('registered')) h += row('reg2', 'Registered (2nd round)', e.registered2 ? fmt(e.registered2) : '');
+      h += row('cast2', 'Votes cast (2nd round)', fmt(cast2)) + (t2 != null ? `<tr><td colspan="2" class="ib17-tr">${frBar(t2, '', true)}<span class="fr-pct">${frPct(t2)}</span></td></tr>` : '');
+      h += row('valid2', 'Valid votes (2nd round)', fmt(tot2)) + row('blank2', 'Blank votes (2nd round)', e.blank2 ? fmt(e.blank2) : '') + row('inv2', 'Invalid votes (2nd round)', e.invalid2 ? fmt(e.invalid2) : '');
+    }
+  }
+  if (show('candidates')) {
+    const top = c.sorted.filter(r => r.votes || r.seatsWon || num(r.votes2)).slice(0, x.frParties || 5);
+    top.forEach(r => {
+      const p = party(r.partyId); const img = (e.ibImg || {})[r.partyId] || (x.frImg === 'logo' ? partyLogo(p, y) : x.frImg === 'none' ? '' : portraitOf(r.leader, y));
+      const pr = prevC?.rows.find(z => z.partyId === r.partyId); const v2 = num(r.votes2); const s2 = tot2 ? v2 / tot2 * 100 : 0;
+      const mem = x.frMembers ? String(r.members || '').split(/\n|;/).map(s => s.trim()).filter(Boolean) : [];
+      h += `<tr><td colspan="2" class="fr-party" style="border-top-color:${r.color}"><table class="fr-head"><tr>${img ? `<td class="fr-img"><img data-ibimg="${r.partyId}" src="${img}" alt=""></td>` : ''}<td>${ibT(e, 'span', `fr:${r.partyId}:name`, `<b>${wlP(r.partyId, y, esc(r.name))}</b>${r.leader ? ` – ${wlB(r.leader)}` : ''}`)}
+        ${mem.length ? `<div class="fr-list"><b>List</b>${mem.map(s => `<div>${wl(s)}</div>`).join('')}</div>` : ''}</td></tr></table>
+        <table class="fr-v"><tr>${ibT(e, 'th', 'fr:l:v1', two ? 'Votes, 1st round' : 'Votes')}${ibT(e, 'td', `fr:${r.partyId}:v1`, fmt(r.votes), 'num')}</tr>
+        <tr><td colspan="2">${frBar(r.share, r.color)}<span class="fr-pct">${frPct(r.share)}</span> ${r.isNew ? '' : frArrow(r.swing)}</td></tr>
+        ${v2 ? `<tr>${ibT(e, 'th', 'fr:l:v2', 'Votes, 2nd round')}${ibT(e, 'td', `fr:${r.partyId}:v2`, fmt(v2), 'num')}</tr><tr><td colspan="2">${frBar(s2, r.color)}<span class="fr-pct">${frPct(s2)}</span> ${pr && !r.isNew ? frArrow(s2 - pr.share) : ''}</td></tr>` : ''}
+        <tr>${ibT(e, 'th', 'fr:l:seats', 'Seats won')}${ibT(e, 'td', `fr:${r.partyId}:seats`, `<b>${r.seatsWon}</b> ${r.isNew || r.seatChange == null ? '' : frArrow(r.seatChange, v => String(v))}`, 'num')}</tr></table></td></tr>`;
+    });
+  }
+  const map = show('map') ? electionMap(e) : null;
+  if (map) h += band('map', 'Results map') + `<tr><td colspan="2" class="ib-c ib-media">${renderMapSVG(map, e, { mode: 'winner' })}</td></tr>`;
+  if (show('diagram') && c.totalSeats) {
+    h += band('asm', `Elected ${esc(ch?.name || 'legislature')}`, x.frGroups ? 'By group' : '');
+    h += `<tr><td colspan="2" class="ib-c ib-media">${parliamentSVG(electionGroups(e), { layout: ch?.layout, fg: 'currentColor', majority: false })}</td></tr>`;
+    if (x.frGroups) {
+      const rs = c.sorted.filter(r => r.seatsWon > 0); const gs = listGroups(rs, { ...x, listGroup: 'alliance' });
+      const li = r => `<li><span class="lg-sw" style="background:${r.color}"></span>${wlP(r.partyId, y, esc(r.name))} (${r.seatsWon})</li>`;
+      h += `<tr><td colspan="2" class="ib17-grp">${ibT(e, 'div', 'fr:asof', `<small>As of ${esc(fmtDate(e.date2 || e.date))}</small>`)}<ul>${gs.map(g => g.name && !g.other && g.rows.length > 1 ? `<li class="g">${wl(g.name)} (${g.seats})<ul>${g.rows.map(li).join('')}</ul></li>` : g.rows.map(li).join('')).join('')}</ul></td></tr>`;
+    }
+  }
+  if (show('govbefore')) h += govBlock(e, y, { ...x, govStyle: x.govStyle === 'split' && x.govStyleSet !== true ? 'band' : x.govStyle });
+  const terms = P.elections.filter(z => (z.chamberId || 'lower') === (e.chamberId || 'lower') && !z.divisionId && eYear(z) <= y && z.type === e.type).length;
+  if (terms) h += band('leg', 'Elected legislature') + `<tr><td colspan="2" class="ib-c">${ibT(e, 'span', 'fr:term', wl(`${ordn(terms)} ${ch?.name || P.legislature.name}`))}</td></tr>`;
+  return `<table class="infobox vevent ib-election ib17-round"><tbody>${h}</tbody></table>`;
+}
+
+/* ================= wrap the infobox ================= */
+const _eib17 = electionInfobox;
+electionInfobox = function (e, art) {
+  art = art || {}; const ib = ibEnsure(art); const x = ib17(art);
+  if (x.style === 'round') { try { return roundInfobox(e, art); } catch (er) { console.warn(er); } }
+  const copy = x.style === 'list' ? { ...art, infobox: { ...ib, parties: 1, cols: 1 } } : art;
+  const h = _eib17(e, copy);
+  try {
+    const t = document.createElement('div'); t.innerHTML = h; const tb = t.querySelector('table.infobox'); if (!tb) return h; const c = computeElection(e);
+    if (x.style === 'list') { const trs = [...tb.querySelectorAll('td.ib-cand-td')].map(td => td.closest('tr')); if (trs.length) { trs[0].insertAdjacentHTML('beforebegin', listBlock(e, c, x, ib)); trs.forEach(tr => tr.remove()); } }
+    const g = [...tb.querySelectorAll('td.ib-gov-td')].map(td => td.closest('tr')).filter(tr => tr.parentElement?.closest('table') === tb);
+    if (g.length) { g[0].insertAdjacentHTML('beforebegin', govBlock(e, c.year, x)); g.forEach(tr => tr.remove()); }
+    return t.innerHTML;
+  } catch (er) { console.warn(er); return h; }
+};
+const gf = IB_FIELDS.find(f => f[0] === 'govbefore'); if (gf) gf[1] = 'Government before / after';
+const ga17 = IB_FIELDS.find(f => f[0] === 'govafter'); if (ga17) ga17[1] = 'Head of government (legacy, folded into the box above)';
+
+/* ================= settings in "Infobox fields" ================= */
+const _ibConfig17 = ACT.ibConfig;
+ACT.ibConfig = function () {
+  _ibConfig17.apply(this, arguments);
+  const e = elec(S.sel.election); const art = articleOf('e:' + e.id); const ib = ibEnsure(art); const x = ib17(art); const m = document.querySelector('.modal-back'); if (!m) return;
+  const lc = [['leader', 'Leader'], ['votes', 'Votes'], ['pct', 'Vote %'], ['seats', 'Seats'], ['change', '+/–']];
+  m.querySelector('h3')?.insertAdjacentHTML('afterend', `<div class="ib17-cfg">
+    <label class="fld"><span>Infobox style</span><select id="x17style">${opt(IB_STYLES, x.style)}</select></label>
+    <fieldset><legend>Government before / after</legend><div class="row wrap">
+      <label class="fld"><span>Layout</span><select id="x17gs">${opt([['split', 'Two sides — before left, after right'], ['band', 'Outgoing / Elected band']], x.govStyle)}</select></label>
+      <label class="chk"><input type="checkbox" id="x17gp" ${x.govPortrait ? 'checked' : ''}> Show leader portraits</label></div></fieldset>
+    <fieldset class="x17-only" data-s="list"><legend>List style</legend><div class="row wrap">
+      <label class="fld"><span>Parties listed</span><select id="x17lw">${opt([['seats', 'Parties that won seats'], ['top', 'Top parties (number below)'], ['all', 'Every party']], x.listWhich)}</select></label>
+      <label class="fld"><span>Group headings</span><select id="x17lg">${opt([['alliance', 'By coalition / region (the Alliance column)'], ['none', 'No headings']], x.listGroup)}</select></label>
+      <label class="chk"><input type="checkbox" id="x17ls" ${x.listGroupSeats ? 'checked' : ''}> Seat totals in headings</label>
+      <label class="chk"><input type="checkbox" id="x17ln" ${x.listNote ? 'checked' : ''}> Note under the table</label></div>
+      <div class="checks">${lc.map(([k, l]) => `<label class="chk"><input type="checkbox" class="x17lc" value="${k}" ${x.listCols.includes(k) ? 'checked' : ''}> ${l}</label>`).join('')}</div>
+      <p class="muted small">Headings come from each party's <b>Alliance</b> on the election's results table, e.g. “Centre-right coalition” or “Parties in the Faroe Islands”. Parties without one go under “Other parties”.</p></fieldset>
+    <fieldset class="x17-only" data-s="round"><legend>Two-round style</legend><div class="row wrap">
+      <label class="fld"><span>Party blocks</span><input type="number" id="x17fp" min="1" max="12" value="${x.frParties}"></label>
+      <label class="fld"><span>Block picture</span><select id="x17fi">${opt([['portrait', 'Leader portrait'], ['logo', 'Party logo'], ['none', 'None']], x.frImg)}</select></label>
+      <label class="chk"><input type="checkbox" id="x17fm" ${x.frMembers ? 'checked' : ''}> List member parties</label>
+      <label class="chk"><input type="checkbox" id="x17fg" ${x.frGroups ? 'checked' : ''}> Grouped seat list under the diagram</label></div>
+      <button type="button" class="btn sm ghost" id="x17data">Second round, member lists & blank votes…</button></fieldset></div>`);
+  const sync = () => { const s = $('#x17style', m).value; $$('.x17-only', m).forEach(f => f.hidden = f.dataset.s !== s); }; sync(); $('#x17style', m).onchange = sync;
+  const save = () => { ib.x17 = { ...x, style: $('#x17style', m).value, govStyle: $('#x17gs', m).value, govStyleSet: true, govPortrait: $('#x17gp', m).checked, listWhich: $('#x17lw', m).value, listGroup: $('#x17lg', m).value, listGroupSeats: $('#x17ls', m).checked, listNote: $('#x17ln', m).checked, listCols: $$('.x17lc', m).filter(i => i.checked).map(i => i.value), frParties: clamp(+$('#x17fp', m).value || 5, 1, 12), frImg: $('#x17fi', m).value, frMembers: $('#x17fm', m).checked, frGroups: $('#x17fg', m).checked }; };
+  m.addEventListener('click', ev => { if (ev.target.id === 'ibOk') save(); }, true);
+  $('#x17data', m).onclick = () => { save(); closeModal(); commit(); ACT.ibRoundData(); };
+};
+ACT.ibRoundData = () => {
+  const e = elec(S.sel.election); if (!e) return; const y = eYear(e); const b = `elections#${e.id}`;
+  const f = (k, l, ph = '') => `<label class="fld"><span>${l}</span><input data-set="${b}.${k}" value="${esc(e[k] ?? '')}" placeholder="${ph}"></label>`;
+  modal(`<h3>Round & list data — ${esc(e.name)}</h3><p class="muted small">Used by the two-round and list infobox styles. Leave the second round empty for a single-round election.</p>
+    <div class="grid3">${f('date2', 'Second round date', 'e.g. 7 July 2024')}${f('population', 'Population', P.nation.population || '')}${f('blank', 'Blank votes (1st round)')}${f('registered2', 'Registered (2nd round)')}${f('blank2', 'Blank votes (2nd round)')}${f('invalid2', 'Invalid votes (2nd round)')}</div>
+    <table class="etable"><thead><tr><th>Party</th><th>Alliance / heading</th><th>2nd round votes</th><th>Member parties (one per line)</th></tr></thead><tbody>${(e.results || []).map(r => `<tr><td><i class="sw" style="background:${pColor(r.partyId, y)}"></i> ${esc(pName(r.partyId, y))}</td><td><input class="w140" data-set="${b}.results#${r.id}.alliance" value="${esc(r.alliance || '')}"></td><td><input class="w110" data-set="${b}.results#${r.id}.votes2" data-type="num" value="${esc(r.votes2 ?? '')}"></td><td><textarea rows="2" data-set="${b}.results#${r.id}.members">${esc(r.members || '')}</textarea></td></tr>`).join('')}</tbody></table>
+    <div class="row end"><button class="btn" data-act="closeModal">Done</button></div>`, { wide: true });
+};
+/* quick toolbar switch */
+const _artRender17 = VIEWS.article.render;
+VIEWS.article.render = function () {
+  let h = _artRender17.apply(this, arguments); const e = elec(S.sel.election); if (!e) return h; const art = articleOf('e:' + e.id); const x = ib17({ infobox: ibEnsure(art) });
+  return h.replace(/(data-act="ibConfig"[^>]*>[^<]*<\/button>)/, `$1<select data-change="ibStyleQuick" aria-label="Infobox style" title="Infobox style">${opt(IB_STYLES.map(([k, l]) => [k, 'Infobox: ' + l.split(' — ')[0]]), x.style)}</select><button class="btn sm ghost ${x.govPortrait ? '' : 'on'}" data-act="ibGovPortrait" title="Show or hide portraits in the government before / after box">${x.govPortrait ? 'Hide' : 'Show'} government portraits</button>`);
+};
+ACT.ibStyleQuick = t => { const e = elec(S.sel.election); const art = articleOf('e:' + e.id); const ib = ibEnsure(art); ib.x17 = { ...(ib.x17 || {}), style: t.value }; commit(); };
+ACT.ibGovPortrait = () => { const e = elec(S.sel.election); const art = articleOf('e:' + e.id); const ib = ibEnsure(art); const x = ib17(art); ib.x17 = { ...(ib.x17 || {}), govPortrait: !x.govPortrait }; commit(); };
+
+</script>
+<script>
 'use strict';
 /* =====================================================================
    demo.js : the fictional Republic of Valmoria (explicitly chosen
@@ -6819,7 +7246,7 @@ function buildDemo() {
 }
 
 </script>
-<script>/* js/app.js */
+<script>
 'use strict';
 /* boot */
 (async function boot() {
